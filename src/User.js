@@ -39,9 +39,15 @@ class User {
   };
 
   findMilesWalked(selectedDate) {
+    //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
+
+  findMinutesActive(selectedDate) {
+    let actData = this.activityData.find(day => day.date === selectedDate)
+    return actData.minutesActive
+  }
 
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
