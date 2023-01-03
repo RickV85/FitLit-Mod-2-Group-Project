@@ -1,6 +1,7 @@
-let userData
-let sleepData
-let hydroData
+let userData;
+let sleepData;
+let hydroData;
+let activityData;
 
 function loadUserData() {
     const userURL = 'http://localhost:3001/api/v1/users';
@@ -16,8 +17,8 @@ function loadSleepData() {
     return fetch(sleepURL)
         .then((response) => response.json())
         .then((data) => {
-            sleepData = data.sleepData
-            return sleepData
+            sleepData = data.sleepData;
+            return sleepData;
         })
 }
 function loadHydrationData() {
@@ -25,8 +26,17 @@ function loadHydrationData() {
     return fetch(hydrationURL)
         .then((response) => response.json())
         .then((data) => {
-            hydroData = data.hydrationData
-            return hydroData
+            hydroData = data.hydrationData;
+            return hydroData;
         })
 }
-export default { loadUserData, loadSleepData, loadHydrationData };
+function loadActivityData() {
+    const userURL = 'http://localhost:3001/api/v1/activity';
+    return fetch(userURL)
+        .then((response) => response.json())
+        .then((data) => {
+            activityData = data.userData;
+            return activityData;
+        })
+}
+export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData };

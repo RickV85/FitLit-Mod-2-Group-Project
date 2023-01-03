@@ -90,8 +90,10 @@ const updateStepChart = () => {
 
 const updateSleepChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
+    console.log('activity charts ln 93 todays date', todaysDate)
     const userSleepWeek = userRepo.selectedUser.findWeekSleep(todaysDate);
     userSleepWeek.reverse();
+    console.log('activity charts line 96', userSleepWeek)
     sleepDblDataChart = new Chart(sleepChart, {
         type: 'bar',
         data: {

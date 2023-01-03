@@ -34,6 +34,7 @@ class User {
   };
 
   findDaySleepData(sleepKey, date) {
+    console.log("user.js line 37", this.sleepData.find(day => day.date === date)[sleepKey]);
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
@@ -54,13 +55,24 @@ class User {
   };
 
   findWeekSleep(selectedDate){
+    console.log(this.sleepData)
     const weekofSleep = this.sleepData.filter(day => {
       const dateConverted = new Date(day.date);
+      console.log('is day within past 7 days', day, dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate))
       return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
     }).sort((day1, day2) => {
       return Date.parse(day1.date) - Date.parse(day2.date);
     });
-    return weekofSleep;
+    console.log('user.js line 64 weekofSleep', weekofSleep)
+    //add conditional return that asks the length of the array and if it is less than 7, we add values of 0
+    if(weekofSleep.length === 7) {
+      return weekofSleep;
+    } else {
+      //this.findSevenDaysAgo(selectedDate) to find 7 days ago
+      //create an array of raw dates that begins with seven says ago and ends with selectedDate
+      //iterate through array
+      //
+    }
   };
 };
 
