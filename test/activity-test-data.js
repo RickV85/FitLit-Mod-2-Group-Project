@@ -210,4 +210,4 @@ const activityTestData = [
   flightsOfStairs: 8
   }
 ];
-module.exports = activityTestData;
+export default activityTestData;

@@ -5,11 +5,13 @@ import userTestData from './User-test-data';
 import User from '../src/User';
 import hydrationTestData from './hydration-test-data';
 import sleepTestData from './sleep-test-data';
+import activityTestData from './activity-test-data';
 
 describe('User', function() {
   let selectedUser;
   let hydrationData;
   let sleepData;
+  let activityData;
 
   beforeEach(() => {
     selectedUser = new User(userTestData[0]);
@@ -17,6 +19,8 @@ describe('User', function() {
     selectedUser.hydrationData = hydrationData;
     sleepData = sleepTestData.filter(data => data.userID === selectedUser.id);
     selectedUser.sleepData = sleepData;
+    activityData = activityTestData.filter(data => data.userID === selectedUser.id);
+    selectedUser.activityData = activityData;
   });
 
   it('should represent a single user', function () {
@@ -130,4 +134,79 @@ describe('User', function() {
         { userID: 20, date: "2019/06/16", hoursSlept: 4.3, sleepQuality: 1.4 }
       ]);
     });
+
+    it('it should have an activityData property that holds activity data', function() {
+      expect(selectedUser.activityData).to.deep.equal([
+        {
+          userID: 20,
+          date: "2019/06/15",
+          numSteps: 9052,
+          minutesActive: 168,
+          flightsOfStairs: 14
+          },
+          {
+          userID: 20,
+          date: "2019/06/16",
+          numSteps: 6269,
+          minutesActive: 126,
+          flightsOfStairs: 32
+          },
+          {
+          userID: 20,
+          date: "2019/06/17",
+          numSteps: 3081,
+          minutesActive: 253,
+          flightsOfStairs: 44
+          },
+          {
+          userID: 20,
+          date: "2019/06/18",
+          numSteps: 7783,
+          minutesActive: 86,
+          flightsOfStairs: 11
+          },
+          {
+          userID: 20,
+          date: "2019/06/19",
+          numSteps: 14356,
+          minutesActive: 50,
+          flightsOfStairs: 26
+          },
+          {
+          userID: 20,
+          date: "2019/06/20",
+          numSteps: 8021,
+          minutesActive: 114,
+          flightsOfStairs: 47
+          },
+          {
+          userID: 20,
+          date: "2019/06/21",
+          numSteps: 13376,
+          minutesActive: 60,
+          flightsOfStairs: 3
+          },
+          {
+          userID: 20,
+          date: "2019/06/22",
+          numSteps: 13094,
+          minutesActive: 285,
+          flightsOfStairs: 4
+          },
+          {
+          userID: 20,
+          date: "2019/06/23",
+          numSteps: 5249,
+          minutesActive: 40,
+          flightsOfStairs: 26
+          },
+          {
+          userID: 20,
+          date: "2019/06/24",
+          numSteps: 2578,
+          minutesActive: 134,
+          flightsOfStairs: 6
+          }
+      ])
+    })
   });

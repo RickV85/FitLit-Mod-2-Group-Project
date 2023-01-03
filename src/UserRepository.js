@@ -1,10 +1,11 @@
 import User from "./User";
 
 class UserRepository {
-    constructor(allUserData, hydrationData, sleepData) {
+    constructor(allUserData, hydrationData, sleepData, activityData) {
         this.userData = allUserData;
         this.hydrationData = hydrationData;
         this.sleepData = sleepData;
+        this.activityData = activityData;
         this.users = [];
         this.selectedUser;
     }
@@ -14,7 +15,7 @@ class UserRepository {
             this.users.push(newUser);
         });
         this.hydrationData.forEach(hydroData => {
-          if (this.findUser(hydroData.userID) === false) {
+          if (!this.findUser(hydroData.userID)) {
             return;
           } else {
             let user = this.findUser(hydroData.userID);
@@ -22,13 +23,22 @@ class UserRepository {
           }
         });
         this.sleepData.forEach(sleepData => {
-            if (this.findUser(sleepData.userID) === false) {
-                return 
-            } else {
-                let user = this.findUser(sleepData.userID);
-                user.sleepData.push(sleepData);
-            }
+          if (!this.findUser(sleepData.userID)) {
+            return;
+          } else {
+            let user = this.findUser(sleepData.userID);
+            user.sleepData.push(sleepData);
+          }
         });
+        this.activityData.forEach(actData => {
+          if (!this.findUser(actData.userID)) {
+            return;
+          } else {
+            let user = this.findUser(actData.userID);
+            user.activityData.push(actData);
+          }
+        });
+
         this.selectedUser = this.randomizeUser();
         this.userData = null;
         this.hydrationData = null;

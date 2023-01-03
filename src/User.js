@@ -9,6 +9,7 @@ class User {
     this.friends = userData.friends;
     this.hydrationData = [];
     this.sleepData = [];
+    this.activityData = [];
   };
 
   sortUserArrays(dataProperty) {
