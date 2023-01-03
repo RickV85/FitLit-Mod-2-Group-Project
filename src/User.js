@@ -38,6 +38,11 @@ class User {
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
+  findMilesWalked(selectedDate) {
+    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+  };
+
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };

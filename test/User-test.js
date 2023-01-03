@@ -209,4 +209,8 @@ describe('User', function() {
           }
       ])
     })
+
+    it('should return miles walked for a given day', function() {
+      expect(selectedUser.findMilesWalked("2019/06/15")).to.equal(5.83)
+    })
   });
