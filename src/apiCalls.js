@@ -3,7 +3,7 @@ let sleepData
 let hydroData
 
 function loadUserData() {
-    const userURL = 'https://fitlit-api.herokuapp.com/api/v1/users'
+    const userURL = 'http://localhost:3001/api/v1/users';
     return fetch(userURL)
         .then((response) => response.json())
         .then((data) => {
@@ -12,7 +12,7 @@ function loadUserData() {
         })
 }
 function loadSleepData() {
-    const sleepURL = 'https://fitlit-api.herokuapp.com/api/v1/sleep'
+    const sleepURL = 'http://localhost:3001/api/v1/sleep';
     return fetch(sleepURL)
         .then((response) => response.json())
         .then((data) => {
@@ -21,7 +21,7 @@ function loadSleepData() {
         })
 }
 function loadHydrationData() {
-    const hydrationURL = 'https://fitlit-api.herokuapp.com/api/v1/hydration'
+    const hydrationURL = 'http://localhost:3001/api/v1/hydration';
     return fetch(hydrationURL)
         .then((response) => response.json())
         .then((data) => {

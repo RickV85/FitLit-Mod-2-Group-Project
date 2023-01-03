@@ -12,6 +12,8 @@ import './images/walkingIcon.svg';
 const userPromise = apiCalls.loadUserData();
 const hydrationPromise = apiCalls.loadHydrationData();
 const sleepPromise = apiCalls.loadSleepData();
+//new variable to hold apiCall for activity
+
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
@@ -31,7 +33,7 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise])
+    Promise.all([userPromise, hydrationPromise, sleepPromise]) //add activityPromise
         .then((values) => {
             parseData(values);
             updateDOM();
