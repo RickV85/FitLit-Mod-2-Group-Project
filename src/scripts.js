@@ -3,7 +3,8 @@ import './styles.css';
 import activityCharts from './activityCharts';
 import apiCalls from './apiCalls';
 import UserRepository from './UserRepository';
-
+import profileEmojis from './data/emojis';
+import randomGreetings from './data/randomGreetings';
 // Image imports
 import './images/walkingIcon.svg';
 
@@ -27,7 +28,6 @@ const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
 let userRepo;
 let currentUser;
 
-const profileEmojis = ["✌", "😂", "😝", "😁", "😱", "🔥", "🌈", "☀", "🎀", "⚽", "🎾", "🏁", "😡", "👿", "🐻", "🐶", "🐬", "🐟", "😍", "😉", "😓", "😳", "💪", "💩", "💖", "🌟", "🎉", "🌺", "🏈", "⚾", "🏆", "👽", "💀", "🐵", "🐮", "🐩", "🐎", "😘", "😜", "😵", "💃", "💎", "🚀", "🌙", "⛄", "🌊", "⛵", "🏀", "💰", "👶", "👸", "🐰", "🐷", "🐍", "🐫", "🚲",];
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
@@ -61,7 +61,6 @@ function updateDOM() {
 }
 
 function showPersonalizedWelcome() {
-    let randomGreetings = [`Let's Carpe this Diem!`, `You miss 100% of the shots you don't take.`, `You can have results or excuses, not both.`, `Lets do this thing!`, `Do or do not there is no try.`, `Everything is awesome when you're living out a dream.`];
     let selectedMsg = selectRandom(randomGreetings);
     welcomeMessage.innerText = `Welcome, ${currentUser.name}! ${selectedMsg}`;
 }
