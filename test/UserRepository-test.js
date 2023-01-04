@@ -101,11 +101,10 @@ describe('User Repository', () => {
     expect(fullUserData.calculateAllUserAvgSleep('sleepQuality')).to.equal(2.1);
   });
 
-  it('', function () {
+  it('should return averages for all user activity data stats on a specific date', function () {
     fullUserData.initialize()
     expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "numSteps")).to.equal(6458)
     expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "minutesActive")).to.equal(141)
     expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "flightsOfStairs")).to.equal(29)
-
   })
 });
