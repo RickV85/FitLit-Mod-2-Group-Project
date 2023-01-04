@@ -96,6 +96,13 @@ class User {
     let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
     return stepGoalArray.map(arrayElement => arrayElement.date)
   }
+
+  findMostStairsClimbed() {
+    this.activityData.sort((a,b) => {
+      return b.flightsOfStairs - a.flightsOfStairs
+    })
+    return this.activityData[0].flightsOfStairs
+  }
 };
 
 

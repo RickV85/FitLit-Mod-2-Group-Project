@@ -174,4 +174,8 @@ describe('User', function () {
     //potential sad path- no dates in which the user exceeds step goal, could return a message on DOM
     expect(selectedUser.findDatesOfStepGoalsMet()).to.deep.equal(["2019/06/15","2019/06/19","2019/06/20","2019/06/21","2019/06/22"])
   })
+
+  it('should return the record highest number of flights of stairs climbed for a user', function () {
+    expect(selectedUser.findMostStairsClimbed()).to.equal(47)
+  })
 });
