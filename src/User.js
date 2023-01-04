@@ -53,25 +53,31 @@ class User {
     });
     return newArray;
   };
-
+  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates 
+  //if the userdata doesnt exist, put null or empty object in the array (dynamic for hoursSlept or sleepQuality)
   findWeekSleep(selectedDate){
-    console.log(this.sleepData)
+    //create a dummy array of strings that match the format of the dates in our sleepData
+      //dummArray[0] = 7 days prior to the selectedDate and last index is the selectedDate
+    
+    //dummyArray.map(date => )
+      //for each date, find the match within the user's sleepData.
+        //if it exists, return the object.
+        //if it doesn't exist, return null
+
+    //expected output:
+      //[ {1}, {2}, {3}, {4}, {5}, {6}, {7} ] *   { userID: 21, date: "2019/06/16", hoursSlept: 4.8, sleepQuality: 1.3 }
+      //OR [null, {1}, {2}, {3}, null...]
+      //OR [null, null, null, null...]
+   
     const weekofSleep = this.sleepData.filter(day => {
       const dateConverted = new Date(day.date);
-      console.log('is day within past 7 days', day, dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate))
       return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
     }).sort((day1, day2) => {
       return Date.parse(day1.date) - Date.parse(day2.date);
     });
-    console.log('user.js line 64 weekofSleep', weekofSleep)
     //add conditional return that asks the length of the array and if it is less than 7, we add values of 0
-    if(weekofSleep.length === 7) {
-      return weekofSleep;
-    } else {
-      //this.findSevenDaysAgo(selectedDate) to find 7 days ago
-      //create an array of raw dates that begins with seven says ago and ends with selectedDate
-      //iterate through array
-      //
+    return weekofSleep; //<-- return the mapped dummy array
+
     }
   };
 };
