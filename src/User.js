@@ -43,7 +43,7 @@ class User {
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
-
+  
   findMinutesActive(selectedDate) {
     let actData = this.activityData.find(day => day.date === selectedDate)
     return actData.minutesActive
@@ -74,6 +74,23 @@ class User {
     });
     return weekofSleep;
   };
+
+  findWeekActiveMinutes(selectedDate) {
+    //sevenDay = [{1:0},2,3,4,5,6,{selectedDate:0}] if the previous dates exist, replace the number in the array
+    console.log(this.findSevenDaysAgo(selectedDate))
+  }
+
+  checkStepGoal(selectedDate) {
+    let actForDate = this.activityData.find(actData => actData.date === selectedDate)
+    if (actForDate === undefined) {
+      return undefined
+    }
+    if (this.dailyStepGoal <= actForDate.numSteps) {
+      return true
+    } else {
+      return false
+    } 
+  }
 };
 
 

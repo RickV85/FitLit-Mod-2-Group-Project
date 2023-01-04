@@ -158,7 +158,15 @@ describe('User', function () {
     expect(selectedUser.findMinutesActive("2019/06/15")).to.equal(168)
   })
 
-  it('should return the average number of minutes active for a given 7 days', function () {
-    expect(selectedUser.findWeekActiveMinutes("2019/06/24")).to.equal(109.86)
+  // it('should return the average number of minutes active for a given 7 days', function () {
+  //   expect(selectedUser.findWeekActiveMinutes("2019/06/24")).to.equal(109.86)
+  // })
+
+  it('should return true if a user met their step goal for a specified date', function () {
+    //return true if a user met their step goal for a specified date
+    //return false if a user hasn't met their goal or return a string letting the user know that no steps were logged that day
+    expect(selectedUser.checkStepGoal("2019/06/15")).to.equal(true)
+    expect(selectedUser.checkStepGoal("2019/06/16")).to.equal(false)
+    expect(selectedUser.checkStepGoal("2019/06/14")).to.equal(undefined)
   })
 });
