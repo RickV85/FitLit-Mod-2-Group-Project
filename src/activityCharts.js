@@ -53,7 +53,7 @@ const updateHydroWeeklyChart = () => {
             datasets: [
                 {
                     label: 'Daily Intake in Ounces',
-                    data: chartData;
+                    data: chartData,
                     // data: [weeklyHydration[0].numOunces, weeklyHydration[1].numOunces, weeklyHydration[2].numOunces, weeklyHydration[3].numOunces, weeklyHydration[4].numOunces, weeklyHydration[5].numOunces, weeklyHydration[6].numOunces],
                     type: 'line',
                     backgroundColor: ['#BF1263'],
