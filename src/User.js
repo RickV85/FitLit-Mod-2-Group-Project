@@ -9,6 +9,7 @@ class User {
     this.friends = userData.friends;
     this.hydrationData = [];
     this.sleepData = [];
+    this.activityData = [];
   };
 
   sortUserArrays(dataProperty) {
@@ -38,48 +39,86 @@ class User {
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
+  findMilesWalked(selectedDate) {
+    //this function could be combined with findMinutesActive
+    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+  };
+  
+  findMinutesActive(selectedDate) {
+    let actData = this.activityData.find(day => day.date === selectedDate)
+    return actData.minutesActive
+  }
+
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
-  findSevenDaysAgo(selectedDate){
-    return new Date(new Date(selectedDate) - 7 * 24 * 60 * 60 * 1000)
+  findSevenDays(selectedDate, nextDate){
+    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
   }
+  
   findWeekHydration(selectedDate) {
-    var newArray = this.hydrationData.filter(day => {
-      var dateConverted = new Date(day.date);
-      return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
-    }).sort((day1, day2) => {
-      return Date.parse(day1.date) - Date.parse(day2.date);
-    });
-    return newArray;
+    const weekLongArray = []
+    for (let i = 6; i > -1 ; i--){
+      var singleDate = this.findSevenDays(selectedDate, i)
+      weekLongArray.push(singleDate.toString())
+    }
+    
+    return weekLongArray.map(day => {
+      var date = this.hydrationData.find(data => data.date === day) 
+      if (date){
+        return date
+      } 
+      return null
+    })
   };
-  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates 
+  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates
   //if the userdata doesnt exist, put null or empty object in the array (dynamic for hoursSlept or sleepQuality)
   findWeekSleep(selectedDate){
-    //create a dummy array of strings that match the format of the dates in our sleepData
-      //dummArray[0] = 7 days prior to the selectedDate and last index is the selectedDate
-    
-    //dummyArray.map(date => )
-      //for each date, find the match within the user's sleepData.
-        //if it exists, return the object.
-        //if it doesn't exist, return null
-
-    //expected output:
-      //[ {1}, {2}, {3}, {4}, {5}, {6}, {7} ] *   { userID: 21, date: "2019/06/16", hoursSlept: 4.8, sleepQuality: 1.3 }
-      //OR [null, {1}, {2}, {3}, null...]
-      //OR [null, null, null, null...]
-   
-    const weekofSleep = this.sleepData.filter(day => {
-      const dateConverted = new Date(day.date);
-      return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
-    }).sort((day1, day2) => {
-      return Date.parse(day1.date) - Date.parse(day2.date);
-    });
-    //add conditional return that asks the length of the array and if it is less than 7, we add values of 0
-    return weekofSleep; //<-- return the mapped dummy array
+    const weekLongArray = []
+    for (let i = 6; i > -1 ; i--){
+      var singleDate = this.findSevenDays(selectedDate, i)
+      weekLongArray.push(singleDate.toString())
     }
 
-};
+    return weekLongArray.map(day => {
+      var date = this.sleepData.find(data => data.date === day) 
+      if (date){
+        return date
+      } 
+      return null
+    })
+  } 
+  
 
+  findWeekActiveMinutes(selectedDate) {
+    //sevenDay = [{1:0},2,3,4,5,6,{selectedDate:0}] if the previous dates exist, replace the number in the array
+    console.log(this.findSevenDaysAgo(selectedDate))
+  }
+
+  checkStepGoal(selectedDate) {
+    let actForDate = this.activityData.find(actData => actData.date === selectedDate)
+    if (actForDate === undefined) {
+      return undefined
+    }
+    if (this.dailyStepGoal <= actForDate.numSteps) {
+      return true
+    } else {
+      return false
+    } 
+  }
+
+  findDatesOfStepGoalsMet() {
+    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
+    return stepGoalArray.map(arrayElement => arrayElement.date)
+  }
+
+  findMostStairsClimbed() {
+    this.activityData.sort((a,b) => {
+      return b.flightsOfStairs - a.flightsOfStairs
+    })
+    return this.activityData[0].flightsOfStairs
+  }
+};
 
 export default User;
