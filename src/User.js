@@ -77,9 +77,8 @@ class User {
     });
     //add conditional return that asks the length of the array and if it is less than 7, we add values of 0
     return weekofSleep; //<-- return the mapped dummy array
-
     }
-  };
+
 };
 
 
