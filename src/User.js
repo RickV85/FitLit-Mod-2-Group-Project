@@ -35,6 +35,7 @@ class User {
   };
 
   findDaySleepData(sleepKey, date) {
+    console.log("user.js line 37", this.sleepData.find(day => day.date === date)[sleepKey]);
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
@@ -52,28 +53,43 @@ class User {
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
-  findSevenDaysAgo(selectedDate){
-    return new Date(new Date(selectedDate) - 7 * 24 * 60 * 60 * 1000)
+  findSevenDays(selectedDate, nextDate){
+    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
   }
+  
   findWeekHydration(selectedDate) {
-    var newArray = this.hydrationData.filter(day => {
-      var dateConverted = new Date(day.date);
-      return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
-    }).sort((day1, day2) => {
-      return Date.parse(day1.date) - Date.parse(day2.date);
-    });
-    return newArray;
+    const weekLongArray = []
+    for (let i = 6; i > -1 ; i--){
+      var singleDate = this.findSevenDays(selectedDate, i)
+      weekLongArray.push(singleDate.toString())
+    }
+    
+    return weekLongArray.map(day => {
+      var date = this.hydrationData.find(data => data.date === day) 
+      if (date){
+        return date
+      } 
+      return null
+    })
   };
-
+  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates
+  //if the userdata doesnt exist, put null or empty object in the array (dynamic for hoursSlept or sleepQuality)
   findWeekSleep(selectedDate){
-    const weekofSleep = this.sleepData.filter(day => {
-      const dateConverted = new Date(day.date);
-      return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
-    }).sort((day1, day2) => {
-      return Date.parse(day1.date) - Date.parse(day2.date);
-    });
-    return weekofSleep;
-  };
+    const weekLongArray = []
+    for (let i = 6; i > -1 ; i--){
+      var singleDate = this.findSevenDays(selectedDate, i)
+      weekLongArray.push(singleDate.toString())
+    }
+
+    return weekLongArray.map(day => {
+      var date = this.sleepData.find(data => data.date === day) 
+      if (date){
+        return date
+      } 
+      return null
+    })
+  } 
+  
 
   findWeekActiveMinutes(selectedDate) {
     //sevenDay = [{1:0},2,3,4,5,6,{selectedDate:0}] if the previous dates exist, replace the number in the array

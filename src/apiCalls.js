@@ -1,9 +1,10 @@
-let userData
-let sleepData
-let hydroData
+let userData;
+let sleepData;
+let hydroData;
+let activityData;
 
 function loadUserData() {
-    const userURL = 'https://fitlit-api.herokuapp.com/api/v1/users'
+    const userURL = 'http://localhost:3001/api/v1/users';
     return fetch(userURL)
         .then((response) => response.json())
         .then((data) => {
@@ -12,21 +13,30 @@ function loadUserData() {
         })
 }
 function loadSleepData() {
-    const sleepURL = 'https://fitlit-api.herokuapp.com/api/v1/sleep'
+    const sleepURL = 'http://localhost:3001/api/v1/sleep';
     return fetch(sleepURL)
         .then((response) => response.json())
         .then((data) => {
-            sleepData = data.sleepData
-            return sleepData
+            sleepData = data.sleepData;
+            return sleepData;
         })
 }
 function loadHydrationData() {
-    const hydrationURL = 'https://fitlit-api.herokuapp.com/api/v1/hydration'
+    const hydrationURL = 'http://localhost:3001/api/v1/hydration';
     return fetch(hydrationURL)
         .then((response) => response.json())
         .then((data) => {
-            hydroData = data.hydrationData
-            return hydroData
+            hydroData = data.hydrationData;
+            return hydroData;
         })
 }
-export default { loadUserData, loadSleepData, loadHydrationData };
+function loadActivityData() {
+    const userURL = 'http://localhost:3001/api/v1/activity';
+    return fetch(userURL)
+        .then((response) => response.json())
+        .then((data) => {
+            activityData = data.userData;
+            return activityData;
+        })
+}
+export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData };
