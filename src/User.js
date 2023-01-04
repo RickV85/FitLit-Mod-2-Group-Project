@@ -91,6 +91,11 @@ class User {
       return false
     } 
   }
+
+  findDatesOfStepGoalsMet() {
+    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
+    return stepGoalArray.map(arrayElement => arrayElement.date)
+  }
 };
 
 

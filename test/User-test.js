@@ -169,4 +169,9 @@ describe('User', function () {
     expect(selectedUser.checkStepGoal("2019/06/16")).to.equal(false)
     expect(selectedUser.checkStepGoal("2019/06/14")).to.equal(undefined)
   })
+
+  it('should return an array of dates in which a user exceeded their step goal', function () {
+    //potential sad path- no dates in which the user exceeds step goal, could return a message on DOM
+    expect(selectedUser.findDatesOfStepGoalsMet()).to.deep.equal(["2019/06/15","2019/06/19","2019/06/20","2019/06/21","2019/06/22"])
+  })
 });
