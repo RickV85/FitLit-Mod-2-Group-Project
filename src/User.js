@@ -9,6 +9,7 @@ class User {
     this.friends = userData.friends;
     this.hydrationData = [];
     this.sleepData = [];
+    this.activityData = [];
   };
 
   sortUserArrays(dataProperty) {
@@ -37,6 +38,17 @@ class User {
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
+  findMilesWalked(selectedDate) {
+    //this function could be combined with findMinutesActive
+    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+  };
+  
+  findMinutesActive(selectedDate) {
+    let actData = this.activityData.find(day => day.date === selectedDate)
+    return actData.minutesActive
+  }
+
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
@@ -62,6 +74,35 @@ class User {
     });
     return weekofSleep;
   };
+
+  findWeekActiveMinutes(selectedDate) {
+    //sevenDay = [{1:0},2,3,4,5,6,{selectedDate:0}] if the previous dates exist, replace the number in the array
+    console.log(this.findSevenDaysAgo(selectedDate))
+  }
+
+  checkStepGoal(selectedDate) {
+    let actForDate = this.activityData.find(actData => actData.date === selectedDate)
+    if (actForDate === undefined) {
+      return undefined
+    }
+    if (this.dailyStepGoal <= actForDate.numSteps) {
+      return true
+    } else {
+      return false
+    } 
+  }
+
+  findDatesOfStepGoalsMet() {
+    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
+    return stepGoalArray.map(arrayElement => arrayElement.date)
+  }
+
+  findMostStairsClimbed() {
+    this.activityData.sort((a,b) => {
+      return b.flightsOfStairs - a.flightsOfStairs
+    })
+    return this.activityData[0].flightsOfStairs
+  }
 };
 
 

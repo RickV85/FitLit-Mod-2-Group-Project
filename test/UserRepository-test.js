@@ -2,12 +2,13 @@ import { expect } from 'chai';
 import UserRepository from '../src/UserRepository';
 import hydrationTestData from './hydration-test-data';
 import sleepTestData from './sleep-test-data';
-import userTestData from './User-test-data'
+import userTestData from './User-test-data';
+import activityTestData from './activity-test-data';
 
 describe('User Repository', () => {
   let fullUserData;
   beforeEach(() => {
-  fullUserData = new UserRepository(userTestData, hydrationTestData, sleepTestData);
+  fullUserData = new UserRepository(userTestData, hydrationTestData, sleepTestData, activityTestData);
   });
 
   it('should be a function', function () {
@@ -60,6 +61,18 @@ describe('User Repository', () => {
         { userID: 20, date: "2019/06/12", hoursSlept: 8.5, sleepQuality: 2.5 },
         { userID: 20, date: "2019/06/11", hoursSlept: 6.5, sleepQuality: 2 },
         { userID: 20, date: "2019/06/10", hoursSlept: 7, sleepQuality: 2.8}
+      ],
+      "activityData": [
+        { userID: 20, date: "2019/06/15", numSteps: 9052, minutesActive: 168, flightsOfStairs: 14 },
+      { userID: 20, date: "2019/06/16", numSteps: 6269, minutesActive: 126, flightsOfStairs: 32 },
+      { userID: 20, date: "2019/06/17", numSteps: 3081, minutesActive: 253, flightsOfStairs: 44 },
+      { userID: 20, date: "2019/06/18", numSteps: 7783, minutesActive: 86, flightsOfStairs: 11 },
+      { userID: 20, date: "2019/06/19", numSteps: 14356, minutesActive: 50, flightsOfStairs: 26 },
+      { userID: 20, date: "2019/06/20", numSteps: 8021, minutesActive: 114, flightsOfStairs: 47 },
+      { userID: 20, date: "2019/06/21", numSteps: 13376, minutesActive: 60, flightsOfStairs: 3 },
+      { userID: 20, date: "2019/06/22", numSteps: 13094, minutesActive: 285, flightsOfStairs: 4 },
+      { userID: 20, date: "2019/06/23", numSteps: 5249, minutesActive: 40, flightsOfStairs: 26 },
+      { userID: 20, date: "2019/06/24", numSteps: 2578, minutesActive: 134, flightsOfStairs: 6 }
       ]
     });
   });
@@ -87,4 +100,11 @@ describe('User Repository', () => {
     fullUserData.initialize();
     expect(fullUserData.calculateAllUserAvgSleep('sleepQuality')).to.equal(2.1);
   });
+
+  it('should return averages for all user activity data stats on a specific date', function () {
+    fullUserData.initialize()
+    expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "numSteps")).to.equal(6458)
+    expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "minutesActive")).to.equal(141)
+    expect(fullUserData.calculateAllUserAvgActivity("2019/06/15", "flightsOfStairs")).to.equal(29)
+  })
 });
