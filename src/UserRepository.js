@@ -43,6 +43,7 @@ class UserRepository {
         this.userData = null;
         this.hydrationData = null;
         this.sleepData = null;
+        this.activityData = null;
     };
 
     findUser(id) {
@@ -79,6 +80,19 @@ class UserRepository {
         return total;
       }, 0);
       return Number((allUsersSleep / dataEntries).toFixed(1));
+    }
+
+    calculateAllUserAvgActivity(date, activity) {
+      let usersActivityData = []
+      this.users.forEach(user => {
+        user.activityData.forEach(userActivity => usersActivityData.push(userActivity))
+      })
+      let filteredActivityByDate = usersActivityData.filter(user => user.date === date)
+      let averageType = filteredActivityByDate.reduce((total, value) => {
+        total += value[activity]
+        return total
+      },0)
+      return Number((averageType/this.users.length).toFixed(0))
     }
 }
 
