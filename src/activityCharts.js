@@ -32,19 +32,29 @@ const updateHydroDateChart = () => {
         }
     })
 }
+const assignHydrationChartData = (date) => {
+    userRepo.selectedUser.findWeekHydration(date).map(element => {
+        if(element) {
+            return element.numOunces
+        }
+    return null;
+    })
+};
 
 const updateHydroWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData')
-    const weeklyHydration = userRepo.selectedUser.findWeekHydration(todaysDate)
-    weeklyHydration.reverse();
+    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData') ////we will need to make this more dynamic if users need to be able to see any date they choose
+    // const weeklyHydration = userRepo.selectedUser.findWeekHydration(todaysDate)
+    // weeklyHydration.reverse();
+    const chartData = assignHydrationChartData(todaysDate);
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
         data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'], //change this to be more clear about what date is which and make sure the selected date is the last date
             datasets: [
                 {
                     label: 'Daily Intake in Ounces',
-                    data: [weeklyHydration[0].numOunces, weeklyHydration[1].numOunces, weeklyHydration[2].numOunces, weeklyHydration[3].numOunces, weeklyHydration[4].numOunces, weeklyHydration[5].numOunces, weeklyHydration[6].numOunces],
+                    data: chartData;
+                    // data: [weeklyHydration[0].numOunces, weeklyHydration[1].numOunces, weeklyHydration[2].numOunces, weeklyHydration[3].numOunces, weeklyHydration[4].numOunces, weeklyHydration[5].numOunces, weeklyHydration[6].numOunces],
                     type: 'line',
                     backgroundColor: ['#BF1263'],
                 }
@@ -88,8 +98,8 @@ const updateStepChart = () => {
     })
 }
 //if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
-const assignSleepChartData = (sleepKey) => {
-    userSleepWeek().map(element => {
+const assignSleepChartData = (date, sleepKey) => {
+    userRepo.selectedUser.userSleepWeek(date).map(element => {
         if(element) {
             return element[sleepKey]
         }
@@ -98,12 +108,12 @@ const assignSleepChartData = (sleepKey) => {
 };
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
+    const todaysDate = userRepo.selectedUser.findLatestDate('sleepData'); //we will need to make this more dynamic if users need to be able to see any date they choose
     //const userSleepWeek = userRepo.selectedUser.findWeekSleep(todaysDate);
     //userSleepWeek.reverse();
     //^above is replaced with below
-    const hoursSleptWeek = assignSleepChartData('hoursSlept');
-    const sleepQualityWeek = assignSleepChartData('sleepQuality');
+    const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
+    const sleepQualityWeek = assignSleepChartData(todaysDate, 'sleepQuality');
     sleepDblDataChart = new Chart(sleepChart, {
         type: 'bar',
         data: {
@@ -121,7 +131,7 @@ const updateSleepChart = () => {
                 backgroundColor: ['#BF1263'],
                 order: 1
             }],
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'] //change this to be more clear about what date is which and make sure the selected date is the last date
         },
         options: {
             responsive: true, 
