@@ -41,9 +41,11 @@ class User {
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
-  findSevenDaysAgo(selectedDate){
-    return new Date(new Date(selectedDate) - 7 * 24 * 60 * 60 * 1000)
+
+  findSevenDays(selectedDate, nextDate){
+    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
   }
+
   findWeekHydration(selectedDate) {
     var newArray = this.hydrationData.filter(day => {
       var dateConverted = new Date(day.date);
@@ -63,23 +65,29 @@ class User {
       //for each date, find the match within the user's sleepData.
         //if it exists, return the object.
         //if it doesn't exist, return null
+        const dummyArray = []
+        for (let i = 0; i < 7 ; i++){
+          var singleDate = this.findSevenDays(selectedDate, i)
+          dummyArray.push(singleDate.toString())
+        }
+        
+        
 
     //expected output:
       //[ {1}, {2}, {3}, {4}, {5}, {6}, {7} ] *   { userID: 21, date: "2019/06/16", hoursSlept: 4.8, sleepQuality: 1.3 }
       //OR [null, {1}, {2}, {3}, null...]
       //OR [null, null, null, null...]
-   
-    const weekofSleep = this.sleepData.filter(day => {
-      const dateConverted = new Date(day.date);
-      return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
-    }).sort((day1, day2) => {
-      return Date.parse(day1.date) - Date.parse(day2.date);
-    });
+    // filter(day => {
+    //   const dateConverted = new Date(day.date);
+    //   console.log(dateConverted)
+    //   return dateConverted > this.findSevenDaysAgo(selectedDate) && dateConverted <= new Date(selectedDate);
+    // }).sort((day1, day2) => {
+    //   return Date.parse(day1.date) - Date.parse(day2.date);
+    // });
     //add conditional return that asks the length of the array and if it is less than 7, we add values of 0
     return weekofSleep; //<-- return the mapped dummy array
 
     }
-  };
 };
 
 
