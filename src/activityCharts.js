@@ -33,7 +33,7 @@ const updateHydroDateChart = () => {
     })
 }
 const assignHydrationChartData = (date) => {
-    userRepo.selectedUser.findWeekHydration(date).map(element => {
+    return userRepo.selectedUser.findWeekHydration(date).map(element => {
         if(element) {
             return element.numOunces
         }
@@ -42,7 +42,7 @@ const assignHydrationChartData = (date) => {
 };
 
 const updateHydroWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData') ////we will need to make this more dynamic if users need to be able to see any date they choose
+    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData');
     // const weeklyHydration = userRepo.selectedUser.findWeekHydration(todaysDate)
     // weeklyHydration.reverse();
     const chartData = assignHydrationChartData(todaysDate);
@@ -99,7 +99,7 @@ const updateStepChart = () => {
 }
 //if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
 const assignSleepChartData = (date, sleepKey) => {
-    userRepo.selectedUser.userSleepWeek(date).map(element => {
+    return userRepo.selectedUser.findWeekSleep(date).map(element => {
         if(element) {
             return element[sleepKey]
         }
@@ -108,7 +108,7 @@ const assignSleepChartData = (date, sleepKey) => {
 };
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('sleepData'); //we will need to make this more dynamic if users need to be able to see any date they choose
+    const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
     //const userSleepWeek = userRepo.selectedUser.findWeekSleep(todaysDate);
     //userSleepWeek.reverse();
     //^above is replaced with below

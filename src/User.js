@@ -24,8 +24,11 @@ class User {
   };
 
   findLatestDate(dataProperty) {
+    console.log("find latest date for: ", dataProperty)
     const lastIndex = (this[dataProperty].length) - 1;
+    console.log("last index: ", lastIndex)
     this.sortUserArrays(dataProperty);
+    console.log('returning:', this[dataProperty][lastIndex].date)
     return this[dataProperty][lastIndex].date;
   };
 
@@ -35,7 +38,13 @@ class User {
   };
 
   findDaySleepData(sleepKey, date) {
-    console.log("user.js line 37", this.sleepData.find(day => day.date === date)[sleepKey]);
+    console.log('findDaySleepData for: ', date)
+    console.log(this.sleepData.find(day => {
+      console.log('is it this day?: ', day, day.date === date)
+
+      return day.date === date
+    }))
+    //console.log("user.js line 37", this.sleepData.find(day => day.date === date)[sleepKey]);
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
