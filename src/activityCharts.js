@@ -11,6 +11,7 @@ let stepComparisonChart;
 let sleepDblDataChart;
 let todaysHydroChart;
 let weeksHydroChart;
+let weeksActivityChart;
 
 const findHydroPercentage = (numDrunk, goal) => {
     return numDrunk < goal ? goal - numDrunk : 0;
@@ -44,8 +45,6 @@ const assignHydrationChartData = (date) => {
 
 const updateHydroWeeklyChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData');
-    // const weeklyHydration = userRepo.selectedUser.findWeekHydration(todaysDate)
-    // weeklyHydration.reverse();
     const chartData = assignHydrationChartData(todaysDate);
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
@@ -110,9 +109,7 @@ const assignSleepChartData = (date, sleepKey) => {
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
-    console.log(todaysDate)
     const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
-    console.log(hoursSleptWeek)
     const sleepQualityWeek = assignSleepChartData(todaysDate, 'sleepQuality');
     sleepDblDataChart = new Chart(sleepChart, {
         type: 'bar',
@@ -136,17 +133,36 @@ const updateSleepChart = () => {
             maintainAspectRatio: false,
         }
     });
-    const assignActivityChartData = (date, sleepKey) => {
-        return userRepo.selectedUser.findWeekSleep(date).map(element => {
-            if(element) {
-                return element[sleepKey]
-            }
-        return null;
-        })
-    };
-    const updateActivityWeekChart = () => {
-
-    }
 }
 
+const assignActivityChartData = (date) => {
+    // return userRepo.selectedUser.INSERT-METHOD-NAME-HERE(date).map(element => {
+    //     if(element) {
+    //         return element[sleepKey]
+    //     }
+    // return null;
+    // })
+};
+const updateActivityWeekChart = () => {
+    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const chartData = assignActivityChartData(todaysDate);
+    weeksActivityChart = new Chart(activityWeekChart, {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], //change this to be more clear about what date is which and make sure the selected date is the last date
+            datasets: [
+                {
+                    label: 'Daily Steps',
+                    data: chartData,
+                    type: 'line',
+                    backgroundColor: ['#BF1263'],
+                }
+            ],
+        },
+        options: {
+            responsive: true, 
+        maintainAspectRatio: false,
+        }
+    })
+}
 export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateActivityWeekChart };
