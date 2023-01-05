@@ -58,6 +58,7 @@ function updateDOM() {
     displaySelectedUserInformation();
     displayHydrationData();
     displaySleepData();
+    activityCharts.updateDaysActivityChart();
     activityCharts.updateHydroDateChart();
     activityCharts.updateStepChart();
     activityCharts.updateSleepChart();

@@ -136,22 +136,21 @@ const updateSleepChart = () => {
         }
     });
 }
-const findStepsPercentage = (steps, goal) => {
-    return numDrunk < goal ? goal - numDrunk : 0;
+const findStepsPercentage = (numSteps, goal) => {
+    return numSteps < goal ? goal - numSteps : 0;
 }
 const updateDaysActivityChart = () => {
-
     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
-    const daySteps = userRepo.selectedUser.findDaysHydration(todaysDate).numOunces;
-    const goal = 64;
-    const ozLeft = findHydroPercentage(numDrunk, goal);
-    todaysActivityChart = new Chart(hydroDayChart, {
+    const daySteps = userRepo.selectedUser.findDayActivity(todaysDate, 'numSteps');
+    const goal = userRepo.selectedUser.dailyStepGoal;
+    const stepsLeft = findStepsPercentage(daySteps, goal);
+    todaysActivityChart = new Chart(activityDayChart, {
         type: 'doughnut',
         data: {
             labels: ['Today\'s Steps', 'Your Daily Goal'],
             datasets: [
                 {
-                    data: [numDrunk, ozLeft],
+                    data: [daySteps, stepsLeft],
                     backgroundColor: ['#BF1363', '#F39237']
                 }
             ],
@@ -189,4 +188,4 @@ const updateDaysActivityChart = () => {
 //         }
 //     })
 // }
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateActivityWeekChart };
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart }; //updateActivityWeekChart,
