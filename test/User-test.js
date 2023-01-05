@@ -50,41 +50,6 @@ describe('User', function () {
     expect(selectedUser.hydrationData).to.deep.equal(hydrationData)
   });
 
-  it('should have a method that returns a single users hydration on a given day', function () {
-    expect(selectedUser.findDaysHydration("2019/06/15")).to.deep.equal({
-      userID: 20,
-      date: "2019/06/15",
-      numOunces: 23
-    });
-  });
-
-  it('should have a method for returning fluid ounces drank per day for a whole week', function () {
-    expect(selectedUser.findWeekHydration("2020/01/22")).to.deep.equal([
-      { userID: 20, date: '2020/01/16', numOunces: 15 },
-      { userID: 20, date: '2020/01/17', numOunces: 21 },
-      { userID: 20, date: '2020/01/18', numOunces: 20 },
-      { userID: 20, date: '2020/01/19', numOunces: 17 },
-      { userID: 20, date: '2020/01/20', numOunces: 22 },
-      { userID: 20, date: '2020/01/21', numOunces: 32 },
-      { userID: 20, date: '2020/01/22', numOunces: 22 }])
-  });
-
-  it('findWeekHydration should return null values for dates that lack hydration data', function() {
-    expect(selectedUser.findWeekHydration("2020/01/18")).to.deep.equal(
-      [null, null, null, { userID: 20, date: "2020/01/15", numOunces: 22 },
-      { userID: 20, date: "2020/01/16", numOunces: 15 },
-      { userID: 20, date: "2020/01/17", numOunces: 21 },
-      { userID: 20, date: "2020/01/18",numOunces: 20},
-      ]
-    )
-  });
-
-  it('findWeekHydration should return all null values for a full week that lacks hydration data', function() {
-    expect(selectedUser.findWeekHydration("2022/1/1")).to.deep.equal(
-      [null, null, null, null, null, null, null]
-    )
-  });
-
   it('should be able to sort hydration data by date', function () {
     selectedUser.sortUserArrays('hydrationData')
     expect(selectedUser.hydrationData).to.deep.equal([
@@ -114,6 +79,15 @@ describe('User', function () {
       { userID: 20, date: '2019/06/16', hoursSlept: 4.3, sleepQuality: 1.4 }
     ]);
   });
+  
+  it('should have a method that returns a single users hydration on a given day', function () {
+    expect(selectedUser.findDaysHydration("2019/06/15")).to.deep.equal({
+      userID: 20,
+      date: "2019/06/15",
+      numOunces: 23
+    });
+  });
+
 
   it('should find the latest date for hydration data', function () {
     expect(selectedUser.findLatestDate('hydrationData')).to.equal('2020/01/23');
@@ -137,18 +111,6 @@ describe('User', function () {
 
   it('should find the sleep quality for a given date', function () {
     expect(selectedUser.findDaySleepData('sleepQuality', '2019/06/16')).to.equal(1.4);
-  });
-
-  it('should find sleep data over any given week', function () {
-    expect(selectedUser.findWeekSleep("2019/06/16")).to.deep.equal([
-      { userID: 20, date: "2019/06/10", hoursSlept: 7, sleepQuality: 2.8 },
-      { userID: 20, date: "2019/06/11", hoursSlept: 6.5, sleepQuality: 2 },
-      { userID: 20, date: "2019/06/12", hoursSlept: 8.5, sleepQuality: 2.5 },
-      { userID: 20, date: "2019/06/13", hoursSlept: 7.8, sleepQuality: 3 },
-      { userID: 20, date: "2019/06/14", hoursSlept: 5.9, sleepQuality: 1.6 },
-      { userID: 20, date: "2019/06/15", hoursSlept: 5.9, sleepQuality: 1.6 },
-      { userID: 20, date: "2019/06/16", hoursSlept: 4.3, sleepQuality: 1.4 }
-    ]);
   });
 
   it('findweekData should be able to take sleep, hydration, or activity and return values', function () {
@@ -215,23 +177,6 @@ describe('User', function () {
       [null, null, null, null, null, null, null]
     )
   })
-
-  it('findWeekSleep should return null values for dates that lack sleep data', function() {
-    expect(selectedUser.findWeekSleep("2019/06/13")).to.deep.equal(
-      [null, null, null,
-      { userID: 20, date: "2019/06/10", hoursSlept: 7, sleepQuality: 2.8 },
-      { userID: 20, date: "2019/06/11", hoursSlept: 6.5, sleepQuality: 2 },
-      { userID: 20, date: "2019/06/12", hoursSlept: 8.5, sleepQuality: 2.5 },
-      { userID: 20, date: "2019/06/13", hoursSlept: 7.8, sleepQuality: 3 }
-      ]
-    )
-  });
-
-  it('findWeekSleep should return all null values for a full week that lacks sleep data', function() {
-    expect(selectedUser.findWeekSleep("2022/1/1")).to.deep.equal(
-      [null, null, null, null, null, null, null]
-    )
-  });
 
   it('it should have an activityData property that holds activity data', function () {
     expect(selectedUser.activityData).to.deep.equal([

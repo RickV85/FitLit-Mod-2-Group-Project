@@ -23,15 +23,6 @@ class User {
     return userNameSplitArray[0];
   };
 
-  findLatestDate(dataProperty) {
-    console.log("find latest date for: ", dataProperty)
-    const lastIndex = (this[dataProperty].length) - 1;
-    console.log("last index: ", lastIndex)
-    this.sortUserArrays(dataProperty);
-    console.log('returning:', this[dataProperty][lastIndex].date)
-    return this[dataProperty][lastIndex].date;
-  };
-
   findDaysHydration(selectedDate) {
     var result = this.hydrationData.find(day => day.date === selectedDate);
     return result;
@@ -39,6 +30,15 @@ class User {
 
   findDaySleepData(sleepKey, date) {
     return this.sleepData.find(day => day.date === date)[sleepKey];
+  };
+
+  findLatestDate(dataProperty) {
+    console.log("find latest date for: ", dataProperty)
+    const lastIndex = (this[dataProperty].length) - 1;
+    console.log("last index: ", lastIndex)
+    this.sortUserArrays(dataProperty);
+    console.log('returning:', this[dataProperty][lastIndex].date)
+    return this[dataProperty][lastIndex].date;
   };
 
   findMilesWalked(selectedDate) {
