@@ -29,8 +29,8 @@
         <section class="profile hidden" id="profile"></section>
       </aside>
       <section class="fit-data-section" id="steps">
+        <h2 class="fit-data-header">Steps</h2>
         <article  class="user-data fit-data-section" id="userData">
-          <h2 class="fit-data-header">Steps</h2>
           <div>
             <h4 class="fit-data chart-header" id="daySteps">Today's Steps</h4>
             <div class="fit-data doughnut day-steps-chart">
@@ -47,17 +47,17 @@
             </div>
             <p class="fit-data highlight" id="avgWeekMin"></p>
           </div>
-          <button class="activity-display-button compare-stats-button">Compare Your Stats</button>
+          <button class="activity-display-button" id ="compareStatsButton">Compare Your Stats</button>
         </article>
         <article class="comp-data fit-data-section hidden" id="compData">
           <div>
             <h4 class="fit-data chart-header">Your Step Goal vs. Average Step Goal</h4>
-            <p class="fit-data highlight" id="stepGoalVsAvg"></p>
             <div class="fit-data week-step-chart">
               <canvas id="stepGoalChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
             </div>
+            <p class="fit-data highlight" id="stepGoalVsAvg"></p>
           </div>
-          <button class="activity-display-button user-stats-button">See Your Activity</button>
+          <button class="activity-display-button" id="userStatsButton">See Your Activity</button>
         </article>
       </section>
       <section class="fit-data-section" id="sleep">

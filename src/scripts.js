@@ -29,8 +29,9 @@ const userMinutes = document.getElementById('userMinutes');
 const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const avgWeekMin = document.getElementById('avgWeekMin');
-const compareActButton = document.getElementById('compare-stats-button');
-const userActButton = document.getElementById('user-stats-button');
+const compareActButton = document.getElementById('compareStatsButton');
+console.log(compareActButton)
+const userActButton = document.getElementById('userStatsButton');
 
 
 const hydrationToday = document.getElementById('dayHydroHeader');
@@ -56,9 +57,8 @@ window.addEventListener('load', function () {
 
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
-compareActButton.addEventListener('click', displayCompStepData)//display charts here or in function?
-userActButton.addEventListener('click', displayDayStepData) //display charts here or in function?
-
+compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
+userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
 
 
 function parseData(values) {
@@ -76,8 +76,13 @@ function updateDOM() {
     
     displayHydrationData();
     displaySleepData();
-    activityCharts.updateHydroDateChart();
+    //charts need to be updated on page load even if they are hidden
+    //charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
+        //might have to import the chart elements themselves for that? or create new queries here...
+    activityCharts.updateDaysActivityChart();
+    activityCharts.updateStepChart();
     activityCharts.updateSleepChart();
+    activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
 }
 
@@ -133,8 +138,8 @@ function displayGoalMet(selectedDate) {
 }
 
 function displayDayStepData() {
+
     const today = userRepo.selectedUser.findLatestDate('activityData');
-    activityCharts.updateDaysActivityChart();
     displayGoalMet(today);
     userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
     userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
@@ -149,11 +154,12 @@ function displayCompStepData() {
     
     //goal comparison
     displayStepGoalComparison();
-    activityCharts.updateStepChart();
     //steps comparison
 
     //minutes comparison
+
     //stairs comparison
+
     hideDayStepData();
     compStepsData.classList.remove('hidden')
 }
@@ -173,9 +179,7 @@ function displayStepGoalComparison() {
     ${stepGoalDiff} steps above average!`;
   } else {
     let stepGoalDiff =  userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
-    stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average.
-
-    Consider increasing your goal for your fitness.`;
+    stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
   }
 }
 

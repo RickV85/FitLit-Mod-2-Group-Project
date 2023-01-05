@@ -114,25 +114,25 @@ class User {
   checkStepGoal(selectedDate) {
     let actForDate = this.activityData.find(actData => actData.date === selectedDate)
     if (actForDate === undefined) {
-      return undefined
+      return undefined;
     }
     if (this.dailyStepGoal <= actForDate.numSteps) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     } 
   }
 
   findDatesOfStepGoalsMet() {
-    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
-    return stepGoalArray.map(arrayElement => arrayElement.date)
+    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal);
+    return stepGoalArray.map(arrayElement => arrayElement.date);
   }
 
   findMostStairsClimbed() {
     this.activityData.sort((a,b) => {
-      return b.flightsOfStairs - a.flightsOfStairs
+      return b.flightsOfStairs - a.flightsOfStairs;
     })
-    return this.activityData[0].flightsOfStairs
+    return this.activityData[0].flightsOfStairs;
   }
 };
 
