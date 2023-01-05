@@ -39,6 +39,12 @@ const hydrationGoal = document.getElementById('hydrationGoal');
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
+const dropDownButton = document.getElementById('dropdown-button')
+const dropDownOptions = document.getElementById('dropdown-content')
+const stepsInputButton = document.getElementById('steps-selection')
+const hydrationInputButton = document.getElementById('hydration-selection')
+const sleepInputButton = document.getElementById('sleep-selection')
+
 
 // Global variables
 let userRepo;
@@ -59,6 +65,10 @@ userName.addEventListener('click', toggleProfileInfo);
 compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
 userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
 
+dropDownButton.addEventListener('click', showDropDownOptions);
+stepsInputButton.addEventListener('click', showDropDownOptions);
+hydrationInputButton.addEventListener('click', showDropDownOptions)
+sleepInputButton.addEventListener('click', showDropDownOptions)
 
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
@@ -170,6 +180,10 @@ function hideDayStepData() {
 
 function hideCompStepData() {
     compStepsData.classList.add('hidden')
+}
+
+function showDropDownOptions(){
+    dropDownOptions.classList.toggle("show")
 }
 
 function displayStepGoalComparison() {
