@@ -47,6 +47,36 @@ html {
   justify-content: space-evenly;
 }
 
+/* Input and dropdown CSS here from Ryan? */
+
+.user-data-entry-form {
+  width: 15vw;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color:#78C1E7;
+  border-radius: 10px;
+}
+
+.input-form-headings {
+  text-align: center;
+  font-weight: 300;
+}
+
+.user-input-labels {
+  text-align: center;
+}
+
+.user-input-fields {
+  text-align: center;
+}
+
+.user-data-submit-button {
+  width: fit-content;
+  height: fit-content;
+}
+
 .fit-data-section {
   height: 88vh;
   width: 25vw;
