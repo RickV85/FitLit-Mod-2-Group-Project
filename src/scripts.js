@@ -133,7 +133,7 @@ function displayHydrationData() {
 };
 
 function displaySleepData() {
-    const today = currentUser.findLatestDate('hydrationData');
+    const today = currentUser.findLatestDate('sleepData');
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
     sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
