@@ -3,14 +3,25 @@ let sleepData;
 let hydroData;
 let activityData;
 
+const dataDisplay = document.getElementById('dataDisplay')
+
 function loadUserData() {
     const userURL = 'http://localhost:3001/api/v1/users';
     return fetch(userURL)
-        .then((response) => response.json())
+        .then((response) => {
+            if (response.ok) {
+                return response.json()
+            } 
+            throw Promise.reject(response)
+        })
         .then((data) => {
             userData = data.userData
             return userData
         })
+        .catch((response) => {
+            dataDisplay.innerText = `Sorry, something went wrong`
+            console.log('Something went wrong.', response);
+        });
 }
 function loadSleepData() {
     const sleepURL = 'http://localhost:3001/api/v1/sleep';
