@@ -22,12 +22,24 @@
       </section>
     </nav>
     <section class="data-display">
-      <aside class="user-tab">
-        <button type="onClick" class="user-avatar" id="userAvatar"></button>
-        <p class="user-name" id="userName"></p>
-        <section class="friends-profile" id="friends"></section>
-        <section class="profile hidden" id="profile"></section>
-      </aside>
+      <nav class="side-nav" id="side-navigation">
+        <aside class="user-tab">
+          <button type="onClick" class="user-avatar" id="userAvatar"></button>
+          <p class="user-name" id="userName"></p>
+          <section class="friends-profile" id="friends"></section>
+          <section class="profile hidden" id="profile"></section>
+        </aside>
+        <aside class="input-section" id="input"> 
+          <div class="dropdown">
+            <button class="dropbutton" id="dropdown-button">Add a Workout</button>
+            <div class="data-dropdown" id="dropdown-content">
+              <button class="select-steps drop-option" id="steps-selection">Add Step Data</button>
+              <button class="select-hydration drop-option" id="hydration-selection">Add Hydration Data</button>
+              <button class="select-sleep drop-option" id="sleep-selection">Add Sleep Data</button>
+            </div>
+          </div>
+        </aside>
+      </nav>  
       <section class="fit-data-section" id="steps">
         <h2 class="fit-data-header">Steps</h2>
         <img src="./images/walkingIcon.svg" class="walking-icon" alt="walking person icon">
