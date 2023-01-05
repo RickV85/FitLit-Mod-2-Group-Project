@@ -54,6 +54,7 @@ function parseData(values) {
 function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
+    displayDayStepData();
     displayStepGoalComparison();
     displaySelectedUserInformation();
     displayHydrationData();
@@ -105,6 +106,11 @@ function toggleProfileInfo() {
         friendsDisplay.classList.remove('hidden');
         userProfile.classList.add('hidden');
     }
+}
+
+function displayDayStepData(){
+    //minutes active for the day
+    //miles for the day
 }
 
 function displayStepGoalComparison() {

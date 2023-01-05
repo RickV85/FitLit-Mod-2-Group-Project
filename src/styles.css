@@ -70,8 +70,19 @@ html {
   text-align: center;
 }
 
-.walking-icon {
-  height: 20vh;
+.activity-display-button {
+  background-color: #FBA03F;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  border: none;
+}
+.activity-display-button:hover {
+  outline: #BF1363;
+  outline-style: solid;
+  outline-offset: -1px;
+  outline-width: 4px;
+  cursor: pointer;
 }
 
 .week-step-chart,
