@@ -23,11 +23,12 @@ const userAvatar = document.querySelector('#userAvatar');
 
 const userStepsData = document.getElementById('userData');
 const compStepsData = document.getElementById('compData');
+const daySteps = document.getElementById('daySteps');
 const userGoalMet = document.getElementById('userGoalMet');
 const userMinutes = document.getElementById('userMinutes');
 const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
-const avgWeekMin = document.getElementById.('avgWeekMin');
+const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compare-stats-button');
 const userActButton = document.getElementById('user-stats-button');
 
@@ -69,12 +70,12 @@ function parseData(values) {
 function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
-    displayDayStepData();
     displaySelectedUserInformation();
+    
+    displayDayStepData();
+    
     displayHydrationData();
     displaySleepData();
-    activityCharts.updateDaysActivityChart();
-    //display weeks activity charts
     activityCharts.updateHydroDateChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroWeeklyChart();
@@ -122,9 +123,25 @@ function toggleProfileInfo() {
     }
 }
 
+function displayGoalMet(selectedDate) {
+    daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
+    if(userRepo.selectedUser.checkStepGoal(selectedDate)) {
+        userGoalMet.innerText = 'Way to go, you met your goal!'
+    } else {
+        userGoalMet.innerText = 'Keep moving to meet your goal!'
+    }
+}
+
 function displayDayStepData() {
-    //minutes active for the day
+    const today = userRepo.selectedUser.findLatestDate('activityData');
+    activityCharts.updateDaysActivityChart();
+    //did user meet step goal for today?
+    displayGoalMet(today);
     //miles for the day
+    //minutes active for the day
+
+    //display weeks activity charts
+
     hideCompStepData();
     userStepsData.classList.remove('hidden');
 }
