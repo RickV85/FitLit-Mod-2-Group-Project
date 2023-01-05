@@ -35,7 +35,6 @@ function loadActivityData() {
     return fetch(userURL)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             activityData = data.activityData;
             return activityData;
         })
