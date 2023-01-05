@@ -30,7 +30,6 @@ const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
-console.log(compareActButton)
 const userActButton = document.getElementById('userStatsButton');
 
 
@@ -81,6 +80,7 @@ function updateDOM() {
         //might have to import the chart elements themselves for that? or create new queries here...
     activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
+    activityCharts.updateStepAvgChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();

@@ -7,13 +7,22 @@ const hydroDayChart = document.getElementById("todaysHydrationChart").getContext
 const hydroWeekChart = document.getElementById("weeksHydrationChart").getContext('2d');
 const activityWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
 const activityDayChart = document.getElementById("dayStepsChart").getContext('2d');
+const stepCompChart = document.getElementById("stepCompChart").getContext('2d');
+const minCompChart = document.getElementById("minCompChart").getContext('2d');
+const stairCompChart = document.getElementById("stairCompChart").getContext('2d');
 
-let stepComparisonChart;
+
+let goalComparisonChart;
 let sleepDblDataChart;
 let todaysHydroChart;
 let weeksHydroChart;
 let weeksActivityChart;
 let todaysActivityChart;
+let stepComparisonChart;
+let minComparisonChart;
+let stairComparisonChart;
+
+
 
 const findHydroPercentage = (numDrunk, goal) => {
     return numDrunk < goal ? goal - numDrunk : 0;
@@ -72,7 +81,7 @@ const updateHydroWeeklyChart = () => {
 const updateStepChart = () => {
     const userStepGoal = userRepo.selectedUser.dailyStepGoal
     const avgStepGoal = userRepo.averageSteps()
-    stepComparisonChart = new Chart(stepChart, {
+    goalComparisonChart = new Chart(stepChart, {
         type: 'bar',
         data: {
             labels: ['Average Step Goal', 'Your Step Goal'],
@@ -80,6 +89,38 @@ const updateStepChart = () => {
 
                 label: 'Step Goal',
                 data: [avgStepGoal, userStepGoal],
+                backgroundColor: ['#BF1363', '#F39237'],
+            }]
+        },
+        options: {
+            responsive: true, 
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+            },
+        }
+    })
+}
+
+const updateStepAvgChart = () => {
+    const today = userRepo.selectedUser.findLatestDate('activityData');
+    const userSteps = userRepo.selectedUser.findDayActivity(today, 'numSteps')
+    const avgSteps = userRepo.calculateAllUserAvgActivity(today, 'numSteps')
+    goalComparisonChart = new Chart(stepCompChart, {
+        type: 'bar',
+        data: {
+            labels: ['Average Steps', 'Your Steps'],
+            datasets: [{
+
+                label: 'Steps',
+                data: [avgSteps, userSteps],
                 backgroundColor: ['#BF1363', '#F39237'],
             }]
         },
@@ -188,4 +229,4 @@ const updateDaysActivityChart = () => {
 //         }
 //     })
 // }
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart }; //updateActivityWeekChart,
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateStepAvgChart }; //updateActivityWeekChart,
