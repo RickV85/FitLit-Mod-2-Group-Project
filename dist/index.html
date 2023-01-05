@@ -30,7 +30,12 @@
       </aside>
       <section class="fit-data-section" id="steps">
         <h2 class="fit-data-header">Steps</h2>
-        <!-- <img src="./images/walkingIcon.svg" class="walking-icon" alt="walking person icon"> -->
+        <div>
+          <h4 class="fit-data chart-header">Today's Steps</h4>
+          <div class="fit-data day-steps-chart">
+            <canvas id="dayStepsChart" aria-label="todays activity data chart"></canvas>
+          </div>
+        </div>
         <h4 class="fit-data chart-header">Your Step Goal vs. Average Step Goal</h4>
         <p class="fit-data highlight" id="stepGoalVsAvg"></p>
         <div class="fit-data week-step-chart">

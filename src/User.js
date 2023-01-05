@@ -44,17 +44,18 @@ class User {
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
   
-  findMinutesActive(selectedDate) {
+  findDayActivity(selectedDate, activityKey) {
     let actData = this.activityData.find(day => day.date === selectedDate)
-    return actData.minutesActive
-  }
+    return actData[activityKey];
+  };
 
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
+
   findSevenDays(selectedDate, nextDate){
     return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
-  }
+  };
   
   findWeekHydration(selectedDate) {
     const weekLongArray = []

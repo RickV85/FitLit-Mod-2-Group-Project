@@ -6,12 +6,14 @@ const sleepChart = document.getElementById("weeksSleepChart").getContext('2d');
 const hydroDayChart = document.getElementById("todaysHydrationChart").getContext('2d');
 const hydroWeekChart = document.getElementById("weeksHydrationChart").getContext('2d');
 const activityWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
+const activityDayChart = document.getElementById("dayStepsChart").getContext('2d');
 
 let stepComparisonChart;
 let sleepDblDataChart;
 let todaysHydroChart;
 let weeksHydroChart;
 let weeksActivityChart;
+let todaysActivityChart;
 
 const findHydroPercentage = (numDrunk, goal) => {
     return numDrunk < goal ? goal - numDrunk : 0;
@@ -134,35 +136,57 @@ const updateSleepChart = () => {
         }
     });
 }
+const findStepsPercentage = (steps, goal) => {
+    return numDrunk < goal ? goal - numDrunk : 0;
+}
+const updateDaysActivityChart = () => {
 
-const assignActivityChartData = (date) => {
-    // return userRepo.selectedUser.INSERT-METHOD-NAME-HERE(date).map(element => {
-    //     if(element) {
-    //         return element[sleepKey]
-    //     }
-    // return null;
-    // })
-};
-const updateActivityWeekChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
-    const chartData = assignActivityChartData(todaysDate);
-    weeksActivityChart = new Chart(activityWeekChart, {
-        type: 'line',
+    const daySteps = userRepo.selectedUser.findDaysHydration(todaysDate).numOunces;
+    const goal = 64;
+    const ozLeft = findHydroPercentage(numDrunk, goal);
+    todaysActivityChart = new Chart(hydroDayChart, {
+        type: 'doughnut',
         data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], //change this to be more clear about what date is which and make sure the selected date is the last date
+            labels: ['Today\'s Steps', 'Your Daily Goal'],
             datasets: [
                 {
-                    label: 'Daily Steps',
-                    data: chartData,
-                    type: 'line',
-                    backgroundColor: ['#BF1263'],
+                    data: [numDrunk, ozLeft],
+                    backgroundColor: ['#BF1363', '#F39237']
                 }
             ],
-        },
-        options: {
-            responsive: true, 
-        maintainAspectRatio: false,
         }
     })
 }
+
+// const assignActivityChartData = (date) => {
+//     return userRepo.selectedUser.INSERT-METHOD-NAME-HERE(date).map(element => {
+//         if(element) {
+//             return element[sleepKey]
+//         }
+//     return null;
+//     })
+// };
+// const updateActivityWeekChart = () => {
+//     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+//     const chartData = assignActivityChartData(todaysDate);
+//     weeksActivityChart = new Chart(activityWeekChart, {
+//         type: 'line',
+//         data: {
+//             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], //change this to be more clear about what date is which and make sure the selected date is the last date
+//             datasets: [
+//                 {
+//                     label: 'Daily Steps',
+//                     data: chartData,
+//                     type: 'line',
+//                     backgroundColor: ['#BF1263'],
+//                 }
+//             ],
+//         },
+//         options: {
+//             responsive: true, 
+//         maintainAspectRatio: false,
+//         }
+//     })
+// }
 export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateActivityWeekChart };
