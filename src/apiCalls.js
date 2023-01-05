@@ -35,7 +35,7 @@ function loadActivityData() {
     return fetch(userURL)
         .then((response) => response.json())
         .then((data) => {
-            activityData = data.userData;
+            activityData = data.activityData;
             return activityData;
         })
 }

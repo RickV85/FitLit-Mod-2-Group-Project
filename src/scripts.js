@@ -46,7 +46,7 @@ userName.addEventListener('click', toggleProfileInfo);
 
 function parseData(values) {
     //do this part after userRepo and user class are updated to accomodate activity data
-    userRepo = new UserRepository(values[0], values[1], values[2]);
+    userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
     currentUser = userRepo.selectedUser;
     console.log(userRepo)
