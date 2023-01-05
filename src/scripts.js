@@ -8,24 +8,28 @@ import randomGreetings from './data/randomGreetings';
 // Image imports
 import './images/walkingIcon.svg';
 
-// Query Selectors
+//Promises
 const userPromise = apiCalls.loadUserData();
 const hydrationPromise = apiCalls.loadHydrationData();
 const sleepPromise = apiCalls.loadSleepData();
 const activityPromise = apiCalls.loadActivityData();
-//new variable to hold apiCall for activity
 
+// Query Selectors
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const userProfile = document.querySelector('#profile');
 const userName = document.querySelector('#userName');
 const userAvatar = document.querySelector('#userAvatar');
+const userStepsData = document.getElementById('userData');
+const compStepsData = document.getElementById('compData');
 const hydrationToday = document.getElementById('hydrationToday');
 const hydrationGoal = document.getElementById('hydrationGoal');
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
+const compareActButton = document.getElementById('compare-stats-button');
+const userActButton = document.getElementById('user-stats-button');
 
 // Global variables
 let userRepo;
@@ -34,7 +38,7 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise]) //add activityPromise
+    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
         .then((values) => {
             parseData(values);
             updateDOM();
@@ -43,9 +47,12 @@ window.addEventListener('load', function () {
 
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
+compareActButton.addEventListener('click', displayCompStepData)//display charts here or in function?
+userActButton.addEventListener('click', displayDayStepData) //display charts here or in function?
+
+
 
 function parseData(values) {
-    //do this part after userRepo and user class are updated to accomodate activity data
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
     currentUser = userRepo.selectedUser;
@@ -55,13 +62,12 @@ function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
     displayDayStepData();
-    displayStepGoalComparison();
     displaySelectedUserInformation();
     displayHydrationData();
     displaySleepData();
     activityCharts.updateDaysActivityChart();
+    //display weeks activity charts
     activityCharts.updateHydroDateChart();
-    activityCharts.updateStepChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroWeeklyChart();
 }
@@ -108,9 +114,32 @@ function toggleProfileInfo() {
     }
 }
 
-function displayDayStepData(){
+function displayDayStepData() {
     //minutes active for the day
     //miles for the day
+    hideCompStepData();
+    userStepsData.classList.remove('hidden');
+}
+
+function displayCompStepData() {
+    
+    //goal comparison
+    displayStepGoalComparison();
+    activityCharts.updateStepChart();
+    //steps comparison
+
+    //minutes comparison
+    //stairs comparison
+    hideDayStepData();
+    compStepsData.classList.remove('hidden')
+}
+
+function hideDayStepData() {
+    userStepsData.classList.add('hidden');
+}
+
+function hideCompStepData() {
+    compStepsData.classList.add('hidden')
 }
 
 function displayStepGoalComparison() {
