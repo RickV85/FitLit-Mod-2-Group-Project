@@ -24,11 +24,8 @@ class User {
   };
 
   findLatestDate(dataProperty) {
-    console.log("find latest date for: ", dataProperty)
     const lastIndex = (this[dataProperty].length) - 1;
-    console.log("last index: ", lastIndex)
     this.sortUserArrays(dataProperty);
-    console.log('returning:', this[dataProperty][lastIndex].date)
     return this[dataProperty][lastIndex].date;
   };
 
@@ -38,13 +35,6 @@ class User {
   };
 
   findDaySleepData(sleepKey, date) {
-    console.log('findDaySleepData for: ', date)
-    console.log(this.sleepData.find(day => {
-      console.log('is it this day?: ', day, day.date === date)
-
-      return day.date === date
-    }))
-    //console.log("user.js line 37", this.sleepData.find(day => day.date === date)[sleepKey]);
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
 
@@ -101,8 +91,8 @@ class User {
   
 
   findWeekActiveMinutes(selectedDate) {
-    //sevenDay = [{1:0},2,3,4,5,6,{selectedDate:0}] if the previous dates exist, replace the number in the array
-    console.log(this.findSevenDaysAgo(selectedDate))
+    //placeholder until Rick's method is pulled down
+    return [1, 2, 3, 4, 5, 6, 7];
   }
 
   checkStepGoal(selectedDate) {
