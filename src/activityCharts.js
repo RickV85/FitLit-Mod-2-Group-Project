@@ -78,68 +78,73 @@ const updateHydroWeeklyChart = () => {
     })
 };
 
+// const updateStepChart = () => {
+//     const userStepGoal = userRepo.selectedUser.dailyStepGoal
+//     const avgStepGoal = userRepo.averageSteps()
+//     goalComparisonChart = new Chart(stepChart, {
+//         type: 'bar',
+//         data: {
+//             labels: ['Average Step Goal', 'Your Step Goal'],
+//             datasets: [{
+
+//                 label: 'Step Goal',
+//                 data: [avgStepGoal, userStepGoal],
+//                 backgroundColor: ['#BF1363', '#F39237'],
+//             }]
+//         },
+//         options: {
+//             responsive: true, 
+//             maintainAspectRatio: false,
+//             scales: {
+//                 y: {
+//                     beginAtZero: true
+//                 },
+//             },
+//             plugins: {
+//                 legend: {
+//                     display: false
+//                 },
+//             },
+//         }
+//     })
+// }
+
 const updateStepChart = () => {
-    const userStepGoal = userRepo.selectedUser.dailyStepGoal
-    const avgStepGoal = userRepo.averageSteps()
-    goalComparisonChart = new Chart(stepChart, {
-        type: 'bar',
-        data: {
-            labels: ['Average Step Goal', 'Your Step Goal'],
-            datasets: [{
-
-                label: 'Step Goal',
-                data: [avgStepGoal, userStepGoal],
-                backgroundColor: ['#BF1363', '#F39237'],
-            }]
-        },
-        options: {
-            responsive: true, 
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                },
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-            },
-        }
-    })
-}
-
-const updateStepAvgChart = () => {
     const today = userRepo.selectedUser.findLatestDate('activityData');
-    const userSteps = userRepo.selectedUser.findDayActivity(today, 'numSteps')
-    const avgSteps = userRepo.calculateAllUserAvgActivity(today, 'numSteps')
-    goalComparisonChart = new Chart(stepCompChart, {
+    const userSteps = userRepo.selectedUser.findDayActivity(today, 'numSteps');
+    const avgSteps = userRepo.calculateAllUserAvgActivity(today, 'numSteps');
+    const userGoal = userRepo.selectedUser.dailyStepGoal;
+    const avgGoal = userRepo.averageSteps();
+
+    goalComparisonChart = new Chart(stepChart, { //check that the 2 variables are correct
         type: 'bar',
         data: {
-            labels: ['Average Steps', 'Your Steps'],
             datasets: [{
-
-                label: 'Steps',
-                data: [avgSteps, userSteps],
-                backgroundColor: ['#BF1363', '#F39237'],
-            }]
+                label: 'Actual Steps',
+                data: [userSteps, avgSteps],
+                backgroundColor: ['#F39237', '#BF1363'],
+                order: 2
+            }, {
+                label: 'Step Goals',
+                data: [userGoal, avgGoal],
+                type: 'line',
+                backgroundColor: ['#78C1E7'],
+                order: 1
+            }],
+            labels: ['Average Steps', 'Your Steps']
         },
         options: {
             responsive: true, 
             maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                },
-            },
             plugins: {
                 legend: {
-                    display: false
+                    //display: false
+                    position: 'bottom'  
                 },
             },
         }
     })
-}
+};
 //if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
 const assignSleepChartData = (date, sleepKey) => {
     return userRepo.selectedUser.findWeekSleep(date).map(element => {
@@ -229,4 +234,4 @@ const updateDaysActivityChart = () => {
 //         }
 //     })
 // }
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateStepAvgChart }; //updateActivityWeekChart,
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart }; //updateActivityWeekChart, updateStepAvgChart

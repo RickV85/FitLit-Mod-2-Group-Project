@@ -90,7 +90,7 @@ function updateDOM() {
         //might have to import the chart elements themselves for that? or create new queries here...
     activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
-    activityCharts.updateStepAvgChart();
+    //activityCharts.updateStepAvgChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
