@@ -69,6 +69,22 @@ describe('User', function () {
       { userID: 20, date: '2020/01/22', numOunces: 22 }])
   });
 
+  it('findWeekHydration should return null values for dates that lack hydration data', function() {
+    expect(selectedUser.findWeekHydration("2020/01/18")).to.deep.equal(
+      [null, null, null, { userID: 20, date: "2020/01/15", numOunces: 22 },
+      { userID: 20, date: "2020/01/16", numOunces: 15 },
+      { userID: 20, date: "2020/01/17", numOunces: 21 },
+      { userID: 20, date: "2020/01/18",numOunces: 20},
+      ]
+    )
+  });
+
+  it('findWeekHydration should return all null values for a full week that lacks hydration data', function() {
+    expect(selectedUser.findWeekHydration("2022/1/1")).to.deep.equal(
+      [null, null, null, null, null, null, null]
+    )
+  });
+
   it('should be able to sort hydration data by date', function () {
     selectedUser.sortUserArrays('hydrationData')
     expect(selectedUser.hydrationData).to.deep.equal([
@@ -135,6 +151,23 @@ describe('User', function () {
     ]);
   });
 
+  it('findWeekSleep should return null values for dates that lack sleep data', function() {
+    expect(selectedUser.findWeekSleep("2019/06/13")).to.deep.equal(
+      [null, null, null,
+      { userID: 20, date: "2019/06/10", hoursSlept: 7, sleepQuality: 2.8 },
+      { userID: 20, date: "2019/06/11", hoursSlept: 6.5, sleepQuality: 2 },
+      { userID: 20, date: "2019/06/12", hoursSlept: 8.5, sleepQuality: 2.5 },
+      { userID: 20, date: "2019/06/13", hoursSlept: 7.8, sleepQuality: 3 }
+      ]
+    )
+  });
+
+  it('findWeekSleep should return all null values for a full week that lacks sleep data', function() {
+    expect(selectedUser.findWeekSleep("2022/1/1")).to.deep.equal(
+      [null, null, null, null, null, null, null]
+    )
+  });
+
   it('it should have an activityData property that holds activity data', function () {
     expect(selectedUser.activityData).to.deep.equal([
       { userID: 20, date: "2019/06/15", numSteps: 9052, minutesActive: 168, flightsOfStairs: 14 },
@@ -162,20 +195,21 @@ describe('User', function () {
     expect(selectedUser.findDayActivity("2019/06/15", "numSteps")).to.equal(9052)
   })
 
-  // it('should return the average number of minutes active for a given 7 days', function () {
-  //   expect(selectedUser.findWeekActiveMinutes("2019/06/24")).to.equal(109.86)
-  // })
+  it('should return the average number of minutes active for a given 7 days', function () {
+    expect(selectedUser.findWeekAvgActiveMinutes("2019/06/24")).to.equal(109.9)
+  })
+
+  it('findWeekAvgActiveMinutes should work with dates that activitiy was not recorded', function() {
+    expect(selectedUser.findWeekAvgActiveMinutes("2019/06/18")).to.equal(90.4)
+  })
 
   it('should return true if a user met their step goal for a specified date', function () {
-    //return true if a user met their step goal for a specified date
-    //return false if a user hasn't met their goal or return a string letting the user know that no steps were logged that day
     expect(selectedUser.checkStepGoal("2019/06/15")).to.equal(true)
     expect(selectedUser.checkStepGoal("2019/06/16")).to.equal(false)
     expect(selectedUser.checkStepGoal("2019/06/14")).to.equal(undefined)
   })
 
   it('should return an array of dates in which a user exceeded their step goal', function () {
-    //potential sad path- no dates in which the user exceeds step goal, could return a message on DOM
     expect(selectedUser.findDatesOfStepGoalsMet()).to.deep.equal(["2019/06/15","2019/06/19","2019/06/20","2019/06/21","2019/06/22"])
   })
 

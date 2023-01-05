@@ -55,14 +55,21 @@ class User {
 
   findSevenDays(selectedDate, nextDate){
     return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
-  };
-  
-  findWeekHydration(selectedDate) {
+  }
+
+  createWeekLongArray(selectedDate) {
     const weekLongArray = []
     for (let i = 6; i > -1 ; i--){
       var singleDate = this.findSevenDays(selectedDate, i)
       weekLongArray.push(singleDate.toString())
     }
+    return weekLongArray;
+  }
+
+// We could combine these next two (possibly 3?) functions with use of a 2nd param
+// but I don't want to mess up anything downstream RN
+  findWeekHydration(selectedDate) {
+    let weekLongArray = this.createWeekLongArray(selectedDate);
     
     return weekLongArray.map(day => {
       var date = this.hydrationData.find(data => data.date === day) 
@@ -72,14 +79,9 @@ class User {
       return null
     })
   };
-  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates
-  //if the userdata doesnt exist, put null or empty object in the array (dynamic for hoursSlept or sleepQuality)
+
   findWeekSleep(selectedDate){
-    const weekLongArray = []
-    for (let i = 6; i > -1 ; i--){
-      var singleDate = this.findSevenDays(selectedDate, i)
-      weekLongArray.push(singleDate.toString())
-    }
+    let weekLongArray = this.createWeekLongArray(selectedDate);
 
     return weekLongArray.map(day => {
       var date = this.sleepData.find(data => data.date === day) 
@@ -90,10 +92,23 @@ class User {
     })
   } 
   
+  findWeekAvgActiveMinutes(selectedDate) {
+    let weekLongArray = this.createWeekLongArray(selectedDate);
 
-  findWeekActiveMinutes(selectedDate) {
-    //placeholder until Rick's method is pulled down
-    return [1, 2, 3, 4, 5, 6, 7];
+    let weekOfActivity = weekLongArray.map(day => {
+      var date = this.activityData.find(data => data.date === day) 
+      if (date){
+        return date
+      }
+      return {minutesActive: 0}
+    })
+
+    let weekActivityTotal = weekOfActivity.reduce((total, day) => {
+      total += day.minutesActive;
+      return total;
+    }, 0)
+
+    return Number((weekActivityTotal / 7).toFixed(1));
   }
 
   checkStepGoal(selectedDate) {
