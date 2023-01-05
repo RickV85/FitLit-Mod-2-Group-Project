@@ -4,6 +4,8 @@ let hydroData;
 let activityData;
 
 const dataDisplay = document.getElementById('dataDisplay')
+const errorMessageDisplay = document.querySelector('.error-message')
+const errorMessageId = document.getElementById('errorMessage')
 
 function loadUserData() {
     const userURL = 'http://localhost:3001/api/v1/users';
@@ -15,12 +17,16 @@ function loadUserData() {
             throw Promise.reject(response)
         })
         .then((data) => {
+            dataDisplay.classList.remove('hidden')
+            errorMessageDisplay.classList.add('hidden')
             userData = data.userData
             return userData
         })
         .catch((response) => {
-            dataDisplay.innerText = `Sorry, something went wrong`
-            console.log('Something went wrong.', response);
+            dataDisplay.classList.add('hidden')
+            errorMessageDisplay.classList.remove('hidden')
+            errorMessageId.innerText = 'Sorry, the server is down. Try again later'
+            console.log('Something went wrong: ', response);
         });
 }
 function loadSleepData() {

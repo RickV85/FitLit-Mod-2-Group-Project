@@ -32,6 +32,11 @@ html {
   width: 6vw;
 }
 
+.error-message {
+  display: flex;
+  justify-content: center;
+}
+
 .data-display {
   height: 95vh;
   display: flex;
