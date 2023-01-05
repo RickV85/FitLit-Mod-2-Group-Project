@@ -17,19 +17,27 @@ const activityPromise = apiCalls.loadActivityData();
 // Query Selectors
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
-const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const userProfile = document.querySelector('#profile');
 const userName = document.querySelector('#userName');
 const userAvatar = document.querySelector('#userAvatar');
+
 const userStepsData = document.getElementById('userData');
 const compStepsData = document.getElementById('compData');
+const userGoalMet = document.getElementById('userGoalMet');
+const userMinutes = document.getElementById('userMinutes');
+const userMiles = document.getElementById('userMiles');
+const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
+const avgWeekMin = document.getElementById.('avgWeekMin');
+const compareActButton = document.getElementById('compare-stats-button');
+const userActButton = document.getElementById('user-stats-button');
+
+
 const hydrationToday = document.getElementById('hydrationToday');
 const hydrationGoal = document.getElementById('hydrationGoal');
+
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
-const compareActButton = document.getElementById('compare-stats-button');
-const userActButton = document.getElementById('user-stats-button');
 
 // Global variables
 let userRepo;
