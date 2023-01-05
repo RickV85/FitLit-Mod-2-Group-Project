@@ -168,6 +168,32 @@ html {
   display: none;
 }
 
+.dropbutton {
+  background-color: #78C1E7;
+  color: #191923;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.data-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #FBFEF9;
+  overflow: auto;
+ 
+}
+
+
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 740px) {
 
   .data-display {
@@ -213,3 +239,4 @@ html {
     width: 40vw;
   }
 }
+
