@@ -135,11 +135,10 @@ function displayGoalMet(selectedDate) {
 function displayDayStepData() {
     const today = userRepo.selectedUser.findLatestDate('activityData');
     activityCharts.updateDaysActivityChart();
-    //did user meet step goal for today?
     displayGoalMet(today);
-    //miles for the day
-    //minutes active for the day
-
+    userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
+    userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
+    
     //display weeks activity charts
 
     hideCompStepData();
