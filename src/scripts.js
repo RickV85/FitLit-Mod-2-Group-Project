@@ -33,7 +33,7 @@ const compareActButton = document.getElementById('compare-stats-button');
 const userActButton = document.getElementById('user-stats-button');
 
 
-const hydrationToday = document.getElementById('hydrationToday');
+const hydrationToday = document.getElementById('dayHydroHeader');
 const hydrationGoal = document.getElementById('hydrationGoal');
 
 const sleepToday = document.getElementById('sleepToday');
