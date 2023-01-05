@@ -49,6 +49,21 @@ describe('User', function () {
   it('should accept hydration data and store it in an attribute', function () {
     expect(selectedUser.hydrationData).to.deep.equal(hydrationData)
   });
+  
+  it('it should have an activityData property that holds activity data', function () {
+    expect(selectedUser.activityData).to.deep.equal([
+      { userID: 20, date: "2019/06/15", numSteps: 9052, minutesActive: 168, flightsOfStairs: 14 },
+      { userID: 20, date: "2019/06/16", numSteps: 6269, minutesActive: 126, flightsOfStairs: 32 },
+      { userID: 20, date: "2019/06/17", numSteps: 3081, minutesActive: 253, flightsOfStairs: 44 },
+      { userID: 20, date: "2019/06/18", numSteps: 7783, minutesActive: 86, flightsOfStairs: 11 },
+      { userID: 20, date: "2019/06/19", numSteps: 14356, minutesActive: 50, flightsOfStairs: 26 },
+      { userID: 20, date: "2019/06/20", numSteps: 8021, minutesActive: 114, flightsOfStairs: 47 },
+      { userID: 20, date: "2019/06/21", numSteps: 13376, minutesActive: 60, flightsOfStairs: 3 },
+      { userID: 20, date: "2019/06/22", numSteps: 13094, minutesActive: 285, flightsOfStairs: 4 },
+      { userID: 20, date: "2019/06/23", numSteps: 5249, minutesActive: 40, flightsOfStairs: 26 },
+      { userID: 20, date: "2019/06/24", numSteps: 2578, minutesActive: 134, flightsOfStairs: 6 }
+    ])
+  })
 
   it('should be able to sort hydration data by date', function () {
     selectedUser.sortUserArrays('hydrationData')
@@ -79,7 +94,7 @@ describe('User', function () {
       { userID: 20, date: '2019/06/16', hoursSlept: 4.3, sleepQuality: 1.4 }
     ]);
   });
-  
+
   it('should have a method that returns a single users hydration on a given day', function () {
     expect(selectedUser.findDaysHydration("2019/06/15")).to.deep.equal({
       userID: 20,
@@ -87,7 +102,6 @@ describe('User', function () {
       numOunces: 23
     });
   });
-
 
   it('should find the latest date for hydration data', function () {
     expect(selectedUser.findLatestDate('hydrationData')).to.equal('2020/01/23');
@@ -100,17 +114,17 @@ describe('User', function () {
   it('should calculate the avg number of hours slept per night from all user data', function () {
     expect(selectedUser.averageSleepData('hoursSlept')).to.equal(6.6);
   });
-
-  it('should calculate the avg sleep quality per night from all user data', function () {
-    expect(selectedUser.averageSleepData('sleepQuality')).to.equal(2.1);
-  });
-
+  
   it('should find the hours slept for a given date', function () {
     expect(selectedUser.findDaySleepData('hoursSlept', '2019/06/16')).to.equal(4.3);
   });
-
+  
   it('should find the sleep quality for a given date', function () {
     expect(selectedUser.findDaySleepData('sleepQuality', '2019/06/16')).to.equal(1.4);
+  });
+  
+  it('should calculate the avg sleep quality per night from all user data', function () {
+    expect(selectedUser.averageSleepData('sleepQuality')).to.equal(2.1);
   });
 
   it('findweekData should be able to take sleep, hydration, or activity and return values', function () {
@@ -176,21 +190,6 @@ describe('User', function () {
     expect(selectedUser.findWeekData("2022/1/1", "activityData")).to.deep.equal(
       [null, null, null, null, null, null, null]
     )
-  })
-
-  it('it should have an activityData property that holds activity data', function () {
-    expect(selectedUser.activityData).to.deep.equal([
-      { userID: 20, date: "2019/06/15", numSteps: 9052, minutesActive: 168, flightsOfStairs: 14 },
-      { userID: 20, date: "2019/06/16", numSteps: 6269, minutesActive: 126, flightsOfStairs: 32 },
-      { userID: 20, date: "2019/06/17", numSteps: 3081, minutesActive: 253, flightsOfStairs: 44 },
-      { userID: 20, date: "2019/06/18", numSteps: 7783, minutesActive: 86, flightsOfStairs: 11 },
-      { userID: 20, date: "2019/06/19", numSteps: 14356, minutesActive: 50, flightsOfStairs: 26 },
-      { userID: 20, date: "2019/06/20", numSteps: 8021, minutesActive: 114, flightsOfStairs: 47 },
-      { userID: 20, date: "2019/06/21", numSteps: 13376, minutesActive: 60, flightsOfStairs: 3 },
-      { userID: 20, date: "2019/06/22", numSteps: 13094, minutesActive: 285, flightsOfStairs: 4 },
-      { userID: 20, date: "2019/06/23", numSteps: 5249, minutesActive: 40, flightsOfStairs: 26 },
-      { userID: 20, date: "2019/06/24", numSteps: 2578, minutesActive: 134, flightsOfStairs: 6 }
-    ])
   })
 
   it('should return miles walked for a given day', function () {
