@@ -131,7 +131,7 @@ function displayHydrationData() {
     }
 };
 
-function displaySleepData() {
+function displaySleepData() { //this can be refactored with some dynamic helper functions
     const today = currentUser.findLatestDate('sleepData');
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
@@ -139,6 +139,9 @@ function displaySleepData() {
     sleepHours = currentUser.averageSleepData('hoursSlept');
     sleepQuality = currentUser.averageSleepData('sleepQuality');
     sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+    sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
+    sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
+    sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
 }
 
 function displaySelectedUserInformation() {

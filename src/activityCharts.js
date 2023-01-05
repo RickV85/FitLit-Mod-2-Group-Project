@@ -49,7 +49,7 @@ const updateHydroWeeklyChart = () => {
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
         data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'], //change this to be more clear about what date is which and make sure the selected date is the last date
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], //change this to be more clear about what date is which and make sure the selected date is the last date
             datasets: [
                 {
                     label: 'Daily Intake in Ounces',
@@ -109,10 +109,9 @@ const assignSleepChartData = (date, sleepKey) => {
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
-    //const userSleepWeek = userRepo.selectedUser.findWeekSleep(todaysDate);
-    //userSleepWeek.reverse();
-    //^above is replaced with below
+    console.log(todaysDate)
     const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
+    console.log(hoursSleptWeek)
     const sleepQualityWeek = assignSleepChartData(todaysDate, 'sleepQuality');
     sleepDblDataChart = new Chart(sleepChart, {
         type: 'bar',
@@ -120,18 +119,16 @@ const updateSleepChart = () => {
             datasets: [{
                 label: 'Hours Slept',
                 data: hoursSleptWeek,
-                //data: [userSleepWeek[0].hoursSlept, userSleepWeek[1].hoursSlept, userSleepWeek[2].hoursSlept, userSleepWeek[3].hoursSlept, userSleepWeek[4].hoursSlept, userSleepWeek[5].hoursSlept, userSleepWeek[6].hoursSlept],
                 backgroundColor: ['#78C1E7'],
                 order: 2
             }, {
                 label: 'Sleep Quality',
                 data: sleepQualityWeek,
-                //data: [userSleepWeek[0].sleepQuality, userSleepWeek[1].sleepQuality, userSleepWeek[2].sleepQuality, userSleepWeek[3].sleepQuality, userSleepWeek[4].sleepQuality, userSleepWeek[5].sleepQuality, userSleepWeek[6].sleepQuality],
                 type: 'line',
                 backgroundColor: ['#BF1263'],
                 order: 1
             }],
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'] //change this to be more clear about what date is which and make sure the selected date is the last date
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'] //change this to be more clear about what date is which and make sure the selected date is the last date
         },
         options: {
             responsive: true, 
