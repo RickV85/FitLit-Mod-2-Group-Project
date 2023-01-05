@@ -95,6 +95,20 @@ class User {
     })
   } 
   
+  findWeekData(selectedDate, key) {
+    console.log(key)
+    let weekLongArray = this.createWeekLongArray(selectedDate);
+
+    return weekLongArray.map(day => {
+      let date = this[key].find(data => data.date === day) 
+      console.log(date)
+      if (date){
+        return date
+      } 
+      return null
+    })
+  }
+
   findWeekAvgActiveMinutes(selectedDate) {
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
