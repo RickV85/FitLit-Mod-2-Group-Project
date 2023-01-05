@@ -7,25 +7,33 @@ const dataDisplay = document.getElementById('dataDisplay')
 const errorMessageDisplay = document.querySelector('.error-message')
 const errorMessageId = document.getElementById('errorMessage')
 
+function errorHandeling(message, display) {
+    if (display === 'error') {
+        dataDisplay.classList.add('hidden')
+        errorMessageDisplay.classList.remove('hidden')
+        errorMessageId.innerText = message
+    } else if (display === 'noError') {
+        dataDisplay.classList.remove('hidden')
+        errorMessageDisplay.classList.add('hidden')
+    }
+}
+
 function loadUserData() {
     const userURL = 'http://localhost:3001/api/v1/users';
     return fetch(userURL)
         .then((response) => {
             if (response.ok) {
                 return response.json()
-            } 
+            }
             throw Promise.reject(response)
         })
         .then((data) => {
-            dataDisplay.classList.remove('hidden')
-            errorMessageDisplay.classList.add('hidden')
+            errorHandeling('message', 'noError')
             userData = data.userData
             return userData
         })
         .catch((response) => {
-            dataDisplay.classList.add('hidden')
-            errorMessageDisplay.classList.remove('hidden')
-            errorMessageId.innerText = 'Sorry, the server is down. Try again later'
+            errorHandeling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         });
 }
