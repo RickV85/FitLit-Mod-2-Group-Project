@@ -5,6 +5,7 @@ const stepChart = document.getElementById("stepGoalChart").getContext('2d');
 const sleepChart = document.getElementById("weeksSleepChart").getContext('2d');
 const hydroDayChart = document.getElementById("todaysHydrationChart").getContext('2d');
 const hydroWeekChart = document.getElementById("weeksHydrationChart").getContext('2d');
+const activityWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
 
 let stepComparisonChart;
 let sleepDblDataChart;
@@ -135,6 +136,17 @@ const updateSleepChart = () => {
             maintainAspectRatio: false,
         }
     });
+    const assignActivityChartData = (date, sleepKey) => {
+        return userRepo.selectedUser.findWeekSleep(date).map(element => {
+            if(element) {
+                return element[sleepKey]
+            }
+        return null;
+        })
+    };
+    const updateActivityWeekChart = () => {
+
+    }
 }
 
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart };
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateActivityWeekChart };
