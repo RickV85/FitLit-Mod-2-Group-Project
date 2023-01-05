@@ -26,6 +26,9 @@ const hydrationGoal = document.getElementById('hydrationGoal');
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
+const dropDownButton = document.getElementById('dropdown-button')
+const dropDownOptions = document.getElementById('dropdown-content')
+
 
 // Global variables
 let userRepo;
@@ -43,6 +46,7 @@ window.addEventListener('load', function () {
 
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
+dropDownButton.addEventListener('click', showDropDownOptions)
 
 function parseData(values) {
     //do this part after userRepo and user class are updated to accomodate activity data
@@ -105,6 +109,10 @@ function toggleProfileInfo() {
         friendsDisplay.classList.remove('hidden');
         userProfile.classList.add('hidden');
     }
+}
+
+function showDropDownOptions(){
+    dropDownOptions.classList.toggle("show")
 }
 
 function displayStepGoalComparison() {
