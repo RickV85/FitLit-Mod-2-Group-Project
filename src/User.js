@@ -58,6 +58,17 @@ class User {
     return weekLongArray;
   }
   
+  findMilesWalked(selectedDate) {
+    //this function could be combined with findMinutesActive
+    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+  };
+  
+  findMinutesActive(selectedDate) {
+    let actData = this.activityData.find(day => day.date === selectedDate)
+    return actData.minutesActive
+  }
+  
   findWeekData(selectedDate, key) {
     console.log(key)
     let weekLongArray = this.createWeekLongArray(selectedDate);
@@ -71,18 +82,6 @@ class User {
       return null
     })
   }
-
-  findMilesWalked(selectedDate) {
-    //this function could be combined with findMinutesActive
-    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
-    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
-  };
-  
-  findMinutesActive(selectedDate) {
-    let actData = this.activityData.find(day => day.date === selectedDate)
-    return actData.minutesActive
-  }
-
 
   findWeekAvgActiveMinutes(selectedDate) {
     let weekLongArray = this.createWeekLongArray(selectedDate);
