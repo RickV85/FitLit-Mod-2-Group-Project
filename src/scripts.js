@@ -28,10 +28,11 @@ const userGoalMet = document.getElementById('userGoalMet');
 const userMinutes = document.getElementById('userMinutes');
 const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
-const weekActivityDataChart = document.querySelector('.week-activity-data-chart')
+const weekActivityDataChart = document.getElementById('weekData');
 const weekMinutesActive = document.getElementById('minutesActive')
 const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
 const activityChartsButton = document.querySelector('.more-activity-display-button') 
+const userStepsButton = document.querySelector('.activity-display-button')
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
 const userActButton = document.getElementById('userStatsButton');
@@ -128,6 +129,8 @@ function updateDOM() {
     activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
     activityCharts.updateStepsWeeklyChart();
+    activityCharts.updateMinutesActiveWeeklyChart(); 
+    activityCharts.updateStairsClimbedWeeklyChart();
 };
 
 function showPersonalizedWelcome() {
@@ -227,7 +230,8 @@ function displayActivityData() {
     displayActiviteMinutesData();
     hideDayStepData();
     hideCompStepData();
-    activityChartsButton.classList.add('hidden');
+    activityChartsButton.classList.add('hidden')
+    userStepsButton.classList.remove('hidden')
     weekActivityDataChart.classList.remove('hidden');
 };
 
@@ -240,6 +244,7 @@ function hideCompStepData() {
 };
 
 function hideActivityData() {
+    activityChartsButton.classList.add('hidden');
     weekActivityDataChart.classList.add('hidden')
 }
 
@@ -262,7 +267,8 @@ function displayStairsComparison() {
 
 function displayActiviteMinutesData() {
     const today = userRepo.selectedUser.findLatestDate('activityData')
-    weekMinutesActive.innerText = `You were active for ${userRepo.calculateAllUserAvgActivity(today, 'minutesActive')} minute(s) today`
+    weekMinutesActive.innerText = `You were active for ${userRepo.selectedUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
+    console.log('hi')
 };
 
 function displayHydrationData() {

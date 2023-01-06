@@ -16,7 +16,7 @@ let todaysActivityChart;
 let stepComparisonChart;
 let minComparisonChart;
 let weeksStepChart;
-let weeksMinutesActiveChart;
+let weeksMinutesActivityChart;
 let weeksflightsOfStairsChart;
 let sleepDblDataChart;
 let todaysHydroChart;
@@ -242,7 +242,7 @@ const updateStepsWeeklyChart = () => {
 const updateMinutesActiveWeeklyChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
     const minutesActiveData = assignActivityChartData(todaysDate, 'minutesActive');
-    weeksActivityChart = new Chart(minutesActiveWeekChart , {
+    weeksMinutesActivityChart = new Chart(minutesActiveWeekChart , {
         type: 'bar',
         data: {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
