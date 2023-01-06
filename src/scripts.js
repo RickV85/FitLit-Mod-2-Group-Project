@@ -28,6 +28,10 @@ const userGoalMet = document.getElementById('userGoalMet');
 const userMinutes = document.getElementById('userMinutes');
 const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
+const weekActivityDataChart = document.querySelector('.week-activity-data-chart')
+const weekMinutesActive = document.getElementById('minutesActive')
+const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
+const activityChartsButton = document.querySelector('.more-activity-display-button') 
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
 const userActButton = document.getElementById('userStatsButton');
@@ -69,6 +73,7 @@ window.addEventListener('load', function () {
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
 compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
+activityChartsButton.addEventListener('click', displayActivityData)
 userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
 dropDownButton.addEventListener('click', showDropDownOptions);
 stepsInputButton.addEventListener('click', () => {
@@ -186,6 +191,7 @@ function displayDayStepData() {
     //display weeks activity charts
 
     hideCompStepData();
+    hideActivityData();
     userStepsData.classList.remove('hidden');
 }
 
@@ -212,7 +218,17 @@ function displayCompStepData() {
     displayStepGoalComparison();
     displayStairsComparison();
     hideDayStepData();
+    hideActivityData();
+    activityChartsButton.classList.remove('hidden')
     compStepsData.classList.remove('hidden');
+};
+
+function displayActivityData() {
+    displayActiviteMinutesData();
+    hideDayStepData();
+    hideCompStepData();
+    activityChartsButton.classList.add('hidden');
+    weekActivityDataChart.classList.remove('hidden');
 };
 
 function hideDayStepData() {
@@ -222,6 +238,10 @@ function hideDayStepData() {
 function hideCompStepData() {
     compStepsData.classList.add('hidden');
 };
+
+function hideActivityData() {
+    weekActivityDataChart.classList.add('hidden')
+}
 
 function displayStepGoalComparison() {
     if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
@@ -239,6 +259,12 @@ function displayStairsComparison() {
     stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
     stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
 }
+
+function displayActiviteMinutesData() {
+    const today = userRepo.selectedUser.findLatestDate('activityData')
+    weekMinutesActive.innerText = `You were active for ${userRepo.calculateAllUserAvgActivity(today, 'minutesActive')} minute(s) today`
+};
+
 function displayHydrationData() {
     const lastHydration = currentUser.findLatestDate('hydrationData');
     const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
@@ -250,6 +276,7 @@ function displayHydrationData() {
         hydrationGoal.innerText = 'You have met the daily recommendation, great job!';
     }
 };
+
 
 function displaySleepData() { //this can be refactored with some dynamic helper functions
     const today = currentUser.findLatestDate('sleepData');
