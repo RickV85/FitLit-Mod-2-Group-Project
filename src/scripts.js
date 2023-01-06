@@ -95,6 +95,7 @@ function updateDOM() {
     activityCharts.updateSleepChart();
     activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
+    activityCharts.updateStepsWeeklyChart();
 };
 
 function showPersonalizedWelcome() {
