@@ -67,17 +67,17 @@ sleepInputButton.addEventListener('click', () => {
   showDropDownOptions();
   showInputForms(sleepDataEntryForm);
 });
-activityDataSubmitButton.addEventListener('click', () => {
+activityDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(activityDataEntryForm);
-  userDataSubmit(activityDataSubmitButton);
+  userDataSubmit(activityDataSubmitButton, event);
 });
-hydroDataSubmitButton.addEventListener('click', () => {
+hydrationDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(hydrationDataEntryForm);
-  userDataSubmit(hydroDataSubmitButton);
+  userDataSubmit(hydroDataSubmitButton, event);
 });
-sleepDataSubmitButton.addEventListener('click', () => {
+sleepDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(sleepDataEntryForm);
-  userDataSubmit(sleepDataSubmitButton);
+  userDataSubmit(sleepDataSubmitButton, event);
 });
 
 
@@ -153,7 +153,12 @@ function showInputForms(idOfForm) {
   idOfForm.classList.toggle("show");
 }
 
-function userDataSubmit(idOfButton) {
+function userDataSubmit(idOfButton, event) {
+  // event.preventDefault();
+  
+  // const formData = new FormData(this);
+  // console.log(formData);
+  
 // Not sure what to do here yet or if we need this function
 // There seems to be ways to post directly from the input form and submit button.
 // I left the empty fields in the submit buttons that can post.
