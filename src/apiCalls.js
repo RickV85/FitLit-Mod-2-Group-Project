@@ -7,7 +7,7 @@ const dataDisplay = document.getElementById('dataDisplay')
 const errorMessageDisplay = document.querySelector('.error-message')
 const errorMessageId = document.getElementById('errorMessage')
 
-function errorHandeling(message, display) {
+function errorHandling(message, display) {
     if (display === 'error') {
         dataDisplay.classList.add('hidden')
         errorMessageDisplay.classList.remove('hidden')
@@ -28,12 +28,12 @@ function loadUserData() {
             throw Promise.reject(response)
         })
         .then((data) => {
-            errorHandeling('message', 'noError')
+            errorHandling('message', 'noError')
             userData = data.userData
             return userData
         })
         .catch((response) => {
-            errorHandeling('Sorry, the server is down. Try again later', 'error')
+            errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         });
 }
@@ -47,12 +47,12 @@ function loadSleepData() {
         throw Promise.reject(response)
     })
         .then((data) => {
-            errorHandeling('message', 'noError')
+            errorHandling('message', 'noError')
             sleepData = data.sleepData;
             return sleepData;
         })
         .catch((response) => {
-            errorHandeling('Sorry, the server is down. Try again later', 'error')
+            errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
 }
@@ -66,12 +66,12 @@ function loadHydrationData() {
         throw Promise.reject(response)
     })
         .then((data) => {
-            errorHandeling('message', 'noError')
+            errorHandling('message', 'noError')
             hydroData = data.hydrationData;
             return hydroData;
         })
         .catch((response) => {
-            errorHandeling('Sorry, the server is down. Try again later', 'error')
+            errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
 }
@@ -85,13 +85,37 @@ function loadActivityData() {
         throw Promise.reject(response)
     })
         .then((data) => {
-            errorHandeling('message', 'noError')
+            errorHandling('message', 'noError')
             activityData = data.activityData;
             return activityData;
         })
         .catch((response) => {
-            errorHandeling('Sorry, the server is down. Try again later', 'error')
+            errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
 }
+function postUserData(type, postData) {
+  let url = `http://localhost:3001/api/v1/${type}`;
+  
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(postData),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(response => {
+    if(!response.ok) {
+      throw new Error("Data failed to post");
+    }
+    return response.json();
+  })
+  .then(response => {
+    // Display to the user the data they just posted
+    // DESTROY charts
+    // GET request for all new data
+    // Re-render without reloading page
+  })
+  .catch(err => console.log(err))
+}
+
+
 export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData };
