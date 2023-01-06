@@ -250,7 +250,6 @@ const updateMinutesActiveWeeklyChart = () => {
                 {
                     label: 'Daily Steps',
                     data: minutesActiveData,
-                    type: 'line',
                     backgroundColor: ['#BF1263'],
                 }
             ],
@@ -274,7 +273,6 @@ const updateStairsClimbedWeeklyChart = () => {
                 {
                     label: 'Daily Steps',
                     data: flightsOfStairsData,
-                    type: 'line',
                     backgroundColor: ['#BF1263'],
                 }
             ],

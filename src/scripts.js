@@ -72,28 +72,28 @@ compareActButton.addEventListener('click', displayCompStepData);//display charts
 userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
 dropDownButton.addEventListener('click', showDropDownOptions);
 stepsInputButton.addEventListener('click', () => {
-  showDropDownOptions();
-  showInputForms(activityDataEntryForm);
+    showDropDownOptions();
+    showInputForms(activityDataEntryForm);
 });
 hydrationInputButton.addEventListener('click', () => {
-  showDropDownOptions();
-  showInputForms(hydrationDataEntryForm);
+    showDropDownOptions();
+    showInputForms(hydrationDataEntryForm);
 });
 sleepInputButton.addEventListener('click', () => {
-  showDropDownOptions();
-  showInputForms(sleepDataEntryForm);
+    showDropDownOptions();
+    showInputForms(sleepDataEntryForm);
 });
 activityDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(activityDataEntryForm);
-  userDataSubmit(activityDataSubmitButton, event);
+    showInputForms(activityDataEntryForm);
+    userDataSubmit(activityDataSubmitButton, event);
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(hydrationDataEntryForm);
-  userDataSubmit(hydroDataSubmitButton, event);
+    showInputForms(hydrationDataEntryForm);
+    userDataSubmit(hydroDataSubmitButton, event);
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(sleepDataEntryForm);
-  userDataSubmit(sleepDataSubmitButton, event);
+    showInputForms(sleepDataEntryForm);
+    userDataSubmit(sleepDataSubmitButton, event);
 });
 
 
@@ -108,14 +108,14 @@ function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
     displaySelectedUserInformation();
-    
+
     displayDayStepData();
-    
+
     displayHydrationData();
     displaySleepData();
     //charts need to be updated on page load even if they are hidden
     //charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
-        //might have to import the chart elements themselves for that? or create new queries here...
+    //might have to import the chart elements themselves for that? or create new queries here...
     activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
     activityCharts.updateMinChart();
@@ -139,7 +139,7 @@ function showUserInfoDisplay() {
     userName.innerText = `${currentUser.name}`;
     userAvatar.innerText = selectRandom(profileEmojis);
     userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
-// Added conditional in case user ID is not found
+    // Added conditional in case user ID is not found
     currentUser.friends.forEach(friend => {
         if (userRepo.findUser(friend)) {
             friendsDisplay.innerHTML += `
@@ -169,7 +169,7 @@ function toggleProfileInfo() {
 
 function displayGoalMet(selectedDate) {
     daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
-    if(userRepo.selectedUser.checkStepGoal(selectedDate)) {
+    if (userRepo.selectedUser.checkStepGoal(selectedDate)) {
         userGoalMet.innerText = 'Way to go, you met your goal!';
     } else {
         userGoalMet.innerText = 'Keep moving to meet your goal!';
@@ -182,30 +182,30 @@ function displayDayStepData() {
     displayGoalMet(today);
     userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
     userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
-    
+
     //display weeks activity charts
 
     hideCompStepData();
     userStepsData.classList.remove('hidden');
 }
 
-function showDropDownOptions(){
+function showDropDownOptions() {
     dropDownOptions.classList.toggle("show")
 }
 
 function showInputForms(idOfForm) {
-  idOfForm.classList.toggle("show");
+    idOfForm.classList.toggle("show");
 }
 
 function userDataSubmit(idOfButton, event) {
-  // event.preventDefault();
-  
-  // const formData = new FormData(this);
-  // console.log(formData);
-  
-// Not sure what to do here yet or if we need this function
-// There seems to be ways to post directly from the input form and submit button.
-// I left the empty fields in the submit buttons that can post.
+    // event.preventDefault();
+
+    // const formData = new FormData(this);
+    // console.log(formData);
+
+    // Not sure what to do here yet or if we need this function
+    // There seems to be ways to post directly from the input form and submit button.
+    // I left the empty fields in the submit buttons that can post.
 }
 
 function displayCompStepData() {
@@ -224,14 +224,14 @@ function hideCompStepData() {
 };
 
 function displayStepGoalComparison() {
-  if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
-    let stepGoalDiff =  userRepo.selectedUser.dailyStepGoal - userRepo.averageSteps();
-    stepGoalVsAvg.innerText = `Nice work! Your step goal is
+    if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
+        let stepGoalDiff = userRepo.selectedUser.dailyStepGoal - userRepo.averageSteps();
+        stepGoalVsAvg.innerText = `Nice work! Your step goal is
     ${stepGoalDiff} steps above average!`;
-  } else {
-    let stepGoalDiff =  userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
-    stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
-  }
+    } else {
+        let stepGoalDiff = userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
+        stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
+    }
 }
 
 function displayStairsComparison() {
@@ -265,7 +265,7 @@ function displaySleepData() { //this can be refactored with some dynamic helper 
 }
 
 function displaySelectedUserInformation() {
-  userProfile.innerText = `Mailing Address:
+    userProfile.innerText = `Mailing Address:
   ${currentUser.address}
 
   Email Address:
