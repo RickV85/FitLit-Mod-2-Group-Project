@@ -197,7 +197,7 @@ function showInputForms(idOfForm) {
 }
 
 function userDataSubmit(idOfButton, event) {
-  // event.preventDefault();
+  event.preventDefault();
   
   // const formData = new FormData(this);
   // console.log(formData);
