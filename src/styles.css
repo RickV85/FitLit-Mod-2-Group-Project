@@ -38,6 +38,20 @@ html {
   justify-content: space-evenly;
 } */
 
+.error-message {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message-text {
+  font-size: xx-large;
+  padding: 10px;
+  border: 5px solid red;
+}
+
+
 .data-display {
   height: 95vh;
   overflow: auto;
@@ -115,8 +129,19 @@ html {
   text-align: center;
 }
 
-.walking-icon {
-  height: 20vh;
+.activity-display-button {
+  background-color: #FBA03F;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  border: none;
+}
+.activity-display-button:hover {
+  outline: #BF1363;
+  outline-style: solid;
+  outline-offset: -1px;
+  outline-width: 4px;
+  cursor: pointer;
 }
 
 .week-step-chart,
@@ -134,7 +159,7 @@ html {
   margin-top: 2vh;
 }
 
-.day-hydro {
+.doughnut {
   height: 27vh;
   display: flex;
   align-items: center;
@@ -247,8 +272,7 @@ html {
   flex-direction: column;
 }
 
-
-@media (max-width: 860px) {
+@media (max-width: 740px) {
 
   .data-display {
     height: 270vh;

@@ -24,23 +24,43 @@ class User {
   };
 
   findLatestDate(dataProperty) {
-    console.log("find latest date for: ", dataProperty)
     const lastIndex = (this[dataProperty].length) - 1;
-    console.log("last index: ", lastIndex)
     this.sortUserArrays(dataProperty);
-    console.log('returning:', this[dataProperty][lastIndex].date)
     return this[dataProperty][lastIndex].date;
   };
 
   findDaysHydration(selectedDate) {
-    var result = this.hydrationData.find(day => day.date === selectedDate);
+    const result = this.hydrationData.find(day => day.date === selectedDate);
     return result;
   };
-
+  
   findDaySleepData(sleepKey, date) {
     return this.sleepData.find(day => day.date === date)[sleepKey];
   };
+  
+  findDayActivity(selectedDate, activityKey) {
+    let actData = this.activityData.find(day => day.date === selectedDate);
+    return actData[activityKey];
+  };
 
+  averageSleepData(sleepKey) {
+    return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
+  };
+
+
+  findSevenDays(selectedDate, nextDate){
+    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/");
+  }
+
+  createWeekLongArray(selectedDate) {
+    const weekLongArray = [];
+    for (let i = 6; i > -1 ; i--){
+      const singleDate = this.findSevenDays(selectedDate, i);
+      weekLongArray.push(singleDate.toString());
+    }
+    return weekLongArray;
+  }
+  
   findMilesWalked(selectedDate) {
     //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
@@ -51,50 +71,19 @@ class User {
     let actData = this.activityData.find(day => day.date === selectedDate)
     return actData.minutesActive
   }
-
-  averageSleepData(sleepKey) {
-    return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
-  };
-  findSevenDays(selectedDate, nextDate){
-    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
-  }
-
-  createWeekLongArray(selectedDate) {
-    const weekLongArray = []
-    for (let i = 6; i > -1 ; i--){
-      var singleDate = this.findSevenDays(selectedDate, i)
-      weekLongArray.push(singleDate.toString())
-    }
-    return weekLongArray;
-  }
-
-// We could combine these next two (possibly 3?) functions with use of a 2nd param
-// but I don't want to mess up anything downstream RN
-  findWeekHydration(selectedDate) {
-    let weekLongArray = this.createWeekLongArray(selectedDate);
-    
-    return weekLongArray.map(day => {
-      var date = this.hydrationData.find(data => data.date === day) 
-      if (date){
-        return date
-      } 
-      return null
-    })
-  };
-  //this is relying on userdata to determine what a week is. we can set the week initially and find any dates that match any of those dates
-  //if the userdata doesnt exist, put null or empty object in the array (dynamic for hoursSlept or sleepQuality)
-  findWeekSleep(selectedDate){
-    let weekLongArray = this.createWeekLongArray(selectedDate);
-
-    return weekLongArray.map(day => {
-      var date = this.sleepData.find(data => data.date === day) 
-      if (date){
-        return date
-      } 
-      return null
-    })
-  } 
   
+  findWeekData(selectedDate, key) {
+    let weekLongArray = this.createWeekLongArray(selectedDate);
+
+    return weekLongArray.map(day => {
+      let date = this[key].find(data => data.date === day) 
+      if (date){
+        return date
+      } 
+      return null
+    })
+  }
+
   findWeekAvgActiveMinutes(selectedDate) {
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
@@ -117,25 +106,25 @@ class User {
   checkStepGoal(selectedDate) {
     let actForDate = this.activityData.find(actData => actData.date === selectedDate)
     if (actForDate === undefined) {
-      return undefined
+      return undefined;
     }
     if (this.dailyStepGoal <= actForDate.numSteps) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     } 
   }
 
   findDatesOfStepGoalsMet() {
-    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal)
-    return stepGoalArray.map(arrayElement => arrayElement.date)
+    let stepGoalArray = this.activityData.filter(data => data.numSteps > this.dailyStepGoal);
+    return stepGoalArray.map(arrayElement => arrayElement.date);
   }
 
   findMostStairsClimbed() {
     this.activityData.sort((a,b) => {
-      return b.flightsOfStairs - a.flightsOfStairs
+      return b.flightsOfStairs - a.flightsOfStairs;
     })
-    return this.activityData[0].flightsOfStairs
+    return this.activityData[0].flightsOfStairs;
   }
 };
 
