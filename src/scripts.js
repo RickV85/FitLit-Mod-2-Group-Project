@@ -59,11 +59,12 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
-        .then((values) => {
-            parseData(values);
-            updateDOM();
-        });
+  Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
+      .then((values) => {
+          parseData(values);
+          updateDOM();
+      });
+  setTodaysDateToMaxDate();
 });
 
 userAvatar.addEventListener('click', toggleProfileInfo);
@@ -264,6 +265,20 @@ function displaySelectedUserInformation() {
 
   Stride Length:
   ${currentUser.strideLength} feet`;
+}
+
+function setTodaysDateToMaxDate() {
+  let today = new Date();
+
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+
+  today = `${yyyy}-${mm}-${dd}`;
+  
+  document.getElementById("stepCalendar").setAttribute("max", today);
+  document.getElementById("hydrationCalendar").setAttribute("max", today);
+  document.getElementById("sleepCalendar").setAttribute("max", today);
 }
 
 export { userRepo };
