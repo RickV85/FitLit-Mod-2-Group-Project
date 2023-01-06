@@ -222,10 +222,6 @@ function hideCompStepData() {
     compStepsData.classList.add('hidden');
 };
 
-function showDropDownOptions(){
-    dropDownOptions.classList.toggle("show");
-};
-
 function displayStepGoalComparison() {
   if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
     let stepGoalDiff =  userRepo.selectedUser.dailyStepGoal - userRepo.averageSteps();
