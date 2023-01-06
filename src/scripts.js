@@ -31,7 +31,12 @@ const dropDownOptions = document.getElementById('dropdown-content')
 const stepsInputButton = document.getElementById('steps-selection')
 const hydrationInputButton = document.getElementById('hydration-selection')
 const sleepInputButton = document.getElementById('sleep-selection')
-const dropdownSection = document.getElementById('input')
+const activityDataEntryForm = document.getElementById('activityDataEntryForm')
+const hydrationDataEntryForm = document.getElementById('hydrationDataEntryForm')
+const sleepDataEntryForm = document.getElementById('sleepDataEntryForm')
+const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')
+const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
+const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 
 // Global variables
 let userRepo;
@@ -40,7 +45,7 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise]) //add activityPromise
+    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
         .then((values) => {
             parseData(values);
             updateDOM();
@@ -62,6 +67,20 @@ sleepInputButton.addEventListener('click', () => {
   showDropDownOptions();
   showInputForms(sleepDataEntryForm);
 });
+activityDataSubmitButton.addEventListener('click', () => {
+  showInputForms(activityDataEntryForm);
+  userDataSubmit(activityDataSubmitButton);
+});
+hydroDataSubmitButton.addEventListener('click', () => {
+  showInputForms(hydrationDataEntryForm);
+  userDataSubmit(hydroDataSubmitButton);
+});
+sleepDataSubmitButton.addEventListener('click', () => {
+  showInputForms(sleepDataEntryForm);
+  userDataSubmit(sleepDataSubmitButton);
+});
+
+
 
 function parseData(values) {
     //do this part after userRepo and user class are updated to accomodate activity data
@@ -131,8 +150,13 @@ function showDropDownOptions(){
 }
 
 function showInputForms(idOfForm) {
-  // dropdownSection.classList.toggle("hidden");
   idOfForm.classList.toggle("show");
+}
+
+function userDataSubmit(idOfButton) {
+// Not sure what to do here yet or if we need this function
+// There seems to be ways to post directly from the input form and submit button.
+// I left the empty fields in the submit buttons that can post.
 }
 
 function displayStepGoalComparison() {

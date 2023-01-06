@@ -58,11 +58,12 @@ html {
   display: none;
   width: 15vw;
   height: fit-content;
+  overflow-x: auto;
   align-items: center;
   flex-direction: column;
   background-color:#78C1E7;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: 3px;
+  font-size: 10px;
   margin-top: 5px;
 }
 
