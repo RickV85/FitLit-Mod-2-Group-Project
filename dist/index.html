@@ -22,6 +22,15 @@
       </section>
     </nav>
     <section class="data-display">
+     <section class="error-message hidden">
+      <p class="error-message-text" id="errorMessage"></p>
+    </section>
+    <section class="data-display" id="dataDisplay">
+      <aside class="user-tab">
+        <button type="onClick" class="user-avatar" id="userAvatar"></button>
+        <p class="user-name" id="userName"></p>
+        <section class="friends-profile" id="friends"></section>
+        <section class="profile hidden" id="profile"></section>
       <nav class="side-nav" id="side-navigation">
         <aside class="user-tab">
           <button type="onClick" class="user-avatar" id="userAvatar"></button>
@@ -39,7 +48,7 @@
             </div>
           </div>
         </aside>
-      </nav>  
+      </nav>
       <section class="fit-data-section" id="steps">
         <h2 class="fit-data-header">Steps</h2>
         <article  class="user-data fit-data-section" id="userData">

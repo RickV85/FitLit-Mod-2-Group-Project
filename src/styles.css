@@ -32,6 +32,19 @@ html {
   width: 6vw;
 }
 
+.error-message {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message-text {
+  font-size: xx-large;
+  padding: 10px;
+  border: 5px solid red;
+}
+
 .data-display {
   height: 95vh;
   display: flex;
