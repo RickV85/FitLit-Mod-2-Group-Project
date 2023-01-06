@@ -24,6 +24,7 @@ class User {
   };
 
   findLatestDate(dataProperty) {
+    console.log("find latest date for: ", dataProperty)
     const lastIndex = (this[dataProperty].length) - 1;
     this.sortUserArrays(dataProperty);
     return this[dataProperty][lastIndex].date;
@@ -33,15 +34,9 @@ class User {
     var result = this.hydrationData.find(day => day.date === selectedDate);
     return result;
   };
-
+  
   findDaySleepData(sleepKey, date) {
     return this.sleepData.find(day => day.date === date)[sleepKey];
-  };
-
-  findMilesWalked(selectedDate) {
-    //this function could be combined with findMinutesActive
-    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
-    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
   
   findDayActivity(selectedDate, activityKey) {
@@ -52,6 +47,7 @@ class User {
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
+
 
   findSevenDays(selectedDate, nextDate){
     return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
@@ -65,33 +61,32 @@ class User {
     }
     return weekLongArray;
   }
-
-// We could combine these next two (possibly 3?) functions with use of a 2nd param
-// but I don't want to mess up anything downstream RN
-  findWeekHydration(selectedDate) {
-    let weekLongArray = this.createWeekLongArray(selectedDate);
-    
-    return weekLongArray.map(day => {
-      var date = this.hydrationData.find(data => data.date === day) 
-      if (date){
-        return date
-      } 
-      return null
-    })
-  };
-
-  findWeekSleep(selectedDate){
-    let weekLongArray = this.createWeekLongArray(selectedDate);
-
-    return weekLongArray.map(day => {
-      var date = this.sleepData.find(data => data.date === day) 
-      if (date){
-        return date
-      } 
-      return null
-    })
-  } 
   
+  findMilesWalked(selectedDate) {
+    //this function could be combined with findMinutesActive
+    let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+  };
+  
+  findMinutesActive(selectedDate) {
+    let actData = this.activityData.find(day => day.date === selectedDate)
+    return actData.minutesActive
+  }
+  
+  findWeekData(selectedDate, key) {
+    console.log(key)
+    let weekLongArray = this.createWeekLongArray(selectedDate);
+
+    return weekLongArray.map(day => {
+      let date = this[key].find(data => data.date === day) 
+      console.log(date)
+      if (date){
+        return date
+      } 
+      return null
+    })
+  }
+
   findWeekAvgActiveMinutes(selectedDate) {
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
