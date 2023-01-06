@@ -197,7 +197,11 @@ describe('User', function () {
   })
 
   it('should return number of minutes active for a given day', function () {
-    expect(selectedUser.findMinutesActive("2019/06/15")).to.equal(168)
+    expect(selectedUser.findDayActivity("2019/06/15", "minutesActive")).to.equal(168)
+  })
+
+  it('should return number of steps for a given day', function () {
+    expect(selectedUser.findDayActivity("2019/06/15", "numSteps")).to.equal(9052)
   })
 
   it('should return the average number of minutes active for a given 7 days', function () {
