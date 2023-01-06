@@ -40,6 +40,7 @@ html {
 
 .data-display {
   height: 95vh;
+  overflow: auto;
   display: flex;
   justify-content: space-around;
   background-color: #191923;
@@ -61,19 +62,22 @@ html {
   flex-direction: column;
   background-color:#78C1E7;
   border-radius: 10px;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
-/* .input-section {
+.form-section {
 
-} */
+}
 
 .input-form-headings {
   text-align: center;
-  font-weight: 300;
+  margin-bottom: 5px;
 }
 
 .user-input-labels {
   text-align: center;
+  font-size: 10px;
 }
 
 .user-input-fields {
@@ -83,6 +87,8 @@ html {
 .user-data-submit-button {
   width: fit-content;
   height: fit-content;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 .fit-data-section {
@@ -177,7 +183,7 @@ html {
 .user-tab {
   height: 55vh;
   width: 15vw;
-  margin-top: 3%;
+  margin-top: 20%;
   margin-bottom: 3%;
   background-color: #78C1E7;
   border-radius: 10px;
@@ -211,7 +217,7 @@ html {
   border-radius: 3px;
   color: #191923;
   padding: 5px;
-  font-size: 15px;
+  font-size: 14px;
   border: none;
   cursor: pointer;
   width: 100%;
@@ -241,7 +247,7 @@ html {
 }
 
 
-@media (max-width: 740px) {
+@media (max-width: 860px) {
 
   .data-display {
     height: 270vh;
