@@ -21,7 +21,8 @@
         <p class="welcome-banner-right"></p>
       </section>
     </nav>
-    <section class="error-message hidden">
+    <section class="data-display">
+     <section class="error-message hidden">
       <p class="error-message-text" id="errorMessage"></p>
     </section>
     <section class="data-display" id="dataDisplay">
@@ -30,15 +31,75 @@
         <p class="user-name" id="userName"></p>
         <section class="friends-profile" id="friends"></section>
         <section class="profile hidden" id="profile"></section>
-      </aside>
+      <nav class="side-nav" id="side-navigation">
+        <aside class="user-tab">
+          <button type="onClick" class="user-avatar" id="userAvatar"></button>
+          <p class="user-name" id="userName"></p>
+          <section class="friends-profile" id="friends"></section>
+          <section class="profile hidden" id="profile"></section>
+        </aside>
+        <aside class="input-section" id="input"> 
+          <div class="dropdown">
+            <button class="dropbutton" id="dropdown-button">Add a Workout</button>
+            <div class="data-dropdown" id="dropdown-content">
+              <button class="select-steps drop-option" id="steps-selection">Add Step Data</button>
+              <button class="select-hydration drop-option" id="hydration-selection">Add Hydration Data</button>
+              <button class="select-sleep drop-option" id="sleep-selection">Add Sleep Data</button>
+            </div>
+          </div>
+        </aside>
+      </nav>
       <section class="fit-data-section" id="steps">
         <h2 class="fit-data-header">Steps</h2>
-        <img src="./images/walkingIcon.svg" class="walking-icon" alt="walking person icon">
-        <h4 class="fit-data chart-header">Your Step Goal vs. Average Step Goal</h4>
-        <p class="fit-data highlight" id="stepGoalVsAvg"></p>
-        <div class="fit-data week-step-chart">
-          <canvas id="stepGoalChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
-        </div>
+        <article  class="user-data fit-data-section" id="userData">
+          <div>
+            <h4 class="fit-data chart-header" id="daySteps">Today's Steps</h4>
+            <div class="fit-data doughnut day-steps-chart">
+              <canvas id="dayStepsChart" aria-label="todays activity data chart"></canvas>
+            </div>
+            <p class="fit-data highlight" id="userGoalMet"></p>
+            <p class="fit-data highlight" id="userMiles"></p>
+            <p class="fit-data highlight" id="userMinutes"></p>
+          </div>
+          <div>
+            <h4 class="fit-data chart-header">Your Activity for the Last 7 Days</h4>
+            <div class="fit-data week-steps-chart">
+              <canvas id="weeksStepsChart" aria-label="7-day activity data chart"></canvas>
+            </div>
+            <p class="fit-data highlight" id="avgWeekMin"></p>
+          </div>
+          <button class="activity-display-button" id ="compareStatsButton">Compare Your Stats</button>
+        </article>
+        <article class="comp-data fit-data-section hidden" id="compData">
+          <div>
+            <h4 class="fit-data chart-header">Your Steps vs. Average Steps</h4>
+            <div class="fit-data week-step-chart">
+              <canvas id="stepCompChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
+            </div>
+            <p class="fit-data highlight" id="stepGoalVsAvg"></p>
+          </div>
+          <!-- <div>
+          <h4 class="fit-data chart-header">Your Steps vs. Average Steps</h4>
+            <div class="fit-data week-step-chart">
+              <canvas id="stepCompChart" aria-label="User steps versus all user's average steps chart"></canvas>
+            </div>
+          </div> -->
+          <div>
+            <h4 class="fit-data chart-header">Your Activity vs. Average Activity</h4>
+              <div class="fit-data week-step-chart">
+                <canvas id="minCompChart" aria-label="User activity versus all user's average activity chart"></canvas>
+              </div>
+            </div>
+            <p class="fit-data highlight" id="stairsAvg"></p>
+            <p class="fit-data highlight" id="stairsUser"></p>
+            <!-- <div>
+              <h4 class="fit-data chart-header">Your Stairs vs. Average Stairs</h4>
+                <div class="fit-data week-step-chart">
+                  <canvas id="stairCompChart" aria-label="User stairs versus all user's average stairs chart"></canvas>
+                </div>
+              </div> -->
+          <button class="activity-display-button" id="userStatsButton">See Your Activity</button>
+        </article>
       </section>
       <section class="fit-data-section" id="sleep">
         <h2 class="fit-data-header">Sleep</h2>
@@ -63,10 +124,10 @@
       </section>
       <section class="fit-data-section" id="hydration">
           <h2 class="fit-data-header">Hydration</h2>
-          <div class="fit-data day-hydro">
+          <h4 class="fit-data chart-header" id="dayHydroHeader">Today's Hydration</h4>
+          <div class="fit-data doughnut day-hydro">
             <canvas id="todaysHydrationChart" aria-label="Today's hydration versus recommended intake"></canvas>
           </div>
-          <p class="fit-data highlight" id="hydrationToday"><!--insert today's hydration data here--></p>
           <p class="fit-data highlight" id="hydrationGoal"><!--Hydration comparison data here--></p>
           <h4 class="fit-data chart-header">Water Consumption for the Last 7 Days</h4>
           <div class="fit-data week-hydration-chart">

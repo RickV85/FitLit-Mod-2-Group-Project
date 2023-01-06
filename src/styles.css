@@ -83,8 +83,19 @@ html {
   text-align: center;
 }
 
-.walking-icon {
-  height: 20vh;
+.activity-display-button {
+  background-color: #FBA03F;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  border: none;
+}
+.activity-display-button:hover {
+  outline: #BF1363;
+  outline-style: solid;
+  outline-offset: -1px;
+  outline-width: 4px;
+  cursor: pointer;
 }
 
 .week-step-chart,
@@ -102,7 +113,7 @@ html {
   margin-top: 2vh;
 }
 
-.day-hydro {
+.doughnut {
   height: 27vh;
   display: flex;
   align-items: center;
@@ -181,6 +192,41 @@ html {
   display: none;
 }
 
+.dropbutton {
+  background-color: #78C1E7;
+  border-radius: 3px;
+  color: #191923;
+  padding: 5px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.data-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #FBFEF9;
+  overflow: auto;
+  width: 15%;
+}
+
+.drop-option {
+  border: 0;
+  padding: 5px;
+}
+
+.drop-option:hover {
+  cursor: pointer;
+  background-color: #FBFEF9;
+}
+
+.show {
+  display: flex;
+  flex-direction: column;
+}
+
+
 @media (max-width: 740px) {
 
   .data-display {
@@ -226,3 +272,4 @@ html {
     width: 40vw;
   }
 }
+

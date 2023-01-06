@@ -8,24 +8,44 @@ import randomGreetings from './data/randomGreetings';
 // Image imports
 import './images/walkingIcon.svg';
 
-// Query Selectors
+//Promises
 const userPromise = apiCalls.loadUserData();
 const hydrationPromise = apiCalls.loadHydrationData();
 const sleepPromise = apiCalls.loadSleepData();
 const activityPromise = apiCalls.loadActivityData();
-//new variable to hold apiCall for activity
 
+// Query Selectors
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
-const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const userProfile = document.querySelector('#profile');
 const userName = document.querySelector('#userName');
 const userAvatar = document.querySelector('#userAvatar');
-const hydrationToday = document.getElementById('hydrationToday');
+
+const userStepsData = document.getElementById('userData');
+const compStepsData = document.getElementById('compData');
+const daySteps = document.getElementById('daySteps');
+const userGoalMet = document.getElementById('userGoalMet');
+const userMinutes = document.getElementById('userMinutes');
+const userMiles = document.getElementById('userMiles');
+const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
+const avgWeekMin = document.getElementById('avgWeekMin');
+const compareActButton = document.getElementById('compareStatsButton');
+const userActButton = document.getElementById('userStatsButton');
+const stairsAvg = document.getElementById('stairsAvg');
+const stairsUser = document.getElementById('stairsUser');
+
+const hydrationToday = document.getElementById('dayHydroHeader');
 const hydrationGoal = document.getElementById('hydrationGoal');
+
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
+const dropDownButton = document.getElementById('dropdown-button')
+const dropDownOptions = document.getElementById('dropdown-content')
+const stepsInputButton = document.getElementById('steps-selection')
+const hydrationInputButton = document.getElementById('hydration-selection')
+const sleepInputButton = document.getElementById('sleep-selection')
+
 
 // Global variables
 let userRepo;
@@ -34,7 +54,7 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise]) //add activityPromise
+    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
         .then((values) => {
             parseData(values);
             updateDOM();
@@ -43,36 +63,48 @@ window.addEventListener('load', function () {
 
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
+compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
+userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
+
+dropDownButton.addEventListener('click', showDropDownOptions);
+stepsInputButton.addEventListener('click', showDropDownOptions);
+hydrationInputButton.addEventListener('click', showDropDownOptions)
+sleepInputButton.addEventListener('click', showDropDownOptions)
 
 function parseData(values) {
-    //do this part after userRepo and user class are updated to accomodate activity data
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
     currentUser = userRepo.selectedUser;
-    console.log(userRepo)
 }
 
 function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
-    displayStepGoalComparison();
     displaySelectedUserInformation();
+    
+    displayDayStepData();
+    
     displayHydrationData();
     displaySleepData();
-    activityCharts.updateHydroDateChart();
+    //charts need to be updated on page load even if they are hidden
+    //charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
+        //might have to import the chart elements themselves for that? or create new queries here...
+    activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
+    activityCharts.updateMinChart();
     activityCharts.updateSleepChart();
+    activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
-}
+};
 
 function showPersonalizedWelcome() {
     let selectedMsg = selectRandom(randomGreetings);
     welcomeMessage.innerText = `Welcome, ${currentUser.name}! ${selectedMsg}`;
-}
+};
 
 function selectRandom(selectedArray) {
     return selectedArray[Math.floor(Math.random() * selectedArray.length)];
-}
+};
 
 function showUserInfoDisplay() {
     friendsDisplay.innerText = ` `;
@@ -81,19 +113,19 @@ function showUserInfoDisplay() {
     userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
 // Added conditional in case user ID is not found
     currentUser.friends.forEach(friend => {
-      if (userRepo.findUser(friend)) {
-      friendsDisplay.innerHTML += `
-        <div class="single-friend">
-        <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
-        ${(userRepo.findUser(friend)).name}
-        </div>
+        if (userRepo.findUser(friend)) {
+            friendsDisplay.innerHTML += `
+            <div class="single-friend">
+            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
+            ${(userRepo.findUser(friend)).name}
+            </div>
         `;
-      } else {
-        friendsDisplay.innerHTML += `
-        <div class="single-friend">
-        <p> User not found </p>
+        } else {
+            friendsDisplay.innerHTML += `
+            <div class="single-friend">
+            <p> User not found </p>
         `;
-      }
+        }
     })
 }
 
@@ -104,8 +136,49 @@ function toggleProfileInfo() {
     } else {
         friendsDisplay.classList.remove('hidden');
         userProfile.classList.add('hidden');
-    }
+    };
+};
+
+function displayGoalMet(selectedDate) {
+    daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
+    if(userRepo.selectedUser.checkStepGoal(selectedDate)) {
+        userGoalMet.innerText = 'Way to go, you met your goal!';
+    } else {
+        userGoalMet.innerText = 'Keep moving to meet your goal!';
+    };
+};
+
+function displayDayStepData() {
+
+    const today = userRepo.selectedUser.findLatestDate('activityData');
+    displayGoalMet(today);
+    userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
+    userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
+    
+    //display weeks activity charts
+
+    hideCompStepData();
+    userStepsData.classList.remove('hidden');
 }
+
+function displayCompStepData() {
+    displayStepGoalComparison();
+    displayStairsComparison();
+    hideDayStepData();
+    compStepsData.classList.remove('hidden');
+};
+
+function hideDayStepData() {
+    userStepsData.classList.add('hidden');
+};
+
+function hideCompStepData() {
+    compStepsData.classList.add('hidden');
+};
+
+function showDropDownOptions(){
+    dropDownOptions.classList.toggle("show");
+};
 
 function displayStepGoalComparison() {
   if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
@@ -114,12 +187,15 @@ function displayStepGoalComparison() {
     ${stepGoalDiff} steps above average!`;
   } else {
     let stepGoalDiff =  userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
-    stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average.
-
-    Consider increasing your goal for your fitness.`;
+    stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
   }
 }
 
+function displayStairsComparison() {
+    const today = userRepo.selectedUser.findLatestDate('activityData')
+    stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
+    stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
+}
 function displayHydrationData() {
     const lastHydration = currentUser.findLatestDate('hydrationData');
     const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
@@ -132,7 +208,7 @@ function displayHydrationData() {
     }
 };
 
-function displaySleepData() {
+function displaySleepData() { //this can be refactored with some dynamic helper functions
     const today = currentUser.findLatestDate('sleepData');
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
@@ -140,6 +216,9 @@ function displaySleepData() {
     sleepHours = currentUser.averageSleepData('hoursSlept');
     sleepQuality = currentUser.averageSleepData('sleepQuality');
     sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+    sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
+    sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
+    sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
 }
 
 function displaySelectedUserInformation() {
