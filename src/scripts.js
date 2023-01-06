@@ -50,9 +50,18 @@ window.addEventListener('load', function () {
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
 dropDownButton.addEventListener('click', showDropDownOptions);
-stepsInputButton.addEventListener('click', showDropDownOptions);
-hydrationInputButton.addEventListener('click', showDropDownOptions)
-sleepInputButton.addEventListener('click', showDropDownOptions)
+stepsInputButton.addEventListener('click', () => {
+  showDropDownOptions();
+  showInputForms(activityDataEntryForm);
+});
+hydrationInputButton.addEventListener('click', () => {
+  showDropDownOptions();
+  showInputForms(hydrationDataEntryForm);
+});
+sleepInputButton.addEventListener('click', () => {
+  showDropDownOptions();
+  showInputForms(sleepDataEntryForm);
+});
 
 function parseData(values) {
     //do this part after userRepo and user class are updated to accomodate activity data
@@ -119,6 +128,10 @@ function toggleProfileInfo() {
 
 function showDropDownOptions(){
     dropDownOptions.classList.toggle("show")
+}
+
+function showInputForms(idOfForm) {
+  idOfForm.classList.toggle("show");
 }
 
 function displayStepGoalComparison() {

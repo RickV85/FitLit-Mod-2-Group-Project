@@ -47,12 +47,11 @@ html {
   justify-content: space-evenly;
 }
 
-/* Input and dropdown CSS here from Ryan? */
-
 .user-data-entry-form {
+  display: none;
   width: 15vw;
   height: fit-content;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   flex-direction: column;
   background-color:#78C1E7;
