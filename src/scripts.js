@@ -197,7 +197,7 @@ function showInputForms(idOfForm) {
 }
 
 function userDataSubmit(idOfButton, event) {
-  // event.preventDefault();
+  event.preventDefault();
   
   // const formData = new FormData(this);
   // console.log(formData);
@@ -220,10 +220,6 @@ function hideDayStepData() {
 
 function hideCompStepData() {
     compStepsData.classList.add('hidden');
-};
-
-function showDropDownOptions(){
-    dropDownOptions.classList.toggle("show");
 };
 
 function displayStepGoalComparison() {
