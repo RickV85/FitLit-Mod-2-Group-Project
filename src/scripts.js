@@ -92,20 +92,19 @@ function updateDOM() {
     activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
     activityCharts.updateMinChart();
-    //activityCharts.updateStepAvgChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroDateChart();
     activityCharts.updateHydroWeeklyChart();
-}
+};
 
 function showPersonalizedWelcome() {
     let selectedMsg = selectRandom(randomGreetings);
     welcomeMessage.innerText = `Welcome, ${currentUser.name}! ${selectedMsg}`;
-}
+};
 
 function selectRandom(selectedArray) {
     return selectedArray[Math.floor(Math.random() * selectedArray.length)];
-}
+};
 
 function showUserInfoDisplay() {
     friendsDisplay.innerText = ` `;
@@ -114,19 +113,19 @@ function showUserInfoDisplay() {
     userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
 // Added conditional in case user ID is not found
     currentUser.friends.forEach(friend => {
-      if (userRepo.findUser(friend)) {
-      friendsDisplay.innerHTML += `
-        <div class="single-friend">
-        <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
-        ${(userRepo.findUser(friend)).name}
-        </div>
+        if (userRepo.findUser(friend)) {
+            friendsDisplay.innerHTML += `
+            <div class="single-friend">
+            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
+            ${(userRepo.findUser(friend)).name}
+            </div>
         `;
-      } else {
-        friendsDisplay.innerHTML += `
-        <div class="single-friend">
-        <p> User not found </p>
+        } else {
+            friendsDisplay.innerHTML += `
+            <div class="single-friend">
+            <p> User not found </p>
         `;
-      }
+        }
     })
 }
 
@@ -137,17 +136,17 @@ function toggleProfileInfo() {
     } else {
         friendsDisplay.classList.remove('hidden');
         userProfile.classList.add('hidden');
-    }
-}
+    };
+};
 
 function displayGoalMet(selectedDate) {
     daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
     if(userRepo.selectedUser.checkStepGoal(selectedDate)) {
-        userGoalMet.innerText = 'Way to go, you met your goal!'
+        userGoalMet.innerText = 'Way to go, you met your goal!';
     } else {
-        userGoalMet.innerText = 'Keep moving to meet your goal!'
-    }
-}
+        userGoalMet.innerText = 'Keep moving to meet your goal!';
+    };
+};
 
 function displayDayStepData() {
 
@@ -163,25 +162,23 @@ function displayDayStepData() {
 }
 
 function displayCompStepData() {
-    //goal comparison
     displayStepGoalComparison();
-    //stairs comparison
     displayStairsComparison();
     hideDayStepData();
-    compStepsData.classList.remove('hidden')
-}
+    compStepsData.classList.remove('hidden');
+};
 
 function hideDayStepData() {
     userStepsData.classList.add('hidden');
-}
+};
 
 function hideCompStepData() {
-    compStepsData.classList.add('hidden')
-}
+    compStepsData.classList.add('hidden');
+};
 
 function showDropDownOptions(){
-    dropDownOptions.classList.toggle("show")
-}
+    dropDownOptions.classList.toggle("show");
+};
 
 function displayStepGoalComparison() {
   if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {

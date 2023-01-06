@@ -7,26 +7,21 @@ const hydroDayChart = document.getElementById("todaysHydrationChart").getContext
 const hydroWeekChart = document.getElementById("weeksHydrationChart").getContext('2d');
 const activityWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
 const activityDayChart = document.getElementById("dayStepsChart").getContext('2d');
-// const stepCompChart = document.getElementById("stepCompChart").getContext('2d');
 const minCompChart = document.getElementById("minCompChart").getContext('2d');
-//const stairCompChart = document.getElementById("stairCompChart").getContext('2d');
 
 
-//let goalComparisonChart;
 let todaysActivityChart;
 let stepComparisonChart;
 let minComparisonChart;
-//let stairComparisonChart;
 let weeksActivityChart;
-
 let sleepDblDataChart;
 let todaysHydroChart;
 let weeksHydroChart;
 
-
 const findStepsPercentage = (numSteps, goal) => {
     return numSteps < goal ? goal - numSteps : 0;
-}
+};
+
 const updateDaysActivityChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
     const daySteps = userRepo.selectedUser.findDayActivity(todaysDate, 'numSteps');
@@ -44,7 +39,7 @@ const updateDaysActivityChart = () => {
             ],
         }
     })
-}
+};
 
 const updateStepChart = () => {
     const today = userRepo.selectedUser.findLatestDate('activityData');
@@ -53,7 +48,7 @@ const updateStepChart = () => {
     const userGoal = userRepo.selectedUser.dailyStepGoal;
     const avgGoal = userRepo.averageSteps();
     
-    stepComparisonChart = new Chart(stepChart, { //check that the 2 variables are correct
+    stepComparisonChart = new Chart(stepChart, {
         type: 'bar',
         data: {
             datasets: [{
@@ -86,8 +81,8 @@ const updateStepChart = () => {
 
 const updateMinChart = () => {
     const today = userRepo.selectedUser.findLatestDate('activityData');
-    const userMinutes = userRepo.selectedUser.findDayActivity(today, 'minutesActive')
-    const avgMinutes = userRepo.calculateAllUserAvgActivity(today, 'minutesActive')
+    const userMinutes = userRepo.selectedUser.findDayActivity(today, 'minutesActive');
+    const avgMinutes = userRepo.calculateAllUserAvgActivity(today, 'minutesActive');
     minComparisonChart = new Chart(minCompChart, {
         type: 'bar',
         data: {
@@ -114,15 +109,11 @@ const updateMinChart = () => {
             },
         }
     })
-}
-
-
-
-
+};
 
 //if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
 const assignSleepChartData = (date, sleepKey) => {
-    return userRepo.selectedUser.findWeekSleep(date).map(element => {
+    return userRepo.selectedUser.findWeekData(date, 'sleepData').map(element => {
         if(element) {
             return element[sleepKey]
         }
@@ -156,11 +147,12 @@ const updateSleepChart = () => {
             maintainAspectRatio: false,
         }
     });
-}
+};
 
 const findHydroPercentage = (numDrunk, goal) => {
     return numDrunk < goal ? goal - numDrunk : 0;
-}
+};
+
 const updateHydroDateChart = () => {
     const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData');
     const numDrunk = userRepo.selectedUser.findDaysHydration(todaysDate).numOunces;
@@ -178,9 +170,10 @@ const updateHydroDateChart = () => {
             ],
         }
     })
-}
+};
+
 const assignHydrationChartData = (date) => {
-    return userRepo.selectedUser.findWeekHydration(date).map(element => {
+    return userRepo.selectedUser.findWeekData(date, 'hydrationData').map(element => {
         if(element) {
             return element.numOunces
         }
@@ -245,35 +238,5 @@ const updateHydroWeeklyChart = () => {
 //         }
 //     })
 // }
-        
-// const updateStepChart = () => {
-//     const userStepGoal = userRepo.selectedUser.dailyStepGoal
-//     const avgStepGoal = userRepo.averageSteps()
-//     goalComparisonChart = new Chart(stepChart, {
-//         type: 'bar',
-//         data: {
-//             labels: ['Average Step Goal', 'Your Step Goal'],
-//             datasets: [{
 
-//                 label: 'Step Goal',
-//                 data: [avgStepGoal, userStepGoal],
-//                 backgroundColor: ['#BF1363', '#F39237'],
-//             }]
-//         },
-//         options: {
-//             responsive: true, 
-//             maintainAspectRatio: false,
-//             scales: {
-//                 y: {
-//                     beginAtZero: true
-//                 },
-//             },
-//             plugins: {
-//                 legend: {
-//                     display: false
-//                 },
-//             },
-//         }
-//     })
-// }
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart }; //updateActivityWeekChart, updateStepAvgChart
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart }; //updateActivityWeekChart

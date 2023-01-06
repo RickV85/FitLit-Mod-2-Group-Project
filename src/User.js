@@ -24,14 +24,13 @@ class User {
   };
 
   findLatestDate(dataProperty) {
-    console.log("find latest date for: ", dataProperty)
     const lastIndex = (this[dataProperty].length) - 1;
     this.sortUserArrays(dataProperty);
     return this[dataProperty][lastIndex].date;
   };
 
   findDaysHydration(selectedDate) {
-    var result = this.hydrationData.find(day => day.date === selectedDate);
+    const result = this.hydrationData.find(day => day.date === selectedDate);
     return result;
   };
   
@@ -40,7 +39,7 @@ class User {
   };
   
   findDayActivity(selectedDate, activityKey) {
-    let actData = this.activityData.find(day => day.date === selectedDate)
+    let actData = this.activityData.find(day => day.date === selectedDate);
     return actData[activityKey];
   };
 
@@ -50,14 +49,14 @@ class User {
 
 
   findSevenDays(selectedDate, nextDate){
-    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/")
+    return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/");
   }
 
   createWeekLongArray(selectedDate) {
-    const weekLongArray = []
+    const weekLongArray = [];
     for (let i = 6; i > -1 ; i--){
-      var singleDate = this.findSevenDays(selectedDate, i)
-      weekLongArray.push(singleDate.toString())
+      const singleDate = this.findSevenDays(selectedDate, i);
+      weekLongArray.push(singleDate.toString());
     }
     return weekLongArray;
   }
@@ -74,12 +73,10 @@ class User {
   }
   
   findWeekData(selectedDate, key) {
-    console.log(key)
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
     return weekLongArray.map(day => {
       let date = this[key].find(data => data.date === day) 
-      console.log(date)
       if (date){
         return date
       } 
