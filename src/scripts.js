@@ -31,7 +31,8 @@ const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
 const userActButton = document.getElementById('userStatsButton');
-
+const stairsAvg = document.getElementById('stairsAvg');
+const stairsUser = document.getElementById('stairsUser');
 
 const hydrationToday = document.getElementById('dayHydroHeader');
 const hydrationGoal = document.getElementById('hydrationGoal');
@@ -90,6 +91,7 @@ function updateDOM() {
         //might have to import the chart elements themselves for that? or create new queries here...
     activityCharts.updateDaysActivityChart();
     activityCharts.updateStepChart();
+    activityCharts.updateMinChart();
     //activityCharts.updateStepAvgChart();
     activityCharts.updateSleepChart();
     activityCharts.updateHydroDateChart();
@@ -161,15 +163,10 @@ function displayDayStepData() {
 }
 
 function displayCompStepData() {
-    
     //goal comparison
     displayStepGoalComparison();
-    //steps comparison
-
-    //minutes comparison
-
     //stairs comparison
-
+    displayStairsComparison();
     hideDayStepData();
     compStepsData.classList.remove('hidden')
 }
@@ -197,6 +194,11 @@ function displayStepGoalComparison() {
   }
 }
 
+function displayStairsComparison() {
+    const today = userRepo.selectedUser.findLatestDate('activityData')
+    stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
+    stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
+}
 function displayHydrationData() {
     const lastHydration = currentUser.findLatestDate('hydrationData');
     const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
