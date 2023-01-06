@@ -96,8 +96,6 @@ sleepDataEntryForm.addEventListener('submit', (event) => {
   userDataSubmit(sleepDataSubmitButton, event);
 });
 
-
-
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
@@ -193,7 +191,10 @@ function showDropDownOptions(){
 }
 
 function showInputForms(idOfForm) {
-  idOfForm.classList.toggle("show");
+    activityDataEntryForm.classList.remove('show')
+    hydrationDataEntryForm.classList.remove('show')
+    sleepDataEntryForm.classList.remove('show')
+    idOfForm.classList.toggle("show");
 }
 
 function userDataSubmit(idOfButton, event) {
