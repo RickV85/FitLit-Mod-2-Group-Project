@@ -31,7 +31,7 @@ const dropDownOptions = document.getElementById('dropdown-content')
 const stepsInputButton = document.getElementById('steps-selection')
 const hydrationInputButton = document.getElementById('hydration-selection')
 const sleepInputButton = document.getElementById('sleep-selection')
-
+const dropdownSection = document.getElementById('input')
 
 // Global variables
 let userRepo;
@@ -131,6 +131,7 @@ function showDropDownOptions(){
 }
 
 function showInputForms(idOfForm) {
+  // dropdownSection.classList.toggle("hidden");
   idOfForm.classList.toggle("show");
 }
 
