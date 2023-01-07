@@ -5,7 +5,9 @@ const stepChart = document.getElementById("stepCompChart").getContext('2d');
 const sleepChart = document.getElementById("weeksSleepChart").getContext('2d');
 const hydroDayChart = document.getElementById("todaysHydrationChart").getContext('2d');
 const hydroWeekChart = document.getElementById("weeksHydrationChart").getContext('2d');
-const activityWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
+const stepsWeekChart = document.getElementById("weeksStepsChart").getContext('2d');
+const minutesActiveWeekChart = document.getElementById("weeksMinutesActiveChart").getContext('2d')
+const flightsOfStairsChart = document.getElementById("weeksFlightsOfStairsChart").getContext('2d')
 const activityDayChart = document.getElementById("dayStepsChart").getContext('2d');
 const minCompChart = document.getElementById("minCompChart").getContext('2d');
 
@@ -13,7 +15,9 @@ const minCompChart = document.getElementById("minCompChart").getContext('2d');
 let todaysActivityChart;
 let stepComparisonChart;
 let minComparisonChart;
-let weeksActivityChart;
+let weeksStepChart;
+let weeksMinutesActivityChart;
+let weeksflightsOfStairsChart;
 let sleepDblDataChart;
 let todaysHydroChart;
 let weeksHydroChart;
@@ -215,9 +219,81 @@ function destroyCharts() {
     //add weekly charts to destroy
 }
 
+const assignActivityChartData = (date, activityKey) => {
+    return userRepo.selectedUser.findWeekData(date, 'activityData').map(element => {
+        if(element) {
+            return element[activityKey]
+        }
+        return null;
+    })
+};
+
+const updateStepsWeeklyChart = () => {
+    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const numStepsData = assignActivityChartData(todaysDate, 'numSteps');
+    weeksStepChart = new Chart(stepsWeekChart, {
+        type: 'bar',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
+            datasets: [
+                {
+                    label: 'Daily Steps',
+                    data: numStepsData,
+                    backgroundColor: ['#BF1263'],
+                }
+            ],
+        },
+        options: {
+            responsive: true, 
+        maintainAspectRatio: false,
+        }
+    })
+};
+
+const updateMinutesActiveWeeklyChart = () => {
+    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const minutesActiveData = assignActivityChartData(todaysDate, 'minutesActive');
+    weeksMinutesActivityChart = new Chart(minutesActiveWeekChart , {
+        type: 'bar',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
+            datasets: [
+                {
+                    label: 'Daily Minutes Active',
+                    data: minutesActiveData,
+                    backgroundColor: ['#BF1263'],
+                }
+            ],
+        },
+        options: {
+            responsive: true, 
+        maintainAspectRatio: false,
+        }
+    })
+};
 
 
-
+const updateStairsClimbedWeeklyChart = () => {
+    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const flightsOfStairsData = assignActivityChartData(todaysDate, 'flightsOfStairs');
+    weeksflightsOfStairsChart = new Chart(flightsOfStairsChart, {
+        type: 'bar',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
+            datasets: [
+                {
+                    label: 'Daily Flights of Stairs Climbed',
+                    data: flightsOfStairsData,
+                    backgroundColor: ['#BF1263'],
+                }
+            ],
+        },
+        options: {
+            responsive: true, 
+        maintainAspectRatio: false,
+        }
+    })
+};
 
 // const assignActivityChartData = (date) => {
 //     return userRepo.selectedUser.INSERT-METHOD-NAME-HERE(date).map(element => {
@@ -250,4 +326,5 @@ function destroyCharts() {
 //     })
 // }
 
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, destroyCharts }; //updateActivityWeekChart
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, updateStepsWeeklyChart, updateMinutesActiveWeeklyChart, updateStairsClimbedWeeklyChart, destroyCharts}; 
+
