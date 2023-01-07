@@ -10,10 +10,10 @@ import randomGreetings from './data/randomGreetings';
 import './images/walkingIcon.svg';
 
 //Promises
-const userPromise = apiCalls.loadUserData();
-const hydrationPromise = apiCalls.loadHydrationData();
-const sleepPromise = apiCalls.loadSleepData();
-const activityPromise = apiCalls.loadActivityData();
+let userPromise = apiCalls.loadUserData();
+let hydrationPromise = apiCalls.loadHydrationData();
+let sleepPromise = apiCalls.loadSleepData();
+let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
 const welcomeMessage = document.querySelector('#welcomeMessage');
@@ -64,10 +64,13 @@ window.addEventListener('load', function () {
   setTodaysDateToMaxDate();
 });
 
+//dashboard display
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
 compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
 userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
+
+//dropdown
 dropDownButton.addEventListener('click', showDropDownOptions);
 stepsInputButton.addEventListener('click', () => {
   showDropDownOptions();
@@ -83,15 +86,15 @@ sleepInputButton.addEventListener('click', () => {
 });
 activityDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(activityDataEntryForm);
-  postInputs()
+  postInputs(event, 'activity');
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(hydrationDataEntryForm);
-
+  postInputs(event, 'hydration');
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(sleepDataEntryForm);
-
+  postInputs(event, 'sleep');
 });
 
 function parseData(values) {
@@ -103,31 +106,65 @@ function parseData(values) {
 function resolvePromisesUpdateDOM() {
   Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
   .then((values) => {
-      parseData(values);
-      updateDOM();
+    parseData(values);
+    updateDOM();
   });
 }
 
-function postInputs() {
-  event.preventDefault()
+function postInputs(event, type) {
+    event.preventDefault()
+    console.log(data)
   // Create data object
+  const data = translateInputs(type)
   // Call post function
-  apiCalls.postUserData()
+    apiCalls.postUserData(type, data)
     .then(data => {
     // Display to the user the data they just posted
-    console.log(data)
-    // DESTROY charts
+    apiCalls.destroyCharts();
     // Re-render without reloading page
-    // apiCalls.loadSleepData()
-    // apiCalls.loadActivityData()
-    // apiCalls.loadHydrationData()
-    // resolvePromisesUpdateDOM()
-    
+
+    //GET again and reinstantiate everything for display
+    userPromise = apiCalls.loadUserData();
+    hydrationPromise = apiCalls.loadHydrationData();
+    sleepPromise = apiCalls.loadSleepData();
+    activityPromise = apiCalls.loadActivityData();
+    resolvePromisesUpdateDOM();
   })
   .catch(err => console.log(err))
-  // Resolve post func
-
+  
 }
+
+function translateInputs(type) {
+    let userId = userRepo.selectedUser.id;
+    let date;
+    let flights;
+    let minutes;
+    let steps;
+    let ounces;
+    let hours;
+    let quality; 
+    switch(type) {
+        case 'activity':
+            date = document.getElementById("activityCalendar").value;
+            flights = document.getElementById("userFlightsInput").value;
+            minutes = document.getElementById("userMinActiveInput").value;
+            steps = document.getElementById("userStepInput").value;
+            return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
+            break; //do i need a break if i have a return?
+        case 'hydration':
+            date = document.getElementById("hydrationCalendar").value;
+            ounces = document.getElementById("userHydroInput").value;
+            return { userID: userId, date: date , numOunces: ounces }
+            break;
+        case 'sleep':
+            date = document.getElementById("sleepCalendar").value;
+            hours = document.getElementById("userHoursSleptInput").value;
+            quality = document.getElementById("userSleepQualityInput").value;
+            return { userID: userId, date: date , hoursSlept: hours , sleepQuality: quality }
+            break;
+    }
+}
+
 
 function updateDOM() {
     showPersonalizedWelcome();

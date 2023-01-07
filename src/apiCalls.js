@@ -40,7 +40,8 @@ function loadUserData() {
             errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         });
-}
+};
+
 function loadSleepData() {
     const sleepURL = 'http://localhost:3001/api/v1/sleep';
     return fetch(sleepURL)
@@ -59,7 +60,8 @@ function loadSleepData() {
             errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
-}
+};
+
 function loadHydrationData() {
     const hydrationURL = 'http://localhost:3001/api/v1/hydration';
     return fetch(hydrationURL)
@@ -78,7 +80,8 @@ function loadHydrationData() {
             errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
-}
+};
+
 function loadActivityData() {
     const userURL = 'http://localhost:3001/api/v1/activity';
     return fetch(userURL)
@@ -97,13 +100,14 @@ function loadActivityData() {
             errorHandling('Sorry, the server is down. Try again later', 'error')
             console.log('Something went wrong: ', response);
         })
-}
+};
+
 function postUserData(type, postData) {
-  let url = `http://localhost:3001/api/v1/activity`;
+  let url = `http://localhost:3001/api/v1/${type}`;
   
   let promise = fetch(url, {
     method: 'POST',
-    body: JSON.stringify({userID: 3, date: '2023-01-06', flightsOfStairs: 5, minutesActive: 20, numSteps: 500}),
+    body: JSON.stringify(postData),
     headers: { 'Content-Type': 'application/json' }
   })
   .then(response => {
@@ -114,7 +118,6 @@ function postUserData(type, postData) {
   })
 
   return promise;
-}
-
+};
 
 export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData, postUserData };

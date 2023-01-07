@@ -204,6 +204,16 @@ const updateHydroWeeklyChart = () => {
     })
 };
 
+function destroyCharts() {
+    stepChart.destroy();
+    sleepChart.destroy();
+    hydroDayChart.destroy();
+    hydroWeekChart.destroy();
+    activityDayChart.destroy();
+    minCompChart.destroy();
+    //add weekly charts to destroy
+}
+
 
 
 
@@ -239,4 +249,4 @@ const updateHydroWeeklyChart = () => {
 //     })
 // }
 
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart }; //updateActivityWeekChart
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, destroyCharts }; //updateActivityWeekChart
