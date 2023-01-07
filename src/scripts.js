@@ -113,14 +113,16 @@ function resolvePromisesUpdateDOM() {
 
 function postInputs(event, type) {
     event.preventDefault()
-    console.log(data)
+    //console.log(data)
   // Create data object
-  const data = translateInputs(type)
+  const inputData = translateInputs(type)
+  console.log('input data: ', inputData)
   // Call post function
-    apiCalls.postUserData(type, data)
+    apiCalls.postUserData(type, inputData)
     .then(data => {
+        console.log('posted data: ', data)
     // Display to the user the data they just posted
-    apiCalls.destroyCharts();
+    activityCharts.destroyCharts();
     // Re-render without reloading page
 
     //GET again and reinstantiate everything for display

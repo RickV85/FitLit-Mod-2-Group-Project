@@ -205,12 +205,13 @@ const updateHydroWeeklyChart = () => {
 };
 
 function destroyCharts() {
-    stepChart.destroy();
-    sleepChart.destroy();
-    hydroDayChart.destroy();
-    hydroWeekChart.destroy();
-    activityDayChart.destroy();
-    minCompChart.destroy();
+    todaysActivityChart.destroy();
+    stepComparisonChart.destroy();
+    minComparisonChart.destroy();
+    weeksActivityChart.destroy();
+    sleepDblDataChart.destroy();
+    todaysHydroChart.destroy();
+    weeksHydroChart.destroy();    
     //add weekly charts to destroy
 }
 
