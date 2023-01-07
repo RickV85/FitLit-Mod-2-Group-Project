@@ -61,6 +61,15 @@ const activityDataSubmitButton = document.getElementById('activityDataSubmitButt
 const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
 const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 const hideFormButtons = document.querySelectorAll('#hide-form')
+const dailyStatsSteps = document.querySelectorAll('.daily-stats-steps')
+const dailyStatsSleep = document.getElementById('dailyStatsSleep')
+const dailyStatsSleepAvg = document.getElementById('dailyStatsSleepAvg')
+const dailyStatsHydro = document.getElementById('dailyStatsHydro')
+const noDataSteps = document.querySelectorAll('.no-data-steps')
+const noDataSleep = document.getElementById('noDataSleep')
+const noDataSleepAvg = document.getElementById('noDataSleepAvg')
+const noDataHydro = document.getElementById('noDataHydro')
+
 // Global variables
 let userRepo;
 let currentUser;
@@ -127,6 +136,14 @@ function resolvePromisesUpdateDOM() {
   });
 }
 
+function hideDailyStats() {
+    dailyStats.forEach(stat => stat.classList.add('hidden'));
+};
+
+function displayNoDataError() {
+    noData.forEach(data => data.classList.remove('hidden'));
+};
+
 function postInputs(event, type) {
     event.preventDefault()
     //console.log(data)
@@ -137,9 +154,9 @@ function postInputs(event, type) {
     apiCalls.postUserData(type, inputData)
     .then(data => {
         console.log('posted data: ', data)
-    // Display to the user the data they just posted
-    activityCharts.destroyCharts();//see Ian's notes
-    // Re-render without reloading page
+        activityCharts.destroyCharts();
+        // Re-render without reloading page
+        // Display to the user the data they just posted
 
     //GET again and reinstantiate everything for display
     userPromise = apiCalls.loadUserData();
@@ -205,6 +222,8 @@ function updateDOM() {
     activityCharts.updateStepsWeeklyChart();
     activityCharts.updateMinutesActiveWeeklyChart(); 
     activityCharts.updateStairsClimbedWeeklyChart();
+
+    
 };
 
 function showPersonalizedWelcome() {
