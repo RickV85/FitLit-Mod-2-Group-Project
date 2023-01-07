@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLit - Your personal dashboard</title>
-    <link rel="icon"  type="image" href="https://cdn-icons-png.flaticon.com/512/4760/4760815.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Poppins:wght@300&family=Raleway:wght@100&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <nav class="welcome-banner" id="welcomeBanner">
-      <section>
-        <p class="app-name">FitLit</p>
-      </section>
-      <section>
-        <p class="welcome-message" id="welcomeMessage"><!--insert Welcome message here--></p>
-      </section>
-      <section>
-        <p class="welcome-banner-right"></p>
-      </section>
-    </nav>
-    <section class="error-message hidden">
-      <p class="error-message-text" id="errorMessage"></p>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitLit - Your personal dashboard</title>
+  <link rel="icon" type="image" href="https://cdn-icons-png.flaticon.com/512/4760/4760815.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Poppins:wght@300&family=Raleway:wght@100&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <nav class="welcome-banner" id="welcomeBanner">
+    <section>
+      <p class="app-name">FitLit</p>
     </section>
-    <section class="data-display" id="dataDisplay">
-      <nav class="side-nav" id="side-navigation">
-        <aside class="user-tab">
-          <button type="onClick" class="user-avatar" id="userAvatar"></button>
-          <p class="user-name" id="userName"></p>
-          <section class="friends-profile" id="friends"></section>
-          <section class="profile hidden" id="profile"></section>
-        </aside>
-        <aside class="input-section" id="input"> 
-          <div class="dropdown">
-            <button class="dropbutton" id="dropdown-button">Add a Workout</button>
-            <div class="data-dropdown" id="dropdown-content">
-              <button class="select-steps drop-option" id="steps-selection">Add Step Data</button>
-              <button class="select-hydration drop-option" id="hydration-selection">Add Hydration Data</button>
-              <button class="select-sleep drop-option" id="sleep-selection">Add Sleep Data</button>
-            </div>
+    <section>
+      <p class="welcome-message" id="welcomeMessage">
+        <!--insert Welcome message here-->
+      </p>
+    </section>
+    <section>
+      <p class="welcome-banner-right"></p>
+    </section>
+  </nav>
+  <section class="error-message hidden">
+    <p class="error-message-text" id="errorMessage"></p>
+  </section>
+  <section class="data-display" id="dataDisplay">
+    <nav class="side-nav" id="side-navigation">
+      <aside class="user-tab">
+        <button type="onClick" class="user-avatar" id="userAvatar"></button>
+        <p class="user-name" id="userName"></p>
+        <section class="friends-profile" id="friends"></section>
+        <section class="profile hidden" id="profile"></section>
+      </aside>
+      <aside class="input-section" id="input">
+        <div class="dropdown">
+          <button class="dropbutton" id="dropdown-button">Add a Workout</button>
+          <div class="data-dropdown" id="dropdown-content">
+            <button class="select-steps drop-option" id="steps-selection">Add Step Data</button>
+            <button class="select-hydration drop-option" id="hydration-selection">Add Hydration Data</button>
+            <button class="select-sleep drop-option" id="sleep-selection">Add Sleep Data</button>
           </div>
         </aside>
         <aside class="form-section">
@@ -103,73 +108,93 @@
             </div>
             <p class="fit-data highlight" id="avgWeekMin"></p>
           </div>
-          <button class="activity-display-button" id ="compareStatsButton">Compare Your Stats</button>
-        </article>
-        <article class="comp-data fit-data-section hidden" id="compData">
-          <div>
-            <h4 class="fit-data chart-header">Your Steps vs. Average Steps</h4>
-            <div class="fit-data week-step-chart">
-              <canvas id="stepCompChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
-            </div>
-            <p class="fit-data highlight" id="stepGoalVsAvg"></p>
-          </div>
-          <!-- <div>
+          <p class="fit-data highlight" id="avgWeekMin"></p>
+        </div>
+        <button class="activity-display-button" id="compareStatsButton">Compare Your Stats</button>
+        <button class="more-activity-display-button" id="moreActivityDisplayButton">See More Activity</button>
+      </article>
+      <article class="comp-data fit-data-section hidden" id="compData">
+        <div>
           <h4 class="fit-data chart-header">Your Steps vs. Average Steps</h4>
-            <div class="fit-data week-step-chart">
-              <canvas id="stepCompChart" aria-label="User steps versus all user's average steps chart"></canvas>
-            </div>
-          </div> -->
-          <div>
-            <h4 class="fit-data chart-header">Your Activity vs. Average Activity</h4>
-              <div class="fit-data week-step-chart">
-                <canvas id="minCompChart" aria-label="User activity versus all user's average activity chart"></canvas>
-              </div>
-            </div>
-            <p class="fit-data highlight" id="stairsAvg"></p>
-            <p class="fit-data highlight" id="stairsUser"></p>
-            <!-- <div>
-              <h4 class="fit-data chart-header">Your Stairs vs. Average Stairs</h4>
-                <div class="fit-data week-step-chart">
-                  <canvas id="stairCompChart" aria-label="User stairs versus all user's average stairs chart"></canvas>
-                </div>
-              </div> -->
-          <button class="activity-display-button" id="userStatsButton">See Your Activity</button>
-        </article>
-      </section>
-      <section class="fit-data-section" id="sleep">
-        <h2 class="fit-data-header">Sleep</h2>
-        <div>
-          <h4 class="fit-data">Your Sleep For Today</h4>
-          <p class="fit-data highlight" id="sleepToday"><!--insert today's sleep data here--></p>
+          <div class="fit-data week-step-chart">
+            <canvas id="stepCompChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
+          </div>
+          <p class="fit-data highlight" id="stepGoalVsAvg"></p>
         </div>
         <div>
-          <h4 class="fit-data sleep-user-avg">Your average sleep for the last week</h4>
-          <p class="fit-data highlight" id="sleepUserAvg"><!--insert averaged user sleep data here--></p>
-        </div>
-        <div>
-          <h4 class="fit-data sleep-global-avg">Compared to all users' average</h4>
-          <p class="fit-data highlight" id="sleepGlobalAvg"><!--insert averaged global sleep data here--></p>
-        </div>
-        <div>
-          <h4 class="fit-data chart-header">Your Sleep for the Last 7 Days</h4>
-          <div class="fit-data week-sleep-chart">
-            <canvas id="weeksSleepChart" aria-label="7-day sleep data chart"></canvas>
+          <h4 class="fit-data chart-header">Your Activity vs. Average Activity</h4>
+          <div class="fit-data week-step-chart">
+            <canvas id="minCompChart" aria-label="User activity versus all user's average activity chart"></canvas>
           </div>
         </div>
-      </section>
-      <section class="fit-data-section" id="hydration">
-          <h2 class="fit-data-header">Hydration</h2>
-          <h4 class="fit-data chart-header" id="dayHydroHeader">Today's Hydration</h4>
-          <div class="fit-data doughnut day-hydro">
-            <canvas id="todaysHydrationChart" aria-label="Today's hydration versus recommended intake"></canvas>
+        <p class="fit-data highlight" id="stairsAvg"></p>
+        <p class="fit-data highlight" id="stairsUser"></p>
+        <button class="activity-display-button" id="userStatsButton">See Your Activity</button>
+        <button class="more-activity-display-button" id="moreActivityDisplayButton2">See More Activity</button>
+      </article>
+      <article class="week-activity-data-chart fit-data-section hidden" id="weekData">
+        <div>
+          <h4 class="fit-data chart-header">Your Active Minutes for the Last 7 Days</h4>
+          <div class="fit-data week-activity-data-chart">
+            <canvas id="weeksMinutesActiveChart" aria-label="7-day activity data chart"></canvas>
           </div>
-          <p class="fit-data highlight" id="hydrationGoal"><!--Hydration comparison data here--></p>
-          <h4 class="fit-data chart-header">Water Consumption for the Last 7 Days</h4>
-          <div class="fit-data week-hydration-chart">
-            <canvas id="weeksHydrationChart" aria-label="7-day hydration data chart"></canvas>
+          <p class="fit-data highlight" id="minutesActive"></p>
+        </div>
+        <div>
+          <h4 class="fit-data chart-header">Your Flights of Stairs for the Last 7 Days</h4>
+          <div class="fit-data week-activity-data-chart">
+            <canvas id="weeksFlightsOfStairsChart" aria-label="7-day activity data chart"></canvas>
           </div>
-      </section>
+          <p class="fit-data highlight" id="flightsOfStairs"></p>
+        </div>
+        <button class="activity-display-button" id="userStatsButton2">See Your Activity</button>
+        <button class="activity-display-button" id="compareStatsButton2">Compare Your Stats</button>
+      </article>
+
     </section>
+    <section class="fit-data-section" id="sleep">
+      <h2 class="fit-data-header">Sleep</h2>
+      <div>
+        <h4 class="fit-data">Your Sleep For Today</h4>
+        <p class="fit-data highlight" id="sleepToday">
+          <!--insert today's sleep data here-->
+        </p>
+      </div>
+      <div>
+        <h4 class="fit-data sleep-user-avg">Your average sleep for the last week</h4>
+        <p class="fit-data highlight" id="sleepUserAvg">
+          <!--insert averaged user sleep data here-->
+        </p>
+      </div>
+      <div>
+        <h4 class="fit-data sleep-global-avg">Compared to all users' average</h4>
+        <p class="fit-data highlight" id="sleepGlobalAvg">
+          <!--insert averaged global sleep data here-->
+        </p>
+      </div>
+      <div>
+        <h4 class="fit-data chart-header">Your Sleep for the Last 7 Days</h4>
+        <div class="fit-data week-sleep-chart">
+          <canvas id="weeksSleepChart" aria-label="7-day sleep data chart"></canvas>
+        </div>
+      </div>
+    </section>
+    <section class="fit-data-section" id="hydration">
+      <h2 class="fit-data-header">Hydration</h2>
+      <h4 class="fit-data chart-header" id="dayHydroHeader">Today's Hydration</h4>
+      <div class="fit-data doughnut day-hydro">
+        <canvas id="todaysHydrationChart" aria-label="Today's hydration versus recommended intake"></canvas>
+      </div>
+      <p class="fit-data highlight" id="hydrationGoal">
+        <!--Hydration comparison data here-->
+      </p>
+      <h4 class="fit-data chart-header">Water Consumption for the Last 7 Days</h4>
+      <div class="fit-data week-hydration-chart">
+        <canvas id="weeksHydrationChart" aria-label="7-day hydration data chart"></canvas>
+      </div>
+    </section>
+  </section>
   <script src="bundle.js"></script>
-  </body> 
+</body>
+
 </html>
