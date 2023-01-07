@@ -138,7 +138,7 @@ html {
   border: none;
 }
 .activity-display-button:hover,
-.activity-display-button:hover {
+.more-activity-display-button:hover {
   outline: #BF1363;
   outline-style: solid;
   outline-offset: -1px;

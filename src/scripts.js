@@ -28,14 +28,16 @@ const userGoalMet = document.getElementById('userGoalMet');
 const userMinutes = document.getElementById('userMinutes');
 const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
-const weekActivityDataChart = document.getElementById('weekData');
+const weekData = document.getElementById('weekData');
 const weekMinutesActive = document.getElementById('minutesActive')
 const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
-const activityChartsButton = document.querySelector('.more-activity-display-button') 
-const userStepsButton = document.querySelector('.activity-display-button')
+const activityChartsButton = document.getElementById('moreActivityDisplayButton') 
+const activityChartButton2 = document.getElementById('moreActivityDisplayButton2')
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
+const compareActButton2 = document.getElementById('compareStatsButton2')
 const userActButton = document.getElementById('userStatsButton');
+const userActButton2 = document.getElementById('userStatsButton2')
 const stairsAvg = document.getElementById('stairsAvg');
 const stairsUser = document.getElementById('stairsUser');
 
@@ -73,9 +75,12 @@ window.addEventListener('load', function () {
 
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
-compareActButton.addEventListener('click', displayCompStepData);//display charts here or in function?
-activityChartsButton.addEventListener('click', displayActivityData)
-userActButton.addEventListener('click', displayDayStepData); //display charts here or in function?
+compareActButton.addEventListener('click', displayCompStepData);
+compareActButton2.addEventListener('click', displayCompStepData);
+activityChartsButton.addEventListener('click', displayActivityData);
+activityChartButton2.addEventListener('click', displayActivityData);
+userActButton.addEventListener('click', displayDayStepData);
+userActButton2.addEventListener('click', displayDayStepData);
 dropDownButton.addEventListener('click', showDropDownOptions);
 stepsInputButton.addEventListener('click', () => {
     showDropDownOptions();
@@ -229,9 +234,7 @@ function displayActivityData() {
     displayActiviteMinutesData();
     hideDayStepData();
     hideCompStepData();
-    activityChartsButton.classList.add('hidden')
-    // userStepsButton.classList.remove('hidden')
-    weekActivityDataChart.classList.remove('hidden');
+    weekData.classList.remove('hidden');
 };
 
 function hideDayStepData() {
@@ -243,7 +246,7 @@ function hideCompStepData() {
 };
 
 function hideActivityData() {
-    weekActivityDataChart.classList.add('hidden')
+    weekData.classList.add('hidden')
 }
 
 function displayStepGoalComparison() {
@@ -264,9 +267,8 @@ function displayStairsComparison() {
 }
 
 function displayActiviteMinutesData() {
-    const today = userRepo.selectedUser.findLatestDate('activityData')
-    weekMinutesActive.innerText = `You were active for ${userRepo.selectedUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
-    console.log('hi')
+    const today = currentUser.findLatestDate('activityData')
+    weekMinutesActive.innerText = `You were active for ${currentUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
 };
 
 function displayHydrationData() {
