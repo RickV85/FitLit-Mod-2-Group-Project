@@ -88,12 +88,9 @@ describe('User', function () {
     ]);
   });
 
-  it('should find the latest date for hydration data', function () {
-    expect(selectedUser.findLatestDate('hydrationData')).to.equal('2020/01/23');
-  });
-
-  it('should find the latest date for sleep data', function () {
-    expect(selectedUser.findLatestDate('sleepData')).to.equal('2019/06/16');
+  it('should find the latest date of all user data', function () {
+    selectedUser.findLatestDate()
+    expect(selectedUser.latestDate).to.equal("2020/01/23");
   });
 
   it('should calculate the avg number of hours slept per night from all user data', function () {
