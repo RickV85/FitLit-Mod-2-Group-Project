@@ -58,7 +58,7 @@ const sleepDataEntryForm = document.getElementById('sleepDataEntryForm')
 const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')
 const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
 const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
-
+const hideFormButtons = document.querySelectorAll('#hide-form')
 // Global variables
 let userRepo;
 let currentUser;
@@ -72,7 +72,6 @@ window.addEventListener('load', function () {
             updateDOM();
         });
 });
-
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
 compareActButton.addEventListener('click', displayCompStepData);
@@ -106,15 +105,17 @@ sleepDataEntryForm.addEventListener('submit', (event) => {
     showInputForms(sleepDataEntryForm);
     userDataSubmit(sleepDataSubmitButton, event);
 });
-
-
-
+hideFormButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        var formToHide = event.target.closest('.user-data-entry-form')
+        formToHide.classList.remove('show')
+    })
+})
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
     currentUser = userRepo.selectedUser;
 }
-
 function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
@@ -208,18 +209,21 @@ function showDropDownOptions() {
 }
 
 function showInputForms(idOfForm) {
+    activityDataEntryForm.classList.remove('show')
+    hydrationDataEntryForm.classList.remove('show')
+    sleepDataEntryForm.classList.remove('show')
     idOfForm.classList.toggle("show");
 }
 
 function userDataSubmit(idOfButton, event) {
-    // event.preventDefault();
-
-    // const formData = new FormData(this);
-    // console.log(formData);
-
-    // Not sure what to do here yet or if we need this function
-    // There seems to be ways to post directly from the input form and submit button.
-    // I left the empty fields in the submit buttons that can post.
+  event.preventDefault();
+  
+  // const formData = new FormData(this);
+  // console.log(formData);
+  
+// Not sure what to do here yet or if we need this function
+// There seems to be ways to post directly from the input form and submit button.
+// I left the empty fields in the submit buttons that can post.
 }
 
 function displayCompStepData() {
