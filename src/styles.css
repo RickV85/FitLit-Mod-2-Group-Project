@@ -81,18 +81,31 @@ html {
   margin-top: 5px;
 }
 
-.form-section {
+.label-and-x {
+  margin-top: 2px;
+  display: flex;
+  justify-content: center;
+}
 
+.hide-form-button {
+  height: 5%;
+  width: 5%;
 }
 
 .input-form-headings {
   text-align: center;
+  margin-right: 25%;
+  margin-left: 25%;
   margin-bottom: 5px;
 }
 
 .user-input-labels {
   text-align: center;
   font-size: 10px;
+}
+
+.hide-form-button:hover {
+  cursor: pointer;
 }
 
 .user-input-fields {
@@ -271,6 +284,7 @@ html {
   display: flex;
   flex-direction: column;
 }
+
 
 @media (max-width: 740px) {
 
