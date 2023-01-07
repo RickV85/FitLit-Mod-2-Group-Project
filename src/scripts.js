@@ -99,7 +99,7 @@ sleepDataEntryForm.addEventListener('submit', (event) => {
 
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
-    userRepo.initialize();
+    userRepo.initialize(currentUser);
     currentUser = userRepo.selectedUser;
 }
 
