@@ -16,6 +16,7 @@ let sleepPromise = apiCalls.loadSleepData();
 let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
+
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const userProfile = document.querySelector('#profile');
