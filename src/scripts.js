@@ -49,7 +49,7 @@ const sleepInputButton = document.getElementById('sleep-selection')
 const activityDataEntryForm = document.getElementById('activityDataEntryForm')
 const hydrationDataEntryForm = document.getElementById('hydrationDataEntryForm')
 const sleepDataEntryForm = document.getElementById('sleepDataEntryForm')
-const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')
+const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')//do we need these?
 const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
 const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 
@@ -122,7 +122,7 @@ function postInputs(event, type) {
     .then(data => {
         console.log('posted data: ', data)
     // Display to the user the data they just posted
-    activityCharts.destroyCharts();
+    activityCharts.destroyCharts();//see Ian's notes
     // Re-render without reloading page
 
     //GET again and reinstantiate everything for display
@@ -130,6 +130,7 @@ function postInputs(event, type) {
     hydrationPromise = apiCalls.loadHydrationData();
     sleepPromise = apiCalls.loadSleepData();
     activityPromise = apiCalls.loadActivityData();
+    
     resolvePromisesUpdateDOM();
   })
   .catch(err => console.log(err))
