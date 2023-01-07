@@ -18,6 +18,10 @@ function errorHandling(message, display) {
     }
 }
 
+//
+// REFACTOR the below 4? GET requests -------------------
+//
+
 function loadUserData() {
     const userURL = 'http://localhost:3001/api/v1/users';
     return fetch(userURL)
@@ -95,11 +99,11 @@ function loadActivityData() {
         })
 }
 function postUserData(type, postData) {
-  let url = `http://localhost:3001/api/v1/${type}`;
+  let url = `http://localhost:3001/api/v1/activity`;
   
-  fetch(url, {
+  let promise = fetch(url, {
     method: 'POST',
-    body: JSON.stringify(postData),
+    body: JSON.stringify({userID: 3, date: '2023-01-06', flightsOfStairs: 5, minutesActive: 20, numSteps: 500}),
     headers: { 'Content-Type': 'application/json' }
   })
   .then(response => {
@@ -108,14 +112,9 @@ function postUserData(type, postData) {
     }
     return response.json();
   })
-  .then(response => {
-    // Display to the user the data they just posted
-    // DESTROY charts
-    // GET request for all new data
-    // Re-render without reloading page
-  })
-  .catch(err => console.log(err))
+
+  return promise;
 }
 
 
-export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData };
+export default { loadUserData, loadSleepData, loadHydrationData, loadActivityData, postUserData };

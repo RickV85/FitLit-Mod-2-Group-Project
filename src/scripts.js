@@ -5,6 +5,7 @@ import apiCalls from './apiCalls';
 import UserRepository from './UserRepository';
 import profileEmojis from './data/emojis';
 import randomGreetings from './data/randomGreetings';
+
 // Image imports
 import './images/walkingIcon.svg';
 
@@ -59,11 +60,7 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-  Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
-      .then((values) => {
-          parseData(values);
-          updateDOM();
-      });
+  resolvePromisesUpdateDOM();
   setTodaysDateToMaxDate();
 });
 
@@ -86,7 +83,7 @@ sleepInputButton.addEventListener('click', () => {
 });
 activityDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(activityDataEntryForm);
-
+  postInputs()
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
   showInputForms(hydrationDataEntryForm);
@@ -97,12 +94,39 @@ sleepDataEntryForm.addEventListener('submit', (event) => {
 
 });
 
-
-
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
     userRepo.initialize();
     currentUser = userRepo.selectedUser;
+}
+
+function resolvePromisesUpdateDOM() {
+  Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
+  .then((values) => {
+      parseData(values);
+      updateDOM();
+  });
+}
+
+function postInputs() {
+  event.preventDefault()
+  // Create data object
+  // Call post function
+  apiCalls.postUserData()
+    .then(data => {
+    // Display to the user the data they just posted
+    console.log(data)
+    // DESTROY charts
+    // Re-render without reloading page
+    // apiCalls.loadSleepData()
+    // apiCalls.loadActivityData()
+    // apiCalls.loadHydrationData()
+    // resolvePromisesUpdateDOM()
+    
+  })
+  .catch(err => console.log(err))
+  // Resolve post func
+
 }
 
 function updateDOM() {
@@ -275,10 +299,10 @@ function setTodaysDateToMaxDate() {
   let yyyy = today.getFullYear();
 
   today = `${yyyy}-${mm}-${dd}`;
-  
-  document.getElementById("stepCalendar").setAttribute("max", today);
-  document.getElementById("hydrationCalendar").setAttribute("max", today);
-  document.getElementById("sleepCalendar").setAttribute("max", today);
+
+  activityCalendar.setAttribute("max", today);
+  hydrationCalendar.setAttribute("max", today);
+  sleepCalendar.setAttribute("max", today);
 }
 
 export { userRepo };
