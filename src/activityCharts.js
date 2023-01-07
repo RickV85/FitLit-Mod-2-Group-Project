@@ -248,7 +248,7 @@ const updateMinutesActiveWeeklyChart = () => {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
             datasets: [
                 {
-                    label: 'Daily Steps',
+                    label: 'Daily Minutes Active',
                     data: minutesActiveData,
                     backgroundColor: ['#BF1263'],
                 }
@@ -271,7 +271,7 @@ const updateStairsClimbedWeeklyChart = () => {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], 
             datasets: [
                 {
-                    label: 'Daily Steps',
+                    label: 'Daily Flights of Stairs Climbed',
                     data: flightsOfStairsData,
                     backgroundColor: ['#BF1263'],
                 }

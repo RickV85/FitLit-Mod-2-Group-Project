@@ -222,7 +222,6 @@ function displayCompStepData() {
     displayStairsComparison();
     hideDayStepData();
     hideActivityData();
-    activityChartsButton.classList.remove('hidden')
     compStepsData.classList.remove('hidden');
 };
 
@@ -231,7 +230,7 @@ function displayActivityData() {
     hideDayStepData();
     hideCompStepData();
     activityChartsButton.classList.add('hidden')
-    userStepsButton.classList.remove('hidden')
+    // userStepsButton.classList.remove('hidden')
     weekActivityDataChart.classList.remove('hidden');
 };
 
@@ -244,7 +243,6 @@ function hideCompStepData() {
 };
 
 function hideActivityData() {
-    activityChartsButton.classList.add('hidden');
     weekActivityDataChart.classList.add('hidden')
 }
 
