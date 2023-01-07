@@ -77,6 +77,12 @@ describe('User Repository', () => {
     });
   });
 
+  it('should assign the selected user to current user if a current user exists', function() {
+    let currentUser = userTestData[1];
+    fullUserData.initialize(currentUser);
+    expect(fullUserData.selectedUser.name).to.equal("Alexandrea Wehner")
+  });
+
   it('should let the user know the user was not found if the user ID is not found', function() {
     expect(fullUserData.findUser(5000)).to.equal(false);
   });

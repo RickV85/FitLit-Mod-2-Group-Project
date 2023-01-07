@@ -208,6 +208,17 @@ const updateHydroWeeklyChart = () => {
     })
 };
 
+function destroyCharts() {
+    todaysActivityChart.destroy();
+    stepComparisonChart.destroy();
+    minComparisonChart.destroy();
+    weeksActivityChart.destroy();
+    sleepDblDataChart.destroy();
+    todaysHydroChart.destroy();
+    weeksHydroChart.destroy();    
+    //add weekly charts to destroy
+}
+
 const assignActivityChartData = (date, activityKey) => {
     return userRepo.selectedUser.findWeekData(date, 'activityData').map(element => {
         if(element) {
@@ -315,4 +326,5 @@ const updateStairsClimbedWeeklyChart = () => {
 //     })
 // }
 
-export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, updateStepsWeeklyChart, updateMinutesActiveWeeklyChart, updateStairsClimbedWeeklyChart}; 
+export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, updateStepsWeeklyChart, updateMinutesActiveWeeklyChart, updateStairsClimbedWeeklyChart, destroyCharts}; 
+

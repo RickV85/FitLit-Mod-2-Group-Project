@@ -5,14 +5,15 @@ import apiCalls from './apiCalls';
 import UserRepository from './UserRepository';
 import profileEmojis from './data/emojis';
 import randomGreetings from './data/randomGreetings';
+
 // Image imports
 import './images/walkingIcon.svg';
 
 //Promises
-const userPromise = apiCalls.loadUserData();
-const hydrationPromise = apiCalls.loadHydrationData();
-const sleepPromise = apiCalls.loadSleepData();
-const activityPromise = apiCalls.loadActivityData();
+let userPromise = apiCalls.loadUserData();
+let hydrationPromise = apiCalls.loadHydrationData();
+let sleepPromise = apiCalls.loadSleepData();
+let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
 const welcomeMessage = document.querySelector('#welcomeMessage');
@@ -55,7 +56,7 @@ const sleepInputButton = document.getElementById('sleep-selection')
 const activityDataEntryForm = document.getElementById('activityDataEntryForm')
 const hydrationDataEntryForm = document.getElementById('hydrationDataEntryForm')
 const sleepDataEntryForm = document.getElementById('sleepDataEntryForm')
-const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')
+const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')//do we need these?
 const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
 const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 const hideFormButtons = document.querySelectorAll('#hide-form')
@@ -66,12 +67,10 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-    Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
-        .then((values) => {
-            parseData(values);
-            updateDOM();
-        });
+  resolvePromisesUpdateDOM();
+  setTodaysDateToMaxDate();
 });
+
 userAvatar.addEventListener('click', toggleProfileInfo);
 userName.addEventListener('click', toggleProfileInfo);
 compareActButton.addEventListener('click', displayCompStepData);
@@ -94,28 +93,96 @@ sleepInputButton.addEventListener('click', () => {
     showInputForms(sleepDataEntryForm);
 });
 activityDataEntryForm.addEventListener('submit', (event) => {
-    showInputForms(activityDataEntryForm);
-    userDataSubmit(activityDataSubmitButton, event);
+  showInputForms(activityDataEntryForm);
+  postInputs(event, 'activity');
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
-    showInputForms(hydrationDataEntryForm);
-    userDataSubmit(hydroDataSubmitButton, event);
+  showInputForms(hydrationDataEntryForm);
+  postInputs(event, 'hydration');
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
-    showInputForms(sleepDataEntryForm);
-    userDataSubmit(sleepDataSubmitButton, event);
+  showInputForms(sleepDataEntryForm);
+  postInputs(event, 'sleep');
 });
+
 hideFormButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         var formToHide = event.target.closest('.user-data-entry-form')
         formToHide.classList.remove('show')
     })
 })
+
 function parseData(values) {
     userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
-    userRepo.initialize();
+    userRepo.initialize(currentUser);
     currentUser = userRepo.selectedUser;
 }
+
+function resolvePromisesUpdateDOM() {
+  Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
+  .then((values) => {
+    parseData(values);
+    updateDOM();
+  });
+}
+
+function postInputs(event, type) {
+    event.preventDefault()
+    //console.log(data)
+  // Create data object
+  const inputData = translateInputs(type)
+  console.log('input data: ', inputData)
+  // Call post function
+    apiCalls.postUserData(type, inputData)
+    .then(data => {
+        console.log('posted data: ', data)
+    // Display to the user the data they just posted
+    activityCharts.destroyCharts();//see Ian's notes
+    // Re-render without reloading page
+
+    //GET again and reinstantiate everything for display
+    userPromise = apiCalls.loadUserData();
+    hydrationPromise = apiCalls.loadHydrationData();
+    sleepPromise = apiCalls.loadSleepData();
+    activityPromise = apiCalls.loadActivityData();
+    
+    resolvePromisesUpdateDOM();
+  })
+  .catch(err => console.log(err))
+  
+}
+
+function translateInputs(type) {
+    let userId = userRepo.selectedUser.id;
+    let date;
+    let flights;
+    let minutes;
+    let steps;
+    let ounces;
+    let hours;
+    let quality; 
+    switch(type) {
+        case 'activity':
+            date = document.getElementById("activityCalendar").value;
+            flights = document.getElementById("userFlightsInput").value;
+            minutes = document.getElementById("userMinActiveInput").value;
+            steps = document.getElementById("userStepInput").value;
+            return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
+            break; //do i need a break if i have a return?
+        case 'hydration':
+            date = document.getElementById("hydrationCalendar").value;
+            ounces = document.getElementById("userHydroInput").value;
+            return { userID: userId, date: date , numOunces: ounces }
+            break;
+        case 'sleep':
+            date = document.getElementById("sleepCalendar").value;
+            hours = document.getElementById("userHoursSleptInput").value;
+            quality = document.getElementById("userSleepQualityInput").value;
+            return { userID: userId, date: date , hoursSlept: hours , sleepQuality: quality }
+            break;
+    }
+}
+
 function updateDOM() {
     showPersonalizedWelcome();
     showUserInfoDisplay();
@@ -215,17 +282,6 @@ function showInputForms(idOfForm) {
     idOfForm.classList.toggle("show");
 }
 
-function userDataSubmit(idOfButton, event) {
-  event.preventDefault();
-  
-  // const formData = new FormData(this);
-  // console.log(formData);
-  
-// Not sure what to do here yet or if we need this function
-// There seems to be ways to post directly from the input form and submit button.
-// I left the empty fields in the submit buttons that can post.
-}
-
 function displayCompStepData() {
     displayStepGoalComparison();
     displayStairsComparison();
@@ -313,6 +369,20 @@ function displaySelectedUserInformation() {
 
   Stride Length:
   ${currentUser.strideLength} feet`;
+}
+
+function setTodaysDateToMaxDate() {
+  let today = new Date();
+
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+
+  today = `${yyyy}-${mm}-${dd}`;
+
+  activityCalendar.setAttribute("max", today);
+  hydrationCalendar.setAttribute("max", today);
+  sleepCalendar.setAttribute("max", today);
 }
 
 export { userRepo };

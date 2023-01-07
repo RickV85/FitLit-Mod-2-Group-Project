@@ -9,7 +9,7 @@ class UserRepository {
         this.users = [];
         this.selectedUser;
     }
-    initialize() {
+    initialize(currentUser) {
         this.userData.forEach(user => {
             let newUser = new User(user);
             this.users.push(newUser);
@@ -39,7 +39,7 @@ class UserRepository {
           }
         });
 
-        this.selectedUser = this.randomizeUser();
+        this.selectedUser = currentUser || this.randomizeUser();
         this.userData = null;
         this.hydrationData = null;
         this.sleepData = null;
