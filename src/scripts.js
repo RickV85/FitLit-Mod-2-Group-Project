@@ -16,6 +16,7 @@ let sleepPromise = apiCalls.loadSleepData();
 let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
+
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const userProfile = document.querySelector('#profile');
@@ -32,7 +33,7 @@ const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const weekData = document.getElementById('weekData');
 const weekMinutesActive = document.getElementById('minutesActive')
 const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
-const activityChartsButton = document.getElementById('moreActivityDisplayButton') 
+const activityChartsButton = document.getElementById('moreActivityDisplayButton')
 const activityChartButton2 = document.getElementById('moreActivityDisplayButton2')
 const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
@@ -60,6 +61,15 @@ const activityDataSubmitButton = document.getElementById('activityDataSubmitButt
 const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
 const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 const hideFormButtons = document.querySelectorAll('#hide-form')
+const dailyStatsSteps = document.querySelectorAll('.daily-stats-steps')
+const dailyStatsSleep = document.getElementById('dailyStatsSleep')
+const dailyStatsSleepAvg = document.getElementById('dailyStatsSleepAvg')
+const dailyStatsHydro = document.getElementById('dailyStatsHydro')
+const noDataSteps = document.querySelectorAll('.no-data-steps')
+const noDataSleep = document.getElementById('noDataSleep')
+const noDataSleepAvg = document.getElementById('noDataSleepAvg')
+const noDataHydro = document.getElementById('noDataHydro')
+
 // Global variables
 let userRepo;
 let currentUser;
@@ -67,8 +77,8 @@ let currentUser;
 const profileBackgrounds = ['#F8B195', '#F67280', '#C06C84', '#6C5B7B', '#355C7D', '#99B898', '#FECEAB', '	#FF847C', '#2A363B', '#A8E6CE'];
 
 window.addEventListener('load', function () {
-  resolvePromisesUpdateDOM();
-  setTodaysDateToMaxDate();
+	resolvePromisesUpdateDOM();
+	setTodaysDateToMaxDate();
 });
 
 userAvatar.addEventListener('click', toggleProfileInfo);
@@ -81,180 +91,205 @@ userActButton.addEventListener('click', displayDayStepData);
 userActButton2.addEventListener('click', displayDayStepData);
 dropDownButton.addEventListener('click', showDropDownOptions);
 stepsInputButton.addEventListener('click', () => {
-    showDropDownOptions();
-    showInputForms(activityDataEntryForm);
+	showDropDownOptions();
+	showInputForms(activityDataEntryForm);
 });
 hydrationInputButton.addEventListener('click', () => {
-    showDropDownOptions();
-    showInputForms(hydrationDataEntryForm);
+	showDropDownOptions();
+	showInputForms(hydrationDataEntryForm);
 });
 sleepInputButton.addEventListener('click', () => {
-    showDropDownOptions();
-    showInputForms(sleepDataEntryForm);
+	showDropDownOptions();
+	showInputForms(sleepDataEntryForm);
 });
 activityDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(activityDataEntryForm);
-  postInputs(event, 'activity');
+	showInputForms(activityDataEntryForm);
+	postInputs(event, 'activity');
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(hydrationDataEntryForm);
-  postInputs(event, 'hydration');
+	showInputForms(hydrationDataEntryForm);
+	postInputs(event, 'hydration');
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
-  showInputForms(sleepDataEntryForm);
-  postInputs(event, 'sleep');
+	showInputForms(sleepDataEntryForm);
+	postInputs(event, 'sleep');
 });
 
 hideFormButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        var formToHide = event.target.closest('.user-data-entry-form')
-        formToHide.classList.remove('show')
-    })
+	button.addEventListener('click', (event) => {
+		var formToHide = event.target.closest('.user-data-entry-form')
+		formToHide.classList.remove('show')
+	})
 })
 
 function parseData(values) {
-    userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
-    userRepo.initialize(currentUser);
-    currentUser = userRepo.selectedUser;
+	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
+	userRepo.initialize(currentUser);
+	currentUser = userRepo.selectedUser;
 }
 
 function resolvePromisesUpdateDOM() {
-  Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
-  .then((values) => {
-    parseData(values);
-    updateDOM();
-  });
+	Promise.all([userPromise, hydrationPromise, sleepPromise, activityPromise])
+		.then((values) => {
+			parseData(values);
+			updateDOM();
+		});
 }
 
-function postInputs(event, type) {
-    event.preventDefault()
-    //console.log(data)
-  // Create data object
-  const inputData = translateInputs(type)
-  console.log('input data: ', inputData)
-  // Call post function
-    apiCalls.postUserData(type, inputData)
-    .then(data => {
-        console.log('posted data: ', data)
-    // Display to the user the data they just posted
-    activityCharts.destroyCharts();//see Ian's notes
-    // Re-render without reloading page
+function dailyStatsExist(date, key) {
+	if (!currentUser.findLatestDate(date, key)) {
+		dailyStatsSleep.classList.add('hidden');
+		dailyStatsSleepAvg.classList.add('hidden');
+		dailyStatsHydro.classList.add('hidden');
+		dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+		noDataSleep.classList.remove('hidden');
+		noDataSleepAvg.classList.remove('hidden');
+		noDataHydro.classList.remove('hidden');
+		noDataSteps.forEach(data => data.classList.remove('hidden'));
+		
+	} else {
+		dailyStatsSleep.classList.remove('hidden');
+		dailyStatsSleepAvg.classList.remove('hidden');
+		dailyStatsHydro.classList.remove('hidden');
+		dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
+		noDataSleep.classList.add('hidden');
+		noDataSleepAvg.classList.add('hidden');
+		noDataHydro.classList.add('hidden');
+		noDataSteps.forEach(data => data.classList.add('hidden'));
+	};
+};
 
-    //GET again and reinstantiate everything for display
-    userPromise = apiCalls.loadUserData();
-    hydrationPromise = apiCalls.loadHydrationData();
-    sleepPromise = apiCalls.loadSleepData();
-    activityPromise = apiCalls.loadActivityData();
-    
-    resolvePromisesUpdateDOM();
-  })
-  .catch(err => console.log(err))
-  
+function postInputs(event, type) {
+	event.preventDefault()
+	//console.log(data)
+	// Create data object
+	const inputData = translateInputs(type)
+	console.log('input data: ', inputData)
+	// Call post function
+	apiCalls.postUserData(type, inputData)
+		.then(data => {
+			console.log('posted data: ', data)
+			activityCharts.destroyCharts();
+			// Re-render without reloading page
+			// Display to the user the data they just posted
+
+			//GET again and reinstantiate everything for display
+			userPromise = apiCalls.loadUserData();
+			hydrationPromise = apiCalls.loadHydrationData();
+			sleepPromise = apiCalls.loadSleepData();
+			activityPromise = apiCalls.loadActivityData();
+
+			resolvePromisesUpdateDOM();
+		})
+		.catch(err => console.log(err))
+
 }
 
 function translateInputs(type) {
-    let userId = userRepo.selectedUser.id;
-    let date;
-    let flights;
-    let minutes;
-    let steps;
-    let ounces;
-    let hours;
-    let quality; 
-    switch(type) {
-        case 'activity':
-            date = document.getElementById("activityCalendar").value;
-            flights = document.getElementById("userFlightsInput").value;
-            minutes = document.getElementById("userMinActiveInput").value;
-            steps = document.getElementById("userStepInput").value;
-            return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
-            break; //do i need a break if i have a return?
-        case 'hydration':
-            date = document.getElementById("hydrationCalendar").value;
-            ounces = document.getElementById("userHydroInput").value;
-            return { userID: userId, date: date , numOunces: ounces }
-            break;
-        case 'sleep':
-            date = document.getElementById("sleepCalendar").value;
-            hours = document.getElementById("userHoursSleptInput").value;
-            quality = document.getElementById("userSleepQualityInput").value;
-            return { userID: userId, date: date , hoursSlept: hours , sleepQuality: quality }
-            break;
-    }
+	let userId = userRepo.selectedUser.id;
+	let date;
+	let flights;
+	let minutes;
+	let steps;
+	let ounces;
+	let hours;
+	let quality;
+	switch (type) {
+		case 'activity':
+			date = document.getElementById("activityCalendar").value;
+			flights = document.getElementById("userFlightsInput").value;
+			minutes = document.getElementById("userMinActiveInput").value;
+			steps = document.getElementById("userStepInput").value;
+			return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
+			break; //do i need a break if i have a return?
+		case 'hydration':
+			date = document.getElementById("hydrationCalendar").value;
+			ounces = document.getElementById("userHydroInput").value;
+			return { userID: userId, date: date, numOunces: ounces }
+			break;
+		case 'sleep':
+			date = document.getElementById("sleepCalendar").value;
+			hours = document.getElementById("userHoursSleptInput").value;
+			quality = document.getElementById("userSleepQualityInput").value;
+			return { userID: userId, date: date, hoursSlept: hours, sleepQuality: quality }
+			break;
+	}
 }
 
 function updateDOM() {
-    showPersonalizedWelcome();
-    showUserInfoDisplay();
-    displaySelectedUserInformation();
+	showPersonalizedWelcome();
+	showUserInfoDisplay();
+	displaySelectedUserInformation();
 
-    displayDayStepData();
+	displayDayStepData();
 
-    displayHydrationData();
-    displaySleepData();
-    //charts need to be updated on page load even if they are hidden
-    //charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
-    //might have to import the chart elements themselves for that? or create new queries here...
-    activityCharts.updateDaysActivityChart();
-    activityCharts.updateStepChart();
-    activityCharts.updateMinChart();
-    activityCharts.updateSleepChart();
-    activityCharts.updateHydroDateChart();
-    activityCharts.updateHydroWeeklyChart();
-    activityCharts.updateStepsWeeklyChart();
-    activityCharts.updateMinutesActiveWeeklyChart(); 
-    activityCharts.updateStairsClimbedWeeklyChart();
+	displayHydrationData();
+	displaySleepData();
+	//charts need to be updated on page load even if they are hidden
+	//charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
+	//might have to import the chart elements themselves for that? or create new queries here...
+	activityCharts.updateDaysActivityChart();
+	activityCharts.updateStepChart();
+	activityCharts.updateMinChart();
+	activityCharts.updateSleepChart();
+	activityCharts.updateHydroDateChart();
+	activityCharts.updateHydroWeeklyChart();
+	activityCharts.updateStepsWeeklyChart();
+	activityCharts.updateMinutesActiveWeeklyChart();
+	activityCharts.updateStairsClimbedWeeklyChart();
+
+
 };
 
 function showPersonalizedWelcome() {
-    let selectedMsg = selectRandom(randomGreetings);
-    welcomeMessage.innerText = `Welcome, ${currentUser.name}! ${selectedMsg}`;
+	let selectedMsg = selectRandom(randomGreetings);
+	welcomeMessage.innerText = `Welcome, ${currentUser.name}! ${selectedMsg}`;
 };
 
 function selectRandom(selectedArray) {
-    return selectedArray[Math.floor(Math.random() * selectedArray.length)];
+	return selectedArray[Math.floor(Math.random() * selectedArray.length)];
 };
 
 function showUserInfoDisplay() {
-    friendsDisplay.innerText = ` `;
-    userName.innerText = `${currentUser.name}`;
-    userAvatar.innerText = selectRandom(profileEmojis);
-    userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
-    // Added conditional in case user ID is not found
-    currentUser.friends.forEach(friend => {
-        if (userRepo.findUser(friend)) {
-            friendsDisplay.innerHTML += `
+	friendsDisplay.innerText = ` `;
+	userName.innerText = `${currentUser.name}`;
+	userAvatar.innerText = selectRandom(profileEmojis);
+	userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
+	// Added conditional in case user ID is not found
+	currentUser.friends.forEach(friend => {
+		if (userRepo.findUser(friend)) {
+			friendsDisplay.innerHTML += `
             <div class="single-friend">
             <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
             ${(userRepo.findUser(friend)).name}
             </div>
         `;
-        } else {
-            friendsDisplay.innerHTML += `
+		} else {
+			friendsDisplay.innerHTML += `
             <div class="single-friend">
             <p> User not found </p>
         `;
-        }
-    })
+		}
+	})
 }
 
 function toggleProfileInfo() {
-    if (!friendsDisplay.classList.contains('hidden')) {
-        friendsDisplay.classList.add('hidden');
-        userProfile.classList.remove('hidden');
-    } else {
-        friendsDisplay.classList.remove('hidden');
-        userProfile.classList.add('hidden');
-    };
+	if (!friendsDisplay.classList.contains('hidden')) {
+		friendsDisplay.classList.add('hidden');
+		userProfile.classList.remove('hidden');
+	} else {
+		friendsDisplay.classList.remove('hidden');
+		userProfile.classList.add('hidden');
+	};
 };
 
 function displayGoalMet(selectedDate) {
-    daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
-    if (userRepo.selectedUser.checkStepGoal(selectedDate)) {
-        userGoalMet.innerText = 'Way to go, you met your goal!';
-    } else {
-        userGoalMet.innerText = 'Keep moving to meet your goal!';
-    };
+	daySteps.innerText = `You've Taken ${userRepo.selectedUser.findDayActivity(selectedDate, 'numSteps')} Steps Today`;
+	if (userRepo.selectedUser.checkStepGoal(selectedDate)) {
+		userGoalMet.innerText = 'Way to go, you met your goal!';
+	} else {
+		userGoalMet.innerText = 'Keep moving to meet your goal!';
+	};
 };
 
 function displayDayStepData() {
@@ -264,60 +299,60 @@ function displayDayStepData() {
     userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
     userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
 
-    //display weeks activity charts
+	//display weeks activity charts
 
-    hideCompStepData();
-    hideActivityData();
-    userStepsData.classList.remove('hidden');
+	hideCompStepData();
+	hideActivityData();
+	userStepsData.classList.remove('hidden');
 }
 
 function showDropDownOptions() {
-    dropDownOptions.classList.toggle("show")
+	dropDownOptions.classList.toggle("show")
 }
 
 function showInputForms(idOfForm) {
-    activityDataEntryForm.classList.remove('show')
-    hydrationDataEntryForm.classList.remove('show')
-    sleepDataEntryForm.classList.remove('show')
-    idOfForm.classList.toggle("show");
+	activityDataEntryForm.classList.remove('show')
+	hydrationDataEntryForm.classList.remove('show')
+	sleepDataEntryForm.classList.remove('show')
+	idOfForm.classList.toggle("show");
 }
 
 function displayCompStepData() {
-    displayStepGoalComparison();
-    displayStairsComparison();
-    hideDayStepData();
-    hideActivityData();
-    compStepsData.classList.remove('hidden');
+	displayStepGoalComparison();
+	displayStairsComparison();
+	hideDayStepData();
+	hideActivityData();
+	compStepsData.classList.remove('hidden');
 };
 
 function displayActivityData() {
-    displayActiviteMinutesData();
-    hideDayStepData();
-    hideCompStepData();
-    weekData.classList.remove('hidden');
+	displayActiviteMinutesData();
+	hideDayStepData();
+	hideCompStepData();
+	weekData.classList.remove('hidden');
 };
 
 function hideDayStepData() {
-    userStepsData.classList.add('hidden');
+	userStepsData.classList.add('hidden');
 };
 
 function hideCompStepData() {
-    compStepsData.classList.add('hidden');
+	compStepsData.classList.add('hidden');
 };
 
 function hideActivityData() {
-    weekData.classList.add('hidden')
+	weekData.classList.add('hidden')
 }
 
 function displayStepGoalComparison() {
-    if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
-        let stepGoalDiff = userRepo.selectedUser.dailyStepGoal - userRepo.averageSteps();
-        stepGoalVsAvg.innerText = `Nice work! Your step goal is
+	if (userRepo.selectedUser.dailyStepGoal > userRepo.averageSteps()) {
+		let stepGoalDiff = userRepo.selectedUser.dailyStepGoal - userRepo.averageSteps();
+		stepGoalVsAvg.innerText = `Nice work! Your step goal is
     ${stepGoalDiff} steps above average!`;
-    } else {
-        let stepGoalDiff = userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
-        stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
-    }
+	} else {
+		let stepGoalDiff = userRepo.averageSteps() - userRepo.selectedUser.dailyStepGoal;
+		stepGoalVsAvg.innerText = `Your step goal is ${stepGoalDiff} steps below average. Consider increasing your goal`;
+	}
 }
 
 function displayStairsComparison() {
@@ -358,7 +393,7 @@ function displaySleepData() { //this can be refactored with some dynamic helper 
 }
 
 function displaySelectedUserInformation() {
-    userProfile.innerText = `Mailing Address:
+	userProfile.innerText = `Mailing Address:
   ${currentUser.address}
   Email Address:
   ${currentUser.email}
@@ -369,17 +404,17 @@ function displaySelectedUserInformation() {
 }
 
 function setTodaysDateToMaxDate() {
-  let today = new Date();
+	let today = new Date();
 
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0');
-  let yyyy = today.getFullYear();
+	let dd = String(today.getDate()).padStart(2, '0');
+	let mm = String(today.getMonth() + 1).padStart(2, '0');
+	let yyyy = today.getFullYear();
 
-  today = `${yyyy}-${mm}-${dd}`;
+	today = `${yyyy}-${mm}-${dd}`;
 
-  activityCalendar.setAttribute("max", today);
-  hydrationCalendar.setAttribute("max", today);
-  sleepCalendar.setAttribute("max", today);
+	activityCalendar.setAttribute("max", today);
+	hydrationCalendar.setAttribute("max", today);
+	sleepCalendar.setAttribute("max", today);
 }
 
 export { userRepo };
