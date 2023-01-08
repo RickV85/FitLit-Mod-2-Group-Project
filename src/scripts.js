@@ -126,12 +126,10 @@ function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
 	userRepo.initialize(currentUser);
   userRepo.selectedUser.findLatestDate();
+  console.log('find func', userRepo.selectedUser.latestDate);
 	currentUser = userRepo.selectedUser;
-  console.log(currentUser);
-  console.log('hydration data', currentUser.findDaysHydration(currentUser.latestDate));
-  console.log('hoursSlept', currentUser.findDaySleepData('hoursSlept', currentUser.latestDate))
-  console.log('numSteps', currentUser.findDayActivity(currentUser.latestDate, 'numSteps'))
-
+  console.log('currentUser',currentUser.latestDate);
+  console.log('selectedUser', userRepo.selectedUser.latestDate);
 }
 
 function resolvePromisesUpdateDOM() {
@@ -143,13 +141,7 @@ function resolvePromisesUpdateDOM() {
 		});
 }
 
-// function showDropDownOptions() {
-// 	dropDownOptions.classList.toggle("show")
-// }
-
 function dailyStatsExist(date) {
-  // Make helper function to hide
-  // Helper func to display for each of the data types
   if (!currentUser.findDayActivity(date, 'numSteps')) {
     dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
     noDataSteps.forEach(data => data.classList.remove('hidden'));
@@ -173,28 +165,6 @@ function dailyStatsExist(date) {
     dailyStatsHydro.classList.remove('hidden');
     noDataHydro.classList.add('hidden');
   }
-
-
-	// if (!currentUser.findLatestDate()) {
-	// 	dailyStatsSleep.classList.add('hidden');
-	// 	dailyStatsSleepAvg.classList.add('hidden');
-	// 	dailyStatsHydro.classList.add('hidden');
-	// 	dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
-	// 	noDataSleep.classList.remove('hidden');
-	// 	noDataSleepAvg.classList.remove('hidden');
-	// 	noDataHydro.classList.remove('hidden');
-	// 	noDataSteps.forEach(data => data.classList.remove('hidden'));
-		
-	// } else {
-	// 	dailyStatsSleep.classList.remove('hidden');
-	// 	dailyStatsSleepAvg.classList.remove('hidden');
-	// 	dailyStatsHydro.classList.remove('hidden');
-	// 	dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
-	// 	noDataSleep.classList.add('hidden');
-	// 	noDataSleepAvg.classList.add('hidden');
-	// 	noDataHydro.classList.add('hidden');
-	// 	noDataSteps.forEach(data => data.classList.add('hidden'));
-	// };
 };
 
 function postInputs(event, type) {
@@ -216,6 +186,9 @@ function postInputs(event, type) {
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
+
+      currentUser.latestDate = data.date;
+      console.log('new latest date after post', currentUser.latestDate)
 
 			resolvePromisesUpdateDOM();
 		})

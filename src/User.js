@@ -79,9 +79,9 @@ class User {
   findMilesWalked(selectedDate) {
     //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
-    // if (stepsWalked === undefined) {
-    //   return false;
-    // }
+    if (stepsWalked === undefined) {
+      return false;
+    }
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
   
