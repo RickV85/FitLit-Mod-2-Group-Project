@@ -127,6 +127,11 @@ function parseData(values) {
 	userRepo.initialize(currentUser);
   userRepo.selectedUser.findLatestDate();
 	currentUser = userRepo.selectedUser;
+  console.log(currentUser);
+  console.log('hydration data', currentUser.findDaysHydration(currentUser.latestDate));
+  console.log('hoursSlept', currentUser.findDaySleepData('hoursSlept', currentUser.latestDate))
+  console.log('numSteps', currentUser.findDayActivity(currentUser.latestDate, 'numSteps'))
+
 }
 
 function resolvePromisesUpdateDOM() {
@@ -134,33 +139,62 @@ function resolvePromisesUpdateDOM() {
 		.then((values) => {
 			parseData(values);
 			updateDOM();
-      dailyStatsExist(currentUser.latestDate, 'activityData');
-      dailyStatsExist(currentUser.latestDate, 'sleepData');
-      dailyStatsExist(currentUser.latestDate, 'hydrationData');
+      dailyStatsExist(currentUser.latestDate);
 		});
 }
 
-function dailyStatsExist(date, dataType) {
-	if (!currentUser.findLatestDate(date, dataType)) {
-		dailyStatsSleep.classList.add('hidden');
-		dailyStatsSleepAvg.classList.add('hidden');
-		dailyStatsHydro.classList.add('hidden');
-		dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
-		noDataSleep.classList.remove('hidden');
-		noDataSleepAvg.classList.remove('hidden');
-		noDataHydro.classList.remove('hidden');
-		noDataSteps.forEach(data => data.classList.remove('hidden'));
+// function showDropDownOptions() {
+// 	dropDownOptions.classList.toggle("show")
+// }
+
+function dailyStatsExist(date) {
+  // Make helper function to hide
+  // Helper func to display for each of the data types
+  if (!currentUser.findDayActivity(date, 'numSteps')) {
+    dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+    noDataSteps.forEach(data => data.classList.remove('hidden'));
+  } else {
+    dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
+    noDataSteps.forEach(data => data.classList.add('hidden'));
+  }
+  if (!currentUser.findDaySleepData('hoursSlept', date)) {
+    dailyStatsSleep.classList.add('hidden');
+    noDataSleep.classList.remove('hidden');
+    noDataSleepAvg.classList.remove('hidden');
+  } else {
+    dailyStatsSleep.classList.remove('hidden');
+    noDataSleep.classList.add('hidden');
+    noDataSleepAvg.classList.add('hidden');
+  }
+  if (!currentUser.findDaysHydration(date)) {
+    dailyStatsHydro.classList.add('hidden');
+    noDataHydro.classList.remove('hidden');
+  } else {
+    dailyStatsHydro.classList.remove('hidden');
+    noDataHydro.classList.add('hidden');
+  }
+
+
+	// if (!currentUser.findLatestDate()) {
+	// 	dailyStatsSleep.classList.add('hidden');
+	// 	dailyStatsSleepAvg.classList.add('hidden');
+	// 	dailyStatsHydro.classList.add('hidden');
+	// 	dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+	// 	noDataSleep.classList.remove('hidden');
+	// 	noDataSleepAvg.classList.remove('hidden');
+	// 	noDataHydro.classList.remove('hidden');
+	// 	noDataSteps.forEach(data => data.classList.remove('hidden'));
 		
-	} else {
-		dailyStatsSleep.classList.remove('hidden');
-		dailyStatsSleepAvg.classList.remove('hidden');
-		dailyStatsHydro.classList.remove('hidden');
-		dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
-		noDataSleep.classList.add('hidden');
-		noDataSleepAvg.classList.add('hidden');
-		noDataHydro.classList.add('hidden');
-		noDataSteps.forEach(data => data.classList.add('hidden'));
-	};
+	// } else {
+	// 	dailyStatsSleep.classList.remove('hidden');
+	// 	dailyStatsSleepAvg.classList.remove('hidden');
+	// 	dailyStatsHydro.classList.remove('hidden');
+	// 	dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
+	// 	noDataSleep.classList.add('hidden');
+	// 	noDataSleepAvg.classList.add('hidden');
+	// 	noDataHydro.classList.add('hidden');
+	// 	noDataSteps.forEach(data => data.classList.add('hidden'));
+	// };
 };
 
 function postInputs(event, type) {
@@ -421,4 +455,4 @@ function setTodaysDateToMaxDate() {
 	sleepCalendar.setAttribute("max", today);
 }
 
-export { userRepo };
+export { userRepo, currentUser };

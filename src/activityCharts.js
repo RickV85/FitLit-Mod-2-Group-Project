@@ -1,5 +1,5 @@
 import { Chart, elements } from "chart.js/auto";
-import { userRepo } from './scripts';
+import { userRepo, currentUser } from './scripts';
 
 const stepChart = document.getElementById("stepCompChart").getContext('2d');
 const sleepChart = document.getElementById("weeksSleepChart").getContext('2d');
@@ -27,9 +27,9 @@ const findStepsPercentage = (numSteps, goal) => {
 };
 
 const updateDaysActivityChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
-    const daySteps = userRepo.selectedUser.findDayActivity(todaysDate, 'numSteps');
-    const goal = userRepo.selectedUser.dailyStepGoal;
+    const todaysDate = currentUser.latestDate;
+    const daySteps = currentUser.findDayActivity(todaysDate, 'numSteps');
+    const goal = currentUser.dailyStepGoal;
     const stepsLeft = findStepsPercentage(daySteps, goal);
     todaysActivityChart = new Chart(activityDayChart, {
         type: 'doughnut',
@@ -46,10 +46,10 @@ const updateDaysActivityChart = () => {
 };
 
 const updateStepChart = () => {
-    const today = userRepo.selectedUser.latestDate;
-    const userSteps = userRepo.selectedUser.findDayActivity(today, 'numSteps');
+    const today = currentUser.latestDate;
+    const userSteps = currentUser.findDayActivity(today, 'numSteps');
     const avgSteps = userRepo.calculateAllUserAvgActivity(today, 'numSteps');
-    const userGoal = userRepo.selectedUser.dailyStepGoal;
+    const userGoal = currentUser.dailyStepGoal;
     const avgGoal = userRepo.averageSteps();
     
     stepComparisonChart = new Chart(stepChart, {
@@ -84,8 +84,8 @@ const updateStepChart = () => {
 
 
 const updateMinChart = () => {
-    const today = userRepo.selectedUser.latestDate;
-    const userMinutes = userRepo.selectedUser.findDayActivity(today, 'minutesActive');
+    const today = currentUser.latestDate;
+    const userMinutes = currentUser.findDayActivity(today, 'minutesActive');
     const avgMinutes = userRepo.calculateAllUserAvgActivity(today, 'minutesActive');
     minComparisonChart = new Chart(minCompChart, {
         type: 'bar',
@@ -117,7 +117,7 @@ const updateMinChart = () => {
 
 //if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
 const assignSleepChartData = (date, sleepKey) => {
-    return userRepo.selectedUser.findWeekData(date, 'sleepData').map(element => {
+    return currentUser.findWeekData(date, 'sleepData').map(element => {
         if(element) {
             return element[sleepKey]
         }
@@ -126,7 +126,7 @@ const assignSleepChartData = (date, sleepKey) => {
 };
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
+    const todaysDate = currentUser.latestDate;
     const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
     const sleepQualityWeek = assignSleepChartData(todaysDate, 'sleepQuality');
     sleepDblDataChart = new Chart(sleepChart, {
@@ -158,8 +158,8 @@ const findHydroPercentage = (numDrunk, goal) => {
 };
 
 const updateHydroDateChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
-    const numDrunk = userRepo.selectedUser.findDaysHydration(todaysDate).numOunces;
+    const todaysDate = currentUser.latestDate;
+    const numDrunk = currentUser.findDaysHydration(todaysDate).numOunces;
     const goal = 64;
     const ozLeft = findHydroPercentage(numDrunk, goal);
     todaysHydroChart = new Chart(hydroDayChart, {
@@ -177,7 +177,7 @@ const updateHydroDateChart = () => {
 };
 
 const assignHydrationChartData = (date) => {
-    return userRepo.selectedUser.findWeekData(date, 'hydrationData').map(element => {
+    return currentUser.findWeekData(date, 'hydrationData').map(element => {
         if(element) {
             return element.numOunces
         }
@@ -186,7 +186,7 @@ const assignHydrationChartData = (date) => {
 };
 
 const updateHydroWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
+    const todaysDate = currentUser.latestDate;
     const chartData = assignHydrationChartData(todaysDate);
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
@@ -222,7 +222,7 @@ function destroyCharts() {
 }
 
 const assignActivityChartData = (date, activityKey) => {
-    return userRepo.selectedUser.findWeekData(date, 'activityData').map(element => {
+    return currentUser.findWeekData(date, 'activityData').map(element => {
         if(element) {
             return element[activityKey]
         }
@@ -231,7 +231,7 @@ const assignActivityChartData = (date, activityKey) => {
 };
 
 const updateStepsWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
+    const todaysDate = currentUser.latestDate;
     const numStepsData = assignActivityChartData(todaysDate, 'numSteps');
     weeksStepChart = new Chart(stepsWeekChart, {
         type: 'bar',
@@ -253,7 +253,7 @@ const updateStepsWeeklyChart = () => {
 };
 
 const updateMinutesActiveWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
+    const todaysDate = currentUser.latestDate;
     const minutesActiveData = assignActivityChartData(todaysDate, 'minutesActive');
     weeksMinutesActivityChart = new Chart(minutesActiveWeekChart , {
         type: 'bar',
@@ -276,7 +276,7 @@ const updateMinutesActiveWeeklyChart = () => {
 
 
 const updateStairsClimbedWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.latestDate;
+    const todaysDate = currentUser.latestDate;
     const flightsOfStairsData = assignActivityChartData(todaysDate, 'flightsOfStairs');
     weeksflightsOfStairsChart = new Chart(flightsOfStairsChart, {
         type: 'bar',
@@ -298,7 +298,7 @@ const updateStairsClimbedWeeklyChart = () => {
 };
 
 // const assignActivityChartData = (date) => {
-//     return userRepo.selectedUser.INSERT-METHOD-NAME-HERE(date).map(element => {
+//     return currentUser.INSERT-METHOD-NAME-HERE(date).map(element => {
 //         if(element) {
 //             return element[sleepKey]
 //         }
@@ -306,7 +306,7 @@ const updateStairsClimbedWeeklyChart = () => {
 //     })
 // };
 // const updateActivityWeekChart = () => {
-//     const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+//     const todaysDate = currentUser.findLatestDate('activityData');
 //     const chartData = assignActivityChartData(todaysDate);
 //     weeksActivityChart = new Chart(activityWeekChart, {
 //         type: 'line',
