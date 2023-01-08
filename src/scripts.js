@@ -134,11 +134,14 @@ function resolvePromisesUpdateDOM() {
 		.then((values) => {
 			parseData(values);
 			updateDOM();
+      dailyStatsExist(currentUser.latestDate, 'activityData');
+      dailyStatsExist(currentUser.latestDate, 'sleepData');
+      dailyStatsExist(currentUser.latestDate, 'hydrationData');
 		});
 }
 
-function dailyStatsExist(date, key) {
-	if (!currentUser.findLatestDate(date, key)) {
+function dailyStatsExist(date, dataType) {
+	if (!currentUser.findLatestDate(date, dataType)) {
 		dailyStatsSleep.classList.add('hidden');
 		dailyStatsSleepAvg.classList.add('hidden');
 		dailyStatsHydro.classList.add('hidden');
@@ -295,7 +298,7 @@ function displayGoalMet(selectedDate) {
 
 function displayDayStepData() {
 
-    const today = userRepo.selectedUser.latestDate;
+    const today = currentUser.latestDate;
     displayGoalMet(today);
     userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
     userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
@@ -357,7 +360,7 @@ function displayStepGoalComparison() {
 }
 
 function displayStairsComparison() {
-    const today = userRepo.selectedUser.latestDate
+    const today = currentUser.latestDate
     stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
     stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
 }
@@ -381,8 +384,7 @@ function displayHydrationData() {
 
 
 function displaySleepData() { //this can be refactored with some dynamic helper functions
-    const today = userRepo.selectedUser.latestDate;
-    console.log(userRepo.selectedUser);
+    const today = currentUser.latestDate;
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
     sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;

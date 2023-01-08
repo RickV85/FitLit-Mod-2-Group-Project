@@ -44,7 +44,7 @@ class User {
   };
   
   findDaySleepData(sleepKey, date) {
-    const result = this.sleepData.find(day => day.date === date)[sleepKey];
+    const result = this.sleepData.find(day => day.date === date)?.[sleepKey];
     if (result === undefined){
       return false
     }
@@ -52,11 +52,11 @@ class User {
   };
   
   findDayActivity(selectedDate, activityKey) {
-    let actData = this.activityData.find(day => day.date === selectedDate);
-    if (actData === undefined){
+    let result = this.activityData.find(day => day.date === selectedDate)?.[activityKey];
+    if (result === undefined){
       return false
     }
-    return actData[activityKey];
+    return result;
   };
 
   averageSleepData(sleepKey) {
