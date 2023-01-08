@@ -27,7 +27,7 @@ const findStepsPercentage = (numSteps, goal) => {
 };
 
 const updateDaysActivityChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const daySteps = userRepo.selectedUser.findDayActivity(todaysDate, 'numSteps');
     const goal = userRepo.selectedUser.dailyStepGoal;
     const stepsLeft = findStepsPercentage(daySteps, goal);
@@ -46,7 +46,7 @@ const updateDaysActivityChart = () => {
 };
 
 const updateStepChart = () => {
-    const today = userRepo.selectedUser.findLatestDate('activityData');
+    const today = userRepo.selectedUser.latestDate;
     const userSteps = userRepo.selectedUser.findDayActivity(today, 'numSteps');
     const avgSteps = userRepo.calculateAllUserAvgActivity(today, 'numSteps');
     const userGoal = userRepo.selectedUser.dailyStepGoal;
@@ -84,7 +84,7 @@ const updateStepChart = () => {
 
 
 const updateMinChart = () => {
-    const today = userRepo.selectedUser.findLatestDate('activityData');
+    const today = userRepo.selectedUser.latestDate;
     const userMinutes = userRepo.selectedUser.findDayActivity(today, 'minutesActive');
     const avgMinutes = userRepo.calculateAllUserAvgActivity(today, 'minutesActive');
     minComparisonChart = new Chart(minCompChart, {
@@ -126,7 +126,7 @@ const assignSleepChartData = (date, sleepKey) => {
 };
 //^^helper function for the datasets for the below function
 const updateSleepChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('sleepData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
     const sleepQualityWeek = assignSleepChartData(todaysDate, 'sleepQuality');
     sleepDblDataChart = new Chart(sleepChart, {
@@ -158,7 +158,7 @@ const findHydroPercentage = (numDrunk, goal) => {
 };
 
 const updateHydroDateChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const numDrunk = userRepo.selectedUser.findDaysHydration(todaysDate).numOunces;
     const goal = 64;
     const ozLeft = findHydroPercentage(numDrunk, goal);
@@ -186,7 +186,7 @@ const assignHydrationChartData = (date) => {
 };
 
 const updateHydroWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('hydrationData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const chartData = assignHydrationChartData(todaysDate);
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
@@ -229,7 +229,7 @@ const assignActivityChartData = (date, activityKey) => {
 };
 
 const updateStepsWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const numStepsData = assignActivityChartData(todaysDate, 'numSteps');
     weeksStepChart = new Chart(stepsWeekChart, {
         type: 'bar',
@@ -251,7 +251,7 @@ const updateStepsWeeklyChart = () => {
 };
 
 const updateMinutesActiveWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const minutesActiveData = assignActivityChartData(todaysDate, 'minutesActive');
     weeksMinutesActivityChart = new Chart(minutesActiveWeekChart , {
         type: 'bar',
@@ -274,7 +274,7 @@ const updateMinutesActiveWeeklyChart = () => {
 
 
 const updateStairsClimbedWeeklyChart = () => {
-    const todaysDate = userRepo.selectedUser.findLatestDate('activityData');
+    const todaysDate = userRepo.selectedUser.latestDate;
     const flightsOfStairsData = assignActivityChartData(todaysDate, 'flightsOfStairs');
     weeksflightsOfStairsChart = new Chart(flightsOfStairsChart, {
         type: 'bar',

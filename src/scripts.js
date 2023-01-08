@@ -259,7 +259,7 @@ function displayGoalMet(selectedDate) {
 
 function displayDayStepData() {
 
-    const today = userRepo.selectedUser.findLatestDate('activityData');
+    const today = userRepo.selectedUser.latestDate;
     displayGoalMet(today);
     userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
     userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
@@ -321,18 +321,18 @@ function displayStepGoalComparison() {
 }
 
 function displayStairsComparison() {
-    const today = userRepo.selectedUser.findLatestDate('activityData')
+    const today = userRepo.selectedUser.latestDate
     stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
     stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
 }
 
 function displayActiviteMinutesData() {
-    const today = currentUser.findLatestDate('activityData')
+    const today = currentUser.latestDate
     weekMinutesActive.innerText = `You were active for ${currentUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
 };
 
 function displayHydrationData() {
-    const lastHydration = currentUser.findLatestDate('hydrationData');
+    const lastHydration = currentUser.latestDate;
     const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
     const goal = 64;
     hydrationToday.innerText = `You have consumed ${lastHydrationOunces} ounces of water today!`;
@@ -345,7 +345,7 @@ function displayHydrationData() {
 
 
 function displaySleepData() { //this can be refactored with some dynamic helper functions
-    const today = currentUser.findLatestDate('sleepData');
+    const today = currentUser.latestDate;
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
     sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
@@ -360,13 +360,10 @@ function displaySleepData() { //this can be refactored with some dynamic helper 
 function displaySelectedUserInformation() {
     userProfile.innerText = `Mailing Address:
   ${currentUser.address}
-
   Email Address:
   ${currentUser.email}
-
   Daily Step Goal:
   ${currentUser.dailyStepGoal} steps
-
   Stride Length:
   ${currentUser.strideLength} feet`;
 }

@@ -37,22 +37,31 @@ class User {
 
   findDaysHydration(selectedDate) {
     const result = this.hydrationData.find(day => day.date === selectedDate);
+    if (result === undefined){
+      return false
+    }
     return result;
   };
   
   findDaySleepData(sleepKey, date) {
-    return this.sleepData.find(day => day.date === date)[sleepKey];
+    const result = this.sleepData.find(day => day.date === date)[sleepKey];
+    if (actData === undefined){
+      return false
+    }
+    return result
   };
   
   findDayActivity(selectedDate, activityKey) {
     let actData = this.activityData.find(day => day.date === selectedDate);
+    if (actData === undefined){
+      return false
+    }
     return actData[activityKey];
   };
 
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
-
 
   findSevenDays(selectedDate, nextDate){
     return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/");
