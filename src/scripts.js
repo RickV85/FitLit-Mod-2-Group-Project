@@ -125,6 +125,7 @@ hideFormButtons.forEach(button => {
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
 	userRepo.initialize(currentUser);
+  userRepo.selectedUser.findLatestDate();
 	currentUser = userRepo.selectedUser;
 }
 
@@ -380,7 +381,8 @@ function displayHydrationData() {
 
 
 function displaySleepData() { //this can be refactored with some dynamic helper functions
-    const today = currentUser.latestDate;
+    const today = userRepo.selectedUser.latestDate;
+    console.log(userRepo.selectedUser);
     let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
     let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
     sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;

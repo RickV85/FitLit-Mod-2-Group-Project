@@ -45,7 +45,7 @@ class User {
   
   findDaySleepData(sleepKey, date) {
     const result = this.sleepData.find(day => day.date === date)[sleepKey];
-    if (actData === undefined){
+    if (result === undefined){
       return false
     }
     return result
@@ -79,11 +79,17 @@ class User {
   findMilesWalked(selectedDate) {
     //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    // if (stepsWalked === undefined) {
+    //   return false;
+    // }
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
   
   findMinutesActive(selectedDate) {
     let actData = this.activityData.find(day => day.date === selectedDate)
+    // if (actData === undefined) {
+    //   return false;
+    // }
     return actData.minutesActive
   }
   
