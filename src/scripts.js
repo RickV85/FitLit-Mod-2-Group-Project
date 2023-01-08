@@ -124,14 +124,9 @@ hideFormButtons.forEach(button => {
 
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
-    console.log('This is current user', currentUser)
 	userRepo.initialize(currentUser?.id);
-    console.log('Hydration data', values[1])
-  userRepo.selectedUser.findLatestDate();
-  console.log('find func', userRepo.selectedUser.latestDate);
+    userRepo.selectedUser.findLatestDate();
 	currentUser = userRepo.selectedUser;
-  console.log('currentUser',currentUser.latestDate);
-  console.log('selectedUser', userRepo.selectedUser.latestDate);
 }
 
 function resolvePromisesUpdateDOM() {
@@ -174,11 +169,9 @@ function postInputs(event, type) {
 	//console.log(data)
 	// Create data object
 	const inputData = translateInputs(type)
-	console.log('input data: ', inputData)
 	// Call post function
 	apiCalls.postUserData(type, inputData)
 		.then(data => {
-			console.log('posted data: ', data)
 			activityCharts.destroyCharts();
 			// Re-render without reloading page
 			// Display to the user the data they just posted
@@ -188,9 +181,6 @@ function postInputs(event, type) {
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
-
-      currentUser.latestDate = data.date;
-      console.log('new latest date after post', currentUser.latestDate)
 
 			resolvePromisesUpdateDOM();
 		})
