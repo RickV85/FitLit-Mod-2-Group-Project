@@ -212,10 +212,12 @@ function destroyCharts() {
     todaysActivityChart.destroy();
     stepComparisonChart.destroy();
     minComparisonChart.destroy();
-    weeksActivityChart.destroy();
     sleepDblDataChart.destroy();
     todaysHydroChart.destroy();
-    weeksHydroChart.destroy();    
+    weeksHydroChart.destroy();  
+    weeksStepChart.destroy();
+    weeksMinutesActivityChart.destroy();
+    weeksflightsOfStairsChart.destroy();
     //add weekly charts to destroy
 }
 
