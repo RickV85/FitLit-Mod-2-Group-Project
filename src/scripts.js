@@ -136,32 +136,22 @@ function resolvePromisesUpdateDOM() {
 		});
 }
 
-function displayStatsOrErrors(state) {
-	dailyStatsHandler(state)
-	noDataErrorHandler(state)
-}
-
-function dailyStatsHandler(state) {
-	if (state === true) {
+function dailyStatsExist(state) {
+	if (state === false) {
 		dailyStatsSleep.classList.add('hidden');
 		dailyStatsSleepAvg.classList.add('hidden');
 		dailyStatsHydro.classList.add('hidden');
 		dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+		noDataSleep.classList.remove('hidden');
+		noDataSleepAvg.classList.remove('hidden');
+		noDataHydro.classList.remove('hidden');
+		noDataSteps.forEach(data => data.classList.remove('hidden'));
+		
 	} else {
 		dailyStatsSleep.classList.remove('hidden');
 		dailyStatsSleepAvg.classList.remove('hidden');
 		dailyStatsHydro.classList.remove('hidden');
 		dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
-	};
-};
-
-function noDataErrorHandler(state) {
-	if (state === false) {
-		noDataSleep.classList.remove('hidden');
-		noDataSleepAvg.classList.remove('hidden');
-		noDataHydro.classList.remove('hidden');
-		noDataSteps.forEach(data => data.classList.remove('hidden'));
-	} else {
 		noDataSleep.classList.add('hidden');
 		noDataSleepAvg.classList.add('hidden');
 		noDataHydro.classList.add('hidden');
