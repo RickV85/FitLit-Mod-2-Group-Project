@@ -9,7 +9,7 @@ class UserRepository {
         this.users = [];
         this.selectedUser;
     }
-    initialize(currentUser) {
+    initialize(currentUserId) {
         this.userData.forEach(user => {
             let newUser = new User(user);
             this.users.push(newUser);
@@ -38,8 +38,10 @@ class UserRepository {
             user.activityData.push(actData);
           }
         });
-
-        this.selectedUser = currentUser || this.randomizeUser();
+        // Helper function to assign selected user
+        //if currentUser.id then this.users.find user with id 
+        // assign it to selectedUser 
+        this.selectedUser = this.findUser(currentUserId) || this.randomizeUser();
         this.userData = null;
         this.hydrationData = null;
         this.sleepData = null;
@@ -47,6 +49,9 @@ class UserRepository {
     };
 
     findUser(id) {
+      if (!id){
+        return false
+      }
       let userIdArray = this.users.map(user => {
         return user.id;
         })

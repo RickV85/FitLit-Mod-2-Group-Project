@@ -124,7 +124,9 @@ hideFormButtons.forEach(button => {
 
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
-	userRepo.initialize(currentUser);
+    console.log('This is current user', currentUser)
+	userRepo.initialize(currentUser?.id);
+    console.log('Hydration data', values[1])
   userRepo.selectedUser.findLatestDate();
   console.log('find func', userRepo.selectedUser.latestDate);
 	currentUser = userRepo.selectedUser;

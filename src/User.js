@@ -26,6 +26,7 @@ class User {
 
   findLatestDate() {
     const sortHydration = this.sortUserArrays('hydrationData')
+    console.log('user updated hydration', sortHydration)
     const sortSleep = this.sortUserArrays('sleepData')
     const sortActivity = this.sortUserArrays('activityData')
     const latestArray = [sortHydration[sortHydration.length -1], sortSleep[sortSleep.length-1], sortActivity[sortActivity.length-1]]
