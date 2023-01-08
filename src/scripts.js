@@ -125,7 +125,11 @@ hideFormButtons.forEach(button => {
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
 	userRepo.initialize(currentUser);
+  userRepo.selectedUser.findLatestDate();
+  console.log('find func', userRepo.selectedUser.latestDate);
 	currentUser = userRepo.selectedUser;
+  console.log('currentUser',currentUser.latestDate);
+  console.log('selectedUser', userRepo.selectedUser.latestDate);
 }
 
 function resolvePromisesUpdateDOM() {
@@ -133,30 +137,34 @@ function resolvePromisesUpdateDOM() {
 		.then((values) => {
 			parseData(values);
 			updateDOM();
+      dailyStatsExist(currentUser.latestDate);
 		});
 }
 
-function dailyStatsExist(date, key) {
-	if (!currentUser.findLatestDate(date, key)) {
-		dailyStatsSleep.classList.add('hidden');
-		dailyStatsSleepAvg.classList.add('hidden');
-		dailyStatsHydro.classList.add('hidden');
-		dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
-		noDataSleep.classList.remove('hidden');
-		noDataSleepAvg.classList.remove('hidden');
-		noDataHydro.classList.remove('hidden');
-		noDataSteps.forEach(data => data.classList.remove('hidden'));
-		
-	} else {
-		dailyStatsSleep.classList.remove('hidden');
-		dailyStatsSleepAvg.classList.remove('hidden');
-		dailyStatsHydro.classList.remove('hidden');
-		dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
-		noDataSleep.classList.add('hidden');
-		noDataSleepAvg.classList.add('hidden');
-		noDataHydro.classList.add('hidden');
-		noDataSteps.forEach(data => data.classList.add('hidden'));
-	};
+function dailyStatsExist(date) {
+  if (!currentUser.findDayActivity(date, 'numSteps')) {
+    dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+    noDataSteps.forEach(data => data.classList.remove('hidden'));
+  } else {
+    dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
+    noDataSteps.forEach(data => data.classList.add('hidden'));
+  }
+  if (!currentUser.findDaySleepData('hoursSlept', date)) {
+    dailyStatsSleep.classList.add('hidden');
+    noDataSleep.classList.remove('hidden');
+    noDataSleepAvg.classList.remove('hidden');
+  } else {
+    dailyStatsSleep.classList.remove('hidden');
+    noDataSleep.classList.add('hidden');
+    noDataSleepAvg.classList.add('hidden');
+  }
+  if (!currentUser.findDaysHydration(date)) {
+    dailyStatsHydro.classList.add('hidden');
+    noDataHydro.classList.remove('hidden');
+  } else {
+    dailyStatsHydro.classList.remove('hidden');
+    noDataHydro.classList.add('hidden');
+  }
 };
 
 function postInputs(event, type) {
@@ -178,6 +186,9 @@ function postInputs(event, type) {
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
+
+      currentUser.latestDate = data.date;
+      console.log('new latest date after post', currentUser.latestDate)
 
 			resolvePromisesUpdateDOM();
 		})
@@ -294,10 +305,10 @@ function displayGoalMet(selectedDate) {
 
 function displayDayStepData() {
 
-	const today = userRepo.selectedUser.findLatestDate('activityData');
-	displayGoalMet(today);
-	userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
-	userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
+    const today = currentUser.latestDate;
+    displayGoalMet(today);
+    userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
+    userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
 
 	//display weeks activity charts
 
@@ -356,52 +367,49 @@ function displayStepGoalComparison() {
 }
 
 function displayStairsComparison() {
-	const today = userRepo.selectedUser.findLatestDate('activityData')
-	stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
-	stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
+    const today = currentUser.latestDate
+    stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
+    stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
 }
 
 function displayActiviteMinutesData() {
-	const today = currentUser.findLatestDate('activityData')
-	weekMinutesActive.innerText = `You were active for an average of ${currentUser.findWeekAvgActiveMinutes(today)} minutes this week`
+    const today = currentUser.latestDate
+    weekMinutesActive.innerText = `You were active for ${currentUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
 };
 
 function displayHydrationData() {
-	const lastHydration = currentUser.findLatestDate('hydrationData');
-	const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
-	const goal = 64;
-	hydrationToday.innerText = `You have consumed ${lastHydrationOunces} ounces of water today!`;
-	if (lastHydrationOunces < goal) {
-		hydrationGoal.innerText = `Only ${goal - lastHydrationOunces} to go!`;
-	} else {
-		hydrationGoal.innerText = 'You have met the daily recommendation, great job!';
-	}
+    const lastHydration = currentUser.latestDate;
+    const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
+    const goal = 64;
+    hydrationToday.innerText = `You have consumed ${lastHydrationOunces} ounces of water today!`;
+    if (lastHydrationOunces < goal) {
+        hydrationGoal.innerText = `Only ${goal - lastHydrationOunces} to go!`;
+    } else {
+        hydrationGoal.innerText = 'You have met the daily recommendation, great job!';
+    }
 };
 
 
 function displaySleepData() { //this can be refactored with some dynamic helper functions
-	const today = currentUser.findLatestDate('sleepData');
-	let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
-	let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
-	sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
-	sleepHours = currentUser.averageSleepData('hoursSlept');
-	sleepQuality = currentUser.averageSleepData('sleepQuality');
-	sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
-	sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
-	sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
-	sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
+    const today = currentUser.latestDate;
+    let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
+    let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
+    sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+    sleepHours = currentUser.averageSleepData('hoursSlept');
+    sleepQuality = currentUser.averageSleepData('sleepQuality');
+    sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+    sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
+    sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
+    sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
 }
 
 function displaySelectedUserInformation() {
 	userProfile.innerText = `Mailing Address:
   ${currentUser.address}
-
   Email Address:
   ${currentUser.email}
-
   Daily Step Goal:
   ${currentUser.dailyStepGoal} steps
-
   Stride Length:
   ${currentUser.strideLength} feet`;
 }
@@ -420,4 +428,4 @@ function setTodaysDateToMaxDate() {
 	sleepCalendar.setAttribute("max", today);
 }
 
-export { userRepo };
+export { userRepo, currentUser };

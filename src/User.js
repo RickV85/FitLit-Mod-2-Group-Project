@@ -10,10 +10,11 @@ class User {
     this.hydrationData = [];
     this.sleepData = [];
     this.activityData = [];
+    this.latestDate;
   };
 
   sortUserArrays(dataProperty) {
-    this[dataProperty].sort((day1,day2) => {
+    return this[dataProperty].sort((day1,day2) => {
         return (day1.date).localeCompare(day2.date);
     });
   };
@@ -23,30 +24,44 @@ class User {
     return userNameSplitArray[0];
   };
 
-  findLatestDate(dataProperty) {
-    const lastIndex = (this[dataProperty].length) - 1;
-    this.sortUserArrays(dataProperty);
-    return this[dataProperty][lastIndex].date;
+  findLatestDate() {
+    const sortHydration = this.sortUserArrays('hydrationData')
+    const sortSleep = this.sortUserArrays('sleepData')
+    const sortActivity = this.sortUserArrays('activityData')
+    const latestArray = [sortHydration[sortHydration.length -1], sortSleep[sortSleep.length-1], sortActivity[sortActivity.length-1]]
+    const latestArraySorted = latestArray.sort((a, b) => {
+      return (a.date).localeCompare(b.date)
+    })
+    this.latestDate = latestArraySorted[latestArraySorted.length-1].date
   };
 
   findDaysHydration(selectedDate) {
     const result = this.hydrationData.find(day => day.date === selectedDate);
+    if (result === undefined){
+      return false
+    }
     return result;
   };
   
   findDaySleepData(sleepKey, date) {
-    return this.sleepData.find(day => day.date === date)[sleepKey];
+    const result = this.sleepData.find(day => day.date === date)?.[sleepKey];
+    if (result === undefined){
+      return false
+    }
+    return result
   };
   
   findDayActivity(selectedDate, activityKey) {
-    let actData = this.activityData.find(day => day.date === selectedDate);
-    return actData[activityKey];
+    let result = this.activityData.find(day => day.date === selectedDate)?.[activityKey];
+    if (result === undefined){
+      return false
+    }
+    return result;
   };
 
   averageSleepData(sleepKey) {
     return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
   };
-
 
   findSevenDays(selectedDate, nextDate){
     return new Date(new Date(selectedDate) - (nextDate) * 24 * 60 * 60 * 1000).toISOString().split('T')[0].split("-").join("/");
@@ -64,11 +79,17 @@ class User {
   findMilesWalked(selectedDate) {
     //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
+    if (stepsWalked === undefined) {
+      return false;
+    }
     return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
   };
   
   findMinutesActive(selectedDate) {
     let actData = this.activityData.find(day => day.date === selectedDate)
+    // if (actData === undefined) {
+    //   return false;
+    // }
     return actData.minutesActive
   }
   
