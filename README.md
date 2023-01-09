@@ -26,7 +26,7 @@ Tracking progress while going through your health and wellness journey can be di
 
 
 ### Context:
-Faye, Kirsten, Ryan, and Rick all worked on this project for 9 days. We are all in our third week in our second module in Turing.
+Faye, Kirsten, Ryan, and Rick all worked on this project for 17 days. We are all in our fifth week in our second module in Turing.
 
 ### Technologies Used
 - Javascript
@@ -45,7 +45,7 @@ Faye, Kirsten, Ryan, and Rick all worked on this project for 9 days. We are all 
 
 ### Wins + Challenges:
 Some challenges included: 
-- Handling inconsitent data, during the first iteration we could expect there to always be a weeks worth of data. In the second iteration the data we were given was much less consitent and lead to the need to refactor a lot of our code. 
+- Handling inconsitent data, during the first iteration we could expect there to always be a weeks worth of data. In the second iteration the data we were given was much less consitent and lead to the need to refactor a lot of our code related to finding week-long data.
 - Fetching data while utilizing promises. Having to understand JavaScript execution context and the call stack in order to have functions call after the data has already been fetched. 
 - Chart.js, learning how to utilize a third-party extension
 
