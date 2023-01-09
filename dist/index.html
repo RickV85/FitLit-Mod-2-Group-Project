@@ -28,23 +28,23 @@
     <section class="data-display" id="dataDisplay">
       <nav class="side-nav" id="side-navigation">
         <aside class="user-tab">
-          <button type="onClick" class="user-avatar" id="userAvatar" alt="user profile icon"></button>
+          <button type="onClick" class="user-avatar" id="userAvatar" alt="user profile icon" aria-controls="profile"></button>
           <p class="user-name" id="userName"></p>
-          <section class="friends-profile" id="friends"></section>
-          <section class="profile hidden" id="profile"></section>
+          <section class="friends-profile" id="friends" aria-expanded="true"></section>
+          <section class="profile hidden" id="profile" aria-expanded="false"></section>
         </aside>
         <aside class="input-section" id="input">
           <div class="dropdown">
-            <button class="dropbutton" id="dropdown-button">Add a Workout</button>
-            <div class="data-dropdown" id="dropdown-content" state="closed">
-              <button class="select-steps drop-option" id="steps-selection">Add Step Data</button>
-              <button class="select-hydration drop-option" id="hydration-selection">Add Hydration Data</button>
-              <button class="select-sleep drop-option" id="sleep-selection">Add Sleep Data</button>
-            </div>
+            <button class="dropbutton" id="dropdown-button" aria-controls="dropdown-content">Add a Workout</button>
+            <menu class="data-dropdown" id="dropdown-content" aria-expanded="false">
+              <button class="select-steps drop-option" id="steps-selection" aria-controls="activityDataEntryForm">Add Activity Data</button>
+              <button class="select-hydration drop-option" id="hydration-selection" aria-controls="hydrationDataEntryForm">Add Hydration Data</button>
+              <button class="select-sleep drop-option" id="sleep-selection" aria-controls="sleepDataEntryForm">Add Sleep Data</button>
+            </menu>
           </div>
         </aside>
         <aside class="form-section">
-          <form class="user-data-entry-form" id="activityDataEntryForm" state="closed">
+          <form class="user-data-entry-form" id="activityDataEntryForm" aria-expanded="false">
             <div class="label-and-x">
               <h3 class="input-form-headings">Enter activity stats</h3>
               <img class="hide-form-button" id="hide-form" src="./images/cross-button.png" alt="close activity input form">
@@ -59,7 +59,7 @@
             <input type="date" id="activityCalendar" name="activity_date" max="" required>
             <input type="submit" class="user-data-submit-button" id="activityDataSubmitButton">
           </form>
-          <form class="user-data-entry-form" id="hydrationDataEntryForm" state="closed">
+          <form class="user-data-entry-form" id="hydrationDataEntryForm" aria-expanded="false">
             <div class="label-and-x">
               <h3 class="input-form-headings">Enter hydration stats</h3>
               <img class="hide-form-button" id="hide-form" src="./images/cross-button.png" alt="close hydration input form">
@@ -70,7 +70,7 @@
             <input type="date" id="hydrationCalendar" name="hydro_date" max="" required>
             <input type="submit" class="user-data-submit-button" id="hydroDataSubmitButton">
           </form>
-          <form class="user-data-entry-form" id="sleepDataEntryForm" state="closed">
+          <form class="user-data-entry-form" id="sleepDataEntryForm" aria-expanded="false">
             <div class="label-and-x">
               <h3 class="input-form-headings">Enter sleep stats</h3>
               <img class="hide-form-button" id="hide-form" src="./images/cross-button.png" alt="close sleep input form">

@@ -118,7 +118,7 @@ hideFormButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
 		var formToHide = event.target.closest('.user-data-entry-form')
 		formToHide.classList.remove('show')
-    formToHide.getAttribute("state") === "closed" ? formToHide.setAttribute("state", "open") : formToHide.setAttribute("state", "closed");
+    formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
 	})
 })
 
@@ -280,9 +280,13 @@ function toggleProfileInfo() {
 	if (!friendsDisplay.classList.contains('hidden')) {
 		friendsDisplay.classList.add('hidden');
 		userProfile.classList.remove('hidden');
+    friendsDisplay.setAttribute("aria-expanded", "false");
+    userProfile.setAttribute("aria-expanded", "true");
 	} else {
 		friendsDisplay.classList.remove('hidden');
 		userProfile.classList.add('hidden');
+    friendsDisplay.setAttribute("aria-expanded", "true");
+    userProfile.setAttribute("aria-expanded", "false");
 	};
 };
 
@@ -311,7 +315,7 @@ function displayDayStepData() {
 
 function showDropDownOptions() {
 	dropDownOptions.classList.toggle("show")
-  dropDownOptions.getAttribute("state") === "closed" ? dropDownOptions.setAttribute("state", "open") : dropDownOptions.setAttribute("state", "closed");
+  dropDownOptions.getAttribute("aria-expanded") === "false" ? dropDownOptions.setAttribute("aria-expanded", "true") : dropDownOptions.setAttribute("aria-expanded", "false");
 }
 
 function showInputForms(idOfForm) {
@@ -319,10 +323,10 @@ function showInputForms(idOfForm) {
 	hydrationDataEntryForm.classList.remove('show')
 	sleepDataEntryForm.classList.remove('show')
 	idOfForm.classList.toggle("show");
-  activityDataEntryForm.setAttribute('state', 'closed')
-	hydrationDataEntryForm.setAttribute('state', 'closed')
-	sleepDataEntryForm.setAttribute('state', 'closed')
-  idOfForm.getAttribute("state") === "closed" ? idOfForm.setAttribute("state", "open") : idOfForm.setAttribute("state", "closed");
+  activityDataEntryForm.setAttribute('aria-expanded', 'false')
+	hydrationDataEntryForm.setAttribute('aria-expanded', 'false')
+	sleepDataEntryForm.setAttribute('aria-expanded', 'false')
+  idOfForm.getAttribute("aria-expanded") === "false" ? idOfForm.setAttribute("aria-expanded", "true") : idOfForm.setAttribute("aria-expanded", "false");
 }
 
 function displayCompStepData() {
