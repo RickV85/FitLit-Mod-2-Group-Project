@@ -202,38 +202,42 @@ function translateInputs(type) {
 	let quality;
 	switch (type) {
 		case 'activity':
-			date = document.getElementById("activityCalendar").value;
+			date = formatDate(document.getElementById("activityCalendar").value);
 			flights = document.getElementById("userFlightsInput").value;
 			minutes = document.getElementById("userMinActiveInput").value;
 			steps = document.getElementById("userStepInput").value;
 			return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
 			break; //do i need a break if i have a return?
 		case 'hydration':
-			date = document.getElementById("hydrationCalendar").value;
+			date = formatDate(document.getElementById("hydrationCalendar").value);
 			ounces = document.getElementById("userHydroInput").value;
 			return { userID: userId, date: date, numOunces: ounces }
 			break;
 		case 'sleep':
-			date = document.getElementById("sleepCalendar").value;
-			hours = document.getElementById("userHoursSleptInput").value;
-			quality = document.getElementById("userSleepQualityInput").value;
+			date = formatDate(document.getElementById("sleepCalendar").value);
+			hours = +document.getElementById("userHoursSleptInput").value;
+			quality = +document.getElementById("userSleepQualityInput").value;
 			return { userID: userId, date: date, hoursSlept: hours, sleepQuality: quality }
 			break;
 	}
+}
+
+function formatDate(ogDate) {
+	const decon = ogDate.split("-")
+	const day = decon[1]
+	if(day.length === 1) {
+		decon.splice(1, 1, '0'+ day)
+	}
+	return decon.join("/");
 }
 
 function updateDOM() {
 	showPersonalizedWelcome();
 	showUserInfoDisplay();
 	displaySelectedUserInformation();
-
 	displayDayStepData();
-
 	displayHydrationData();
 	displaySleepData();
-	//charts need to be updated on page load even if they are hidden
-	//charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
-	//might have to import the chart elements themselves for that? or create new queries here...
 	activityCharts.updateDaysActivityChart();
 	activityCharts.updateStepChart();
 	activityCharts.updateMinChart();

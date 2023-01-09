@@ -30,37 +30,37 @@ class User {
     const sortActivity = this.sortUserArrays('activityData')
     const latestArray = [sortHydration[sortHydration.length -1], sortSleep[sortSleep.length-1], sortActivity[sortActivity.length-1]]
     const latestArraySorted = latestArray.sort((a, b) => {
-      return (a.date).localeCompare(b.date)
+      return (a.date).localeCompare(b.date);
     })
-    this.latestDate = latestArraySorted[latestArraySorted.length-1].date
+    this.latestDate = latestArraySorted[latestArraySorted.length-1].date;
   };
 
   findDaysHydration(selectedDate) {
     const result = this.hydrationData.find(day => day.date === selectedDate);
     if (result === undefined){
-      return false
+      return false;
     }
     return result;
   };
   
   findDaySleepData(sleepKey, date) {
     const result = this.sleepData.find(day => day.date === date)?.[sleepKey];
-    if (result === undefined){
-      return false
+    if (result === undefined) {
+      return false;
     }
-    return result
+    return result;
   };
   
   findDayActivity(selectedDate, activityKey) {
     let result = this.activityData.find(day => day.date === selectedDate)?.[activityKey];
-    if (result === undefined){
-      return false
+    if (result === undefined) {
+      return false;
     }
     return result;
   };
 
   averageSleepData(sleepKey) {
-    return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
+    return +(this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1);
   };
 
   findSevenDays(selectedDate, nextDate){
@@ -82,7 +82,7 @@ class User {
     if (stepsWalked === undefined) {
       return false;
     }
-    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+    return +(stepsWalked.numSteps * this.strideLength / 5280).toFixed(2);
   };
   
   findMinutesActive(selectedDate) {
@@ -97,35 +97,36 @@ class User {
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
     return weekLongArray.map(day => {
-      let date = this[key].find(data => data.date === day) 
+      let date = this[key].find(data => {
+        return data.date === day}) 
       if (date){
-        return date
+        return date;
       } 
-      return null
+      return null;
     })
   }
 
   findWeekAvgActiveMinutes(selectedDate) {
-    let weekLongArray = this.createWeekLongArray(selectedDate);
+    const weekLongArray = this.createWeekLongArray(selectedDate);
 
-    let weekOfActivity = weekLongArray.map(day => {
-      var date = this.activityData.find(data => data.date === day) 
+    const weekOfActivity = weekLongArray.map(day => {
+      const date = this.activityData.find(data => data.date === day) 
       if (date){
         return date
       }
       return {minutesActive: 0}
     })
 
-    let weekActivityTotal = weekOfActivity.reduce((total, day) => {
+    const weekActivityTotal = weekOfActivity.reduce((total, day) => {
       total += day.minutesActive;
       return total;
     }, 0)
 
-    return Number((weekActivityTotal / 7).toFixed(1));
+    return +(weekActivityTotal / 7).toFixed(1);
   }
 
   checkStepGoal(selectedDate) {
-    let actForDate = this.activityData.find(actData => actData.date === selectedDate)
+    const actForDate = this.activityData.find(actData => actData.date === selectedDate)
     if (actForDate === undefined) {
       return undefined;
     }
