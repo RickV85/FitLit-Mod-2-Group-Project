@@ -310,6 +310,7 @@ function displayDayStepData() {
 
 function showDropDownOptions() {
 	dropDownOptions.classList.toggle("show")
+  dropDownOptions.getAttribute("state") === "closed" ? dropDownOptions.setAttribute("state", "open") : dropDownOptions.setAttribute("state", "closed")
 }
 
 function showInputForms(idOfForm) {
