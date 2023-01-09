@@ -32,7 +32,6 @@ const userMiles = document.getElementById('userMiles');
 const stepGoalVsAvg = document.querySelector('#stepGoalVsAvg');
 const weekData = document.getElementById('weekData');
 const weekMinutesActive = document.getElementById('minutesActive')
-const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
 const activityChartsButton = document.getElementById('moreActivityDisplayButton')
 const activityChartButton2 = document.getElementById('moreActivityDisplayButton2')
 const compareActButton = document.getElementById('compareStatsButton');
@@ -56,13 +55,9 @@ const sleepInputButton = document.getElementById('sleep-selection')
 const activityDataEntryForm = document.getElementById('activityDataEntryForm')
 const hydrationDataEntryForm = document.getElementById('hydrationDataEntryForm')
 const sleepDataEntryForm = document.getElementById('sleepDataEntryForm')
-const activityDataSubmitButton = document.getElementById('activityDataSubmitButton')//do we need these?
-const hydroDataSubmitButton = document.getElementById('hydroDataSubmitButton')
-const sleepDataSubmitButton = document.getElementById('sleepDataSubmitButton')
 const hideFormButtons = document.querySelectorAll('#hide-form')
 const dailyStatsSteps = document.querySelectorAll('.daily-stats-steps')
 const dailyStatsSleep = document.getElementById('dailyStatsSleep')
-const dailyStatsSleepAvg = document.getElementById('dailyStatsSleepAvg')
 const dailyStatsHydro = document.getElementById('dailyStatsHydro')
 const noDataSteps = document.querySelectorAll('.no-data-steps')
 const noDataSleep = document.getElementById('noDataSleep')
@@ -119,7 +114,7 @@ hideFormButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
 		var formToHide = event.target.closest('.user-data-entry-form')
 		formToHide.classList.remove('show')
-    formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
+		formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
 	})
 })
 
@@ -127,7 +122,7 @@ hideFormButtons.forEach(button => {
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
 	userRepo.initialize(currentUser?.id);
-    userRepo.selectedUser.findLatestDate();
+	userRepo.selectedUser.findLatestDate();
 	currentUser = userRepo.selectedUser;
 }
 
@@ -136,56 +131,49 @@ function resolvePromisesUpdateDOM() {
 		.then((values) => {
 			parseData(values);
 			updateDOM();
-      dailyStatsExist(currentUser.latestDate);
+			dailyStatsExist(currentUser.latestDate);
 		});
 }
 
 function dailyStatsExist(date) {
-  if (!currentUser.findDayActivity(date, 'numSteps')) {
-    dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
-    noDataSteps.forEach(data => data.classList.remove('hidden'));
-  } else {
-    dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
-    noDataSteps.forEach(data => data.classList.add('hidden'));
-  }
-  if (!currentUser.findDaySleepData('hoursSlept', date)) {
-    dailyStatsSleep.classList.add('hidden');
-    noDataSleep.classList.remove('hidden');
-    noDataSleepAvg.classList.remove('hidden');
-  } else {
-    dailyStatsSleep.classList.remove('hidden');
-    noDataSleep.classList.add('hidden');
-    noDataSleepAvg.classList.add('hidden');
-  }
-  if (!currentUser.findDaysHydration(date)) {
-    dailyStatsHydro.classList.add('hidden');
-    noDataHydro.classList.remove('hidden');
-  } else {
-    dailyStatsHydro.classList.remove('hidden');
-    noDataHydro.classList.add('hidden');
-  }
+	if (!currentUser.findDayActivity(date, 'numSteps')) {
+		dailyStatsSteps.forEach(stat => stat.classList.add('hidden'));
+		noDataSteps.forEach(data => data.classList.remove('hidden'));
+	} else {
+		dailyStatsSteps.forEach(stat => stat.classList.remove('hidden'));
+		noDataSteps.forEach(data => data.classList.add('hidden'));
+	}
+	if (!currentUser.findDaySleepData('hoursSlept', date)) {
+		dailyStatsSleep.classList.add('hidden');
+		noDataSleep.classList.remove('hidden');
+		noDataSleepAvg.classList.remove('hidden');
+	} else {
+		dailyStatsSleep.classList.remove('hidden');
+		noDataSleep.classList.add('hidden');
+		noDataSleepAvg.classList.add('hidden');
+	}
+	if (!currentUser.findDaysHydration(date)) {
+		dailyStatsHydro.classList.add('hidden');
+		noDataHydro.classList.remove('hidden');
+	} else {
+		dailyStatsHydro.classList.remove('hidden');
+		noDataHydro.classList.add('hidden');
+	}
 };
 
 function postInputs(event, type) {
 	event.preventDefault()
-	//console.log(data)
-	// Create data object
 	const inputData = translateInputs(type)
-	// Call post function
 	apiCalls.postUserData(type, inputData)
 		.then(data => {
 			activityCharts.destroyCharts();
-			// Re-render without reloading page
-			// Display to the user the data they just posted
-
-			//GET again and reinstantiate everything for display
 			userPromise = apiCalls.loadUserData();
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
 
 			resolvePromisesUpdateDOM();
-            displaySubmitMessage('successful');
+			displaySubmitMessage('successful');
 		})
 		.catch(displaySubmitMessage('fail'))
 
@@ -207,7 +195,7 @@ function translateInputs(type) {
 			minutes = document.getElementById("userMinActiveInput").value;
 			steps = document.getElementById("userStepInput").value;
 			return { userID: userId, date: date, flightsOfStairs: flights, minutesActive: minutes, numSteps: steps }
-			break; //do i need a break if i have a return?
+			break;
 		case 'hydration':
 			date = formatDate(document.getElementById("hydrationCalendar").value);
 			ounces = document.getElementById("userHydroInput").value;
@@ -225,8 +213,8 @@ function translateInputs(type) {
 function formatDate(ogDate) {
 	const decon = ogDate.split("-")
 	const day = decon[1]
-	if(day.length === 1) {
-		decon.splice(1, 1, '0'+ day)
+	if (day.length === 1) {
+		decon.splice(1, 1, '0' + day)
 	}
 	return decon.join("/");
 }
@@ -265,7 +253,6 @@ function showUserInfoDisplay() {
 	userName.innerText = `${currentUser.name}`;
 	userAvatar.innerText = selectRandom(profileEmojis);
 	userAvatar.style.backgroundColor = selectRandom(profileBackgrounds);
-	// Added conditional in case user ID is not found
 	currentUser.friends.forEach(friend => {
 		if (userRepo.findUser(friend)) {
 			friendsDisplay.innerHTML += `
@@ -287,13 +274,13 @@ function toggleProfileInfo() {
 	if (!friendsDisplay.classList.contains('hidden')) {
 		friendsDisplay.classList.add('hidden');
 		userProfile.classList.remove('hidden');
-    friendsDisplay.setAttribute("aria-expanded", "false");
-    userProfile.setAttribute("aria-expanded", "true");
+		friendsDisplay.setAttribute("aria-expanded", "false");
+		userProfile.setAttribute("aria-expanded", "true");
 	} else {
 		friendsDisplay.classList.remove('hidden');
 		userProfile.classList.add('hidden');
-    friendsDisplay.setAttribute("aria-expanded", "true");
-    userProfile.setAttribute("aria-expanded", "false");
+		friendsDisplay.setAttribute("aria-expanded", "true");
+		userProfile.setAttribute("aria-expanded", "false");
 	};
 };
 
@@ -308,13 +295,10 @@ function displayGoalMet(selectedDate) {
 
 function displayDayStepData() {
 
-    const today = currentUser.latestDate;
-    displayGoalMet(today);
-    userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
-    userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
-
-	//display weeks activity charts
-
+	const today = currentUser.latestDate;
+	displayGoalMet(today);
+	userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
+	userMinutes.innerText = `${userRepo.selectedUser.findDayActivity(today, 'minutesActive')} minutes of activity total`;
 	hideCompStepData();
 	hideActivityData();
 	userStepsData.classList.remove('hidden');
@@ -322,7 +306,7 @@ function displayDayStepData() {
 
 function showDropDownOptions() {
 	dropDownOptions.classList.toggle("show")
-  dropDownOptions.getAttribute("aria-expanded") === "false" ? dropDownOptions.setAttribute("aria-expanded", "true") : dropDownOptions.setAttribute("aria-expanded", "false");
+	dropDownOptions.getAttribute("aria-expanded") === "false" ? dropDownOptions.setAttribute("aria-expanded", "true") : dropDownOptions.setAttribute("aria-expanded", "false");
 }
 
 function showInputForms(idOfForm) {
@@ -330,10 +314,10 @@ function showInputForms(idOfForm) {
 	hydrationDataEntryForm.classList.remove('show')
 	sleepDataEntryForm.classList.remove('show')
 	idOfForm.classList.toggle("show");
-  activityDataEntryForm.setAttribute('aria-expanded', 'false')
+	activityDataEntryForm.setAttribute('aria-expanded', 'false')
 	hydrationDataEntryForm.setAttribute('aria-expanded', 'false')
 	sleepDataEntryForm.setAttribute('aria-expanded', 'false')
-  idOfForm.getAttribute("aria-expanded") === "false" ? idOfForm.setAttribute("aria-expanded", "true") : idOfForm.setAttribute("aria-expanded", "false");
+	idOfForm.getAttribute("aria-expanded") === "false" ? idOfForm.setAttribute("aria-expanded", "true") : idOfForm.setAttribute("aria-expanded", "false");
 }
 
 function displayCompStepData() {
@@ -375,40 +359,40 @@ function displayStepGoalComparison() {
 }
 
 function displayStairsComparison() {
-    const today = currentUser.latestDate
-    stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
-    stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
+	const today = currentUser.latestDate
+	stairsAvg.innerText = `The average person climbed ${userRepo.calculateAllUserAvgActivity(today, 'flightsOfStairs')} flights of stairs today`
+	stairsUser.innerText = `You climbed ${userRepo.selectedUser.findDayActivity(today, 'flightsOfStairs')}`
 }
 
 function displayActiviteMinutesData() {
-    const today = currentUser.latestDate
-    weekMinutesActive.innerText = `You were active for an average of ${currentUser.findWeekAvgActiveMinutes(today)} minutes this week`
+	const today = currentUser.latestDate
+	weekMinutesActive.innerText = `You were active for an average of ${currentUser.findWeekAvgActiveMinutes(today)} minutes this week`
 };
 
 function displayHydrationData() {
-    const lastHydration = currentUser.latestDate;
-    const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
-    const goal = 64;
-    hydrationToday.innerText = `You have consumed ${lastHydrationOunces} ounces of water today!`;
-    if (lastHydrationOunces < goal) {
-        hydrationGoal.innerText = `Only ${goal - lastHydrationOunces} to go!`;
-    } else {
-        hydrationGoal.innerText = 'You have met the daily recommendation, great job!';
-    }
+	const lastHydration = currentUser.latestDate;
+	const lastHydrationOunces = currentUser.findDaysHydration(lastHydration).numOunces;
+	const goal = 64;
+	hydrationToday.innerText = `You have consumed ${lastHydrationOunces} ounces of water today!`;
+	if (lastHydrationOunces < goal) {
+		hydrationGoal.innerText = `Only ${goal - lastHydrationOunces} to go!`;
+	} else {
+		hydrationGoal.innerText = 'You have met the daily recommendation, great job!';
+	}
 };
 
 
-function displaySleepData() { //this can be refactored with some dynamic helper functions
-    const today = currentUser.latestDate;
-    let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
-    let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
-    sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
-    sleepHours = currentUser.averageSleepData('hoursSlept');
-    sleepQuality = currentUser.averageSleepData('sleepQuality');
-    sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
-    sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
-    sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
-    sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
+function displaySleepData() {
+	const today = currentUser.latestDate;
+	let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
+	let sleepQuality = currentUser.findDaySleepData('sleepQuality', today);
+	sleepToday.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+	sleepHours = currentUser.averageSleepData('hoursSlept');
+	sleepQuality = currentUser.averageSleepData('sleepQuality');
+	sleepUserAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`;
+	sleepHours = userRepo.calculateAllUserAvgSleep('hoursSlept')
+	sleepQuality = userRepo.calculateAllUserAvgSleep('sleepQuality')
+	sleepGlobalAvg.innerText = `${sleepHours} hours | ${sleepQuality} quality`
 }
 
 function displaySelectedUserInformation() {
@@ -437,23 +421,23 @@ function setTodaysDateToMaxDate() {
 	sleepCalendar.setAttribute("max", today);
 }
 
-function displaySubmitMessage(status){
-    activityDataEntryForm.classList.remove('show')
+function displaySubmitMessage(status) {
+	activityDataEntryForm.classList.remove('show')
 	hydrationDataEntryForm.classList.remove('show')
 	sleepDataEntryForm.classList.remove('show')
-    submitFormMessage.classList.remove('hidden')
-    submitMessageText.classList.remove('hidden')
-    if (status === 'successful'){
-        submitMessageText.innerText = 'Data Succesfully Saved!'
-    } else {
-        submitMessageText.innerHTML = 'Data was not Saved'
-    }
-    setTimeout(hideSubmitMessage, 3000)
+	submitFormMessage.classList.remove('hidden')
+	submitMessageText.classList.remove('hidden')
+	if (status === 'successful') {
+		submitMessageText.innerText = 'Data Succesfully Saved!'
+	} else {
+		submitMessageText.innerHTML = 'Data was not Saved'
+	}
+	setTimeout(hideSubmitMessage, 3000)
 }
 
-function hideSubmitMessage(){
-    submitFormMessage.classList.add('hidden')
-    submitMessageText.classList.add('hidden')
+function hideSubmitMessage() {
+	submitFormMessage.classList.add('hidden')
+	submitMessageText.classList.add('hidden')
 }
 
 export { userRepo, currentUser };
