@@ -35,7 +35,6 @@ const weekMinutesActive = document.getElementById('minutesActive')
 const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
 const activityChartsButton = document.getElementById('moreActivityDisplayButton')
 const activityChartButton2 = document.getElementById('moreActivityDisplayButton2')
-const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
 const compareActButton2 = document.getElementById('compareStatsButton2')
 const userActButton = document.getElementById('userStatsButton');
