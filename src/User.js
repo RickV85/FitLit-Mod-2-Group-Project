@@ -107,17 +107,17 @@ class User {
   }
 
   findWeekAvgActiveMinutes(selectedDate) {
-    let weekLongArray = this.createWeekLongArray(selectedDate);
+    const weekLongArray = this.createWeekLongArray(selectedDate);
 
-    let weekOfActivity = weekLongArray.map(day => {
-      var date = this.activityData.find(data => data.date === day) 
+    const weekOfActivity = weekLongArray.map(day => {
+      const date = this.activityData.find(data => data.date === day) 
       if (date){
         return date
       }
       return {minutesActive: 0}
     })
 
-    let weekActivityTotal = weekOfActivity.reduce((total, day) => {
+    const weekActivityTotal = weekOfActivity.reduce((total, day) => {
       total += day.minutesActive;
       return total;
     }, 0)
@@ -126,7 +126,7 @@ class User {
   }
 
   checkStepGoal(selectedDate) {
-    let actForDate = this.activityData.find(actData => actData.date === selectedDate)
+    const actForDate = this.activityData.find(actData => actData.date === selectedDate)
     if (actForDate === undefined) {
       return undefined;
     }

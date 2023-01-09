@@ -232,14 +232,9 @@ function updateDOM() {
 	showPersonalizedWelcome();
 	showUserInfoDisplay();
 	displaySelectedUserInformation();
-
 	displayDayStepData();
-
 	displayHydrationData();
 	displaySleepData();
-	//charts need to be updated on page load even if they are hidden
-	//charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
-	//might have to import the chart elements themselves for that? or create new queries here...
 	activityCharts.updateDaysActivityChart();
 	activityCharts.updateStepChart();
 	activityCharts.updateMinChart();

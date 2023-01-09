@@ -297,36 +297,5 @@ const updateStairsClimbedWeeklyChart = () => {
     })
 };
 
-// const assignActivityChartData = (date) => {
-//     return currentUser.INSERT-METHOD-NAME-HERE(date).map(element => {
-//         if(element) {
-//             return element[sleepKey]
-//         }
-//     return null;
-//     })
-// };
-// const updateActivityWeekChart = () => {
-//     const todaysDate = currentUser.findLatestDate('activityData');
-//     const chartData = assignActivityChartData(todaysDate);
-//     weeksActivityChart = new Chart(activityWeekChart, {
-//         type: 'line',
-//         data: {
-//             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'], //change this to be more clear about what date is which and make sure the selected date is the last date
-//             datasets: [
-//                 {
-//                     label: 'Daily Steps',
-//                     data: chartData,
-//                     type: 'line',
-//                     backgroundColor: ['#BF1263'],
-//                 }
-//             ],
-//         },
-//         options: {
-//             responsive: true, 
-//         maintainAspectRatio: false,
-//         }
-//     })
-// }
-
 export default { updateHydroDateChart, updateStepChart, updateSleepChart, updateHydroWeeklyChart, updateDaysActivityChart, updateMinChart, updateStepsWeeklyChart, updateMinutesActiveWeeklyChart, updateStairsClimbedWeeklyChart, destroyCharts}; 
 
