@@ -68,7 +68,8 @@ const noDataSteps = document.querySelectorAll('.no-data-steps')
 const noDataSleep = document.getElementById('noDataSleep')
 const noDataSleepAvg = document.getElementById('noDataSleepAvg')
 const noDataHydro = document.getElementById('noDataHydro')
-
+const submitMessageText = document.getElementById('submit-text')
+const submitFormMessage = document.getElementById('submit-form-message')
 // Global variables
 let userRepo;
 let currentUser;
@@ -121,6 +122,7 @@ hideFormButtons.forEach(button => {
     formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
 	})
 })
+
 
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
@@ -183,8 +185,9 @@ function postInputs(event, type) {
 			activityPromise = apiCalls.loadActivityData();
 
 			resolvePromisesUpdateDOM();
+            displaySubmitMessage('successful');
 		})
-		.catch(err => console.log(err))
+		.catch(displaySubmitMessage('fail'))
 
 }
 
@@ -428,6 +431,25 @@ function setTodaysDateToMaxDate() {
 	activityCalendar.setAttribute("max", today);
 	hydrationCalendar.setAttribute("max", today);
 	sleepCalendar.setAttribute("max", today);
+}
+
+function displaySubmitMessage(status){
+    activityDataEntryForm.classList.remove('show')
+	hydrationDataEntryForm.classList.remove('show')
+	sleepDataEntryForm.classList.remove('show')
+    submitFormMessage.classList.remove('hidden')
+    submitMessageText.classList.remove('hidden')
+    if (status === 'successful'){
+        submitMessageText.innerText = 'Data Succesfully Saved!'
+    } else {
+        submitMessageText.innerHTML = 'Data was not Saved'
+    }
+    setTimeout(hideSubmitMessage, 3000)
+}
+
+function hideSubmitMessage(){
+    submitFormMessage.classList.add('hidden')
+    submitMessageText.classList.add('hidden')
 }
 
 export { userRepo, currentUser };
