@@ -122,7 +122,7 @@ class User {
       return total;
     }, 0)
 
-    return Number((weekActivityTotal / 7).toFixed(1));
+    return +(weekActivityTotal / 7).toFixed(1);
   }
 
   checkStepGoal(selectedDate) {

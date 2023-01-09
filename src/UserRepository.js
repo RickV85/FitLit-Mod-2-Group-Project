@@ -72,7 +72,7 @@ class UserRepository {
         let averageStepGoal = this.users.reduce((acc, user) => {
             return acc + user.dailyStepGoal;
         }, 0);
-        return Number((averageStepGoal/this.users.length).toFixed(0));
+        return +(averageStepGoal/this.users.length).toFixed(0);
     };
 
     calculateAllUserAvgSleep(sleepKey) {
@@ -86,7 +86,7 @@ class UserRepository {
       }, 0);
       console.log('allUsersSleep', allUsersSleep)
       console.log('number of user datapoints', dataEntries)
-      return Number((allUsersSleep / dataEntries).toFixed(1));
+      return +(allUsersSleep / dataEntries).toFixed(1);
     }
 
     calculateAllUserAvgActivity(date, activity) {
@@ -100,7 +100,7 @@ class UserRepository {
         return total
       },0)
      
-      return Number((averageType/this.users.length).toFixed(0))
+      return +(averageType/this.users.length).toFixed(0)
     }
 }
 
