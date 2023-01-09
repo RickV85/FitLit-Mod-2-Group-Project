@@ -45,7 +45,6 @@ html {
   border: 5px solid red;
 }
 
-
 .data-display {
   height: 95vh;
   overflow: auto;
@@ -292,9 +291,14 @@ html {
 }
 
 .no-data {
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
   background-color: #fba03f4a;
+}
+
+.small-error-message {
+	font-size: 15px;
+	padding: 5px;
 }
 
 
