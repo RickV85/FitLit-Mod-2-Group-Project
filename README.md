@@ -6,7 +6,7 @@
 - Use object and array prototype methods to perform data manipulation.
 - Create a dashboard that is easy to use and displays information in a clear way.
 - Implement a robust testing suite using TDD.
-- Make network requests to retrieve data.
+- Work with a local server and make network requests to API endpoints to retrieve and manipulate data.
 
 
 ### Abstract:
