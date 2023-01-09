@@ -366,7 +366,7 @@ function displayStairsComparison() {
 
 function displayActiviteMinutesData() {
     const today = currentUser.latestDate
-    weekMinutesActive.innerText = `You were active for ${currentUser.findWeekData(today, 'activityData').minutesActive} minute(s) today`
+    weekMinutesActive.innerText = `You were active for an average of ${currentUser.findWeekAvgActiveMinutes(today)} minutes this week`
 };
 
 function displayHydrationData() {
