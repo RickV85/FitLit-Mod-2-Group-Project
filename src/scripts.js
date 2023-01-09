@@ -212,8 +212,8 @@ function translateInputs(type) {
 			break;
 		case 'sleep':
 			date = formatDate(document.getElementById("sleepCalendar").value);
-			hours = document.getElementById("userHoursSleptInput").value;
-			quality = document.getElementById("userSleepQualityInput").value;
+			hours = +document.getElementById("userHoursSleptInput").value;
+			quality = +document.getElementById("userSleepQualityInput").value;
 			return { userID: userId, date: date, hoursSlept: hours, sleepQuality: quality }
 			break;
 	}

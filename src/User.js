@@ -60,7 +60,7 @@ class User {
   };
 
   averageSleepData(sleepKey) {
-    return Number((this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1));
+    return +(this.sleepData.reduce((total, day) => total + day[sleepKey], 0) / this.sleepData.length).toFixed(1);
   };
 
   findSevenDays(selectedDate, nextDate){
@@ -82,7 +82,7 @@ class User {
     if (stepsWalked === undefined) {
       return false;
     }
-    return Number((stepsWalked.numSteps * this.strideLength / 5280).toFixed(2));
+    return +(stepsWalked.numSteps * this.strideLength / 5280).toFixed(2);
   };
   
   findMinutesActive(selectedDate) {

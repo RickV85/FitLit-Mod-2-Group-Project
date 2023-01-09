@@ -84,6 +84,8 @@ class UserRepository {
         })
         return total;
       }, 0);
+      console.log('allUsersSleep', allUsersSleep)
+      console.log('number of user datapoints', dataEntries)
       return Number((allUsersSleep / dataEntries).toFixed(1));
     }
 
@@ -97,6 +99,7 @@ class UserRepository {
         total += value[activity]
         return total
       },0)
+     
       return Number((averageType/this.users.length).toFixed(0))
     }
 }
