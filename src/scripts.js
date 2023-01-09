@@ -16,13 +16,11 @@ let sleepPromise = apiCalls.loadSleepData();
 let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
-
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const userProfile = document.querySelector('#profile');
 const userName = document.querySelector('#userName');
 const userAvatar = document.querySelector('#userAvatar');
-
 const userStepsData = document.getElementById('userData');
 const compStepsData = document.getElementById('compData');
 const daySteps = document.getElementById('daySteps');
@@ -40,10 +38,8 @@ const userActButton = document.getElementById('userStatsButton');
 const userActButton2 = document.getElementById('userStatsButton2')
 const stairsAvg = document.getElementById('stairsAvg');
 const stairsUser = document.getElementById('stairsUser');
-
 const hydrationToday = document.getElementById('dayHydroHeader');
 const hydrationGoal = document.getElementById('hydrationGoal');
-
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
@@ -123,7 +119,6 @@ hideFormButtons.forEach(button => {
 	})
 })
 
-
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
 	userRepo.initialize(currentUser?.id);
@@ -176,7 +171,6 @@ function postInputs(event, type) {
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
-
 			resolvePromisesUpdateDOM();
 			displaySubmitMessage('successful');
 		})
@@ -245,8 +239,6 @@ function updateDOM() {
 	activityCharts.updateStepsWeeklyChart();
 	activityCharts.updateMinutesActiveWeeklyChart();
 	activityCharts.updateStairsClimbedWeeklyChart();
-
-
 };
 
 function showPersonalizedWelcome() {
@@ -259,6 +251,7 @@ function selectRandom(selectedArray) {
 };
 
 function showUserInfoDisplay() {
+  if (!friendsDisplay.innerText) {
 	friendsDisplay.innerText = ` `;
 	userName.innerText = `${currentUser.name}`;
 	userAvatar.innerText = selectRandom(profileEmojis);
@@ -266,18 +259,19 @@ function showUserInfoDisplay() {
 	currentUser.friends.forEach(friend => {
 		if (userRepo.findUser(friend)) {
 			friendsDisplay.innerHTML += `
-            <div class="single-friend">
-            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
-            ${(userRepo.findUser(friend)).name}
-            </div>
-        `;
+        <div class="single-friend">
+        <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
+        ${(userRepo.findUser(friend)).name}
+        </div>
+      `;
 		} else {
 			friendsDisplay.innerHTML += `
-            <div class="single-friend">
-            <p> User not found </p>
-        `;
+        <div class="single-friend">
+        <p> User not found </p>
+      `;
 		}
 	})
+  }
 }
 
 function toggleProfileInfo() {
