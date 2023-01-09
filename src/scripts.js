@@ -16,13 +16,11 @@ let sleepPromise = apiCalls.loadSleepData();
 let activityPromise = apiCalls.loadActivityData();
 
 // Query Selectors
-
 const welcomeMessage = document.querySelector('#welcomeMessage');
 const friendsDisplay = document.querySelector('#friends');
 const userProfile = document.querySelector('#profile');
 const userName = document.querySelector('#userName');
 const userAvatar = document.querySelector('#userAvatar');
-
 const userStepsData = document.getElementById('userData');
 const compStepsData = document.getElementById('compData');
 const daySteps = document.getElementById('daySteps');
@@ -40,10 +38,8 @@ const userActButton = document.getElementById('userStatsButton');
 const userActButton2 = document.getElementById('userStatsButton2')
 const stairsAvg = document.getElementById('stairsAvg');
 const stairsUser = document.getElementById('stairsUser');
-
 const hydrationToday = document.getElementById('dayHydroHeader');
 const hydrationGoal = document.getElementById('hydrationGoal');
-
 const sleepToday = document.getElementById('sleepToday');
 const sleepUserAvg = document.getElementById('sleepUserAvg');
 const sleepGlobalAvg = document.getElementById('sleepGlobalAvg');
@@ -65,6 +61,8 @@ const noDataSleepAvg = document.getElementById('noDataSleepAvg')
 const noDataHydro = document.getElementById('noDataHydro')
 const submitMessageText = document.getElementById('submit-text')
 const submitFormMessage = document.getElementById('submit-form-message')
+const allInputs = document.querySelectorAll('.user-input-fields')
+
 // Global variables
 let userRepo;
 let currentUser;
@@ -100,14 +98,17 @@ sleepInputButton.addEventListener('click', () => {
 activityDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(activityDataEntryForm);
 	postInputs(event, 'activity');
+  clearAllInputValues();
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(hydrationDataEntryForm);
 	postInputs(event, 'hydration');
+  clearAllInputValues();
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(sleepDataEntryForm);
 	postInputs(event, 'sleep');
+  clearAllInputValues();
 });
 
 hideFormButtons.forEach(button => {
@@ -117,7 +118,6 @@ hideFormButtons.forEach(button => {
 		formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
 	})
 })
-
 
 function parseData(values) {
 	userRepo = new UserRepository(values[0], values[1], values[2], values[3]);
@@ -171,12 +171,16 @@ function postInputs(event, type) {
 			hydrationPromise = apiCalls.loadHydrationData();
 			sleepPromise = apiCalls.loadSleepData();
 			activityPromise = apiCalls.loadActivityData();
-
 			resolvePromisesUpdateDOM();
 			displaySubmitMessage('successful');
 		})
 		.catch(displaySubmitMessage('fail'))
+}
 
+function clearAllInputValues() {
+  allInputs.forEach(input => {
+    input.value = '';
+  });
 }
 
 function translateInputs(type) {
@@ -235,8 +239,6 @@ function updateDOM() {
 	activityCharts.updateStepsWeeklyChart();
 	activityCharts.updateMinutesActiveWeeklyChart();
 	activityCharts.updateStairsClimbedWeeklyChart();
-
-
 };
 
 function showPersonalizedWelcome() {
@@ -249,6 +251,7 @@ function selectRandom(selectedArray) {
 };
 
 function showUserInfoDisplay() {
+  if (!friendsDisplay.innerText) {
 	friendsDisplay.innerText = ` `;
 	userName.innerText = `${currentUser.name}`;
 	userAvatar.innerText = selectRandom(profileEmojis);
@@ -256,18 +259,19 @@ function showUserInfoDisplay() {
 	currentUser.friends.forEach(friend => {
 		if (userRepo.findUser(friend)) {
 			friendsDisplay.innerHTML += `
-            <div class="single-friend">
-            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
-            ${(userRepo.findUser(friend)).name}
-            </div>
-        `;
+        <div class="single-friend">
+        <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
+        ${(userRepo.findUser(friend)).name}
+        </div>
+      `;
 		} else {
 			friendsDisplay.innerHTML += `
-            <div class="single-friend">
-            <p> User not found </p>
-        `;
+        <div class="single-friend">
+        <p> User not found </p>
+      `;
 		}
 	})
+  }
 }
 
 function toggleProfileInfo() {
@@ -294,7 +298,6 @@ function displayGoalMet(selectedDate) {
 };
 
 function displayDayStepData() {
-
 	const today = currentUser.latestDate;
 	displayGoalMet(today);
 	userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
@@ -381,7 +384,6 @@ function displayHydrationData() {
 	}
 };
 
-
 function displaySleepData() {
 	const today = currentUser.latestDate;
 	let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
@@ -409,13 +411,10 @@ function displaySelectedUserInformation() {
 
 function setTodaysDateToMaxDate() {
 	let today = new Date();
-
 	let dd = String(today.getDate()).padStart(2, '0');
 	let mm = String(today.getMonth() + 1).padStart(2, '0');
 	let yyyy = today.getFullYear();
-
 	today = `${yyyy}-${mm}-${dd}`;
-
 	activityCalendar.setAttribute("max", today);
 	hydrationCalendar.setAttribute("max", today);
 	sleepCalendar.setAttribute("max", today);
