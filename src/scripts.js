@@ -407,12 +407,13 @@ function displaySleepData() { //this can be refactored with some dynamic helper 
 function displaySelectedUserInformation() {
 	userProfile.innerText = `Mailing Address:
   ${currentUser.address}
+
   Email Address:
   ${currentUser.email}
-  Daily Step Goal:
-  ${currentUser.dailyStepGoal} steps
-  Stride Length:
-  ${currentUser.strideLength} feet`;
+
+  Daily Step Goal: ${currentUser.dailyStepGoal} steps
+
+  Stride Length: ${currentUser.strideLength} feet`;
 }
 
 function setTodaysDateToMaxDate() {
