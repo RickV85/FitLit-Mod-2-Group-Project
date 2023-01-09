@@ -51,26 +51,6 @@ html {
   border: 5px solid red;
 }
 
-.no-data-steps,
-.no-data-sleep,
-.no-data-hydration {
-	color: #BF1363;
-	font-size: x-large;
-  padding: 10px;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.small-error-message {
-	color: #FBA03F;
-	font-size: medium;
-	border: 1px solid black;
-	border-radius: 10px;
-	padding: 10px;
-}
-
-
 .data-display {
   height: 95vh;
   overflow: auto;
@@ -304,6 +284,17 @@ html {
 .show {
   display: flex;
   flex-direction: column;
+}
+
+.no-data {
+  font-size: 20px;
+  text-align: center;
+  background-color: #fba03f4a;
+}
+
+.small-error-message {
+	font-size: 15px;
+	padding: 5px;
 }
 
 
