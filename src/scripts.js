@@ -118,6 +118,7 @@ hideFormButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
 		var formToHide = event.target.closest('.user-data-entry-form')
 		formToHide.classList.remove('show')
+    formToHide.getAttribute("state") === "closed" ? formToHide.setAttribute("state", "open") : formToHide.setAttribute("state", "closed");
 	})
 })
 
@@ -310,7 +311,7 @@ function displayDayStepData() {
 
 function showDropDownOptions() {
 	dropDownOptions.classList.toggle("show")
-  dropDownOptions.getAttribute("state") === "closed" ? dropDownOptions.setAttribute("state", "open") : dropDownOptions.setAttribute("state", "closed")
+  dropDownOptions.getAttribute("state") === "closed" ? dropDownOptions.setAttribute("state", "open") : dropDownOptions.setAttribute("state", "closed");
 }
 
 function showInputForms(idOfForm) {
@@ -318,6 +319,10 @@ function showInputForms(idOfForm) {
 	hydrationDataEntryForm.classList.remove('show')
 	sleepDataEntryForm.classList.remove('show')
 	idOfForm.classList.toggle("show");
+  activityDataEntryForm.setAttribute('state', 'closed')
+	hydrationDataEntryForm.setAttribute('state', 'closed')
+	sleepDataEntryForm.setAttribute('state', 'closed')
+  idOfForm.getAttribute("state") === "closed" ? idOfForm.setAttribute("state", "open") : idOfForm.setAttribute("state", "closed");
 }
 
 function displayCompStepData() {
