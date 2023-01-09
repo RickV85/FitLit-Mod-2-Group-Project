@@ -35,7 +35,6 @@ const weekMinutesActive = document.getElementById('minutesActive')
 const weekFlightsOfStairs = document.getElementById('flightsOfStairs')
 const activityChartsButton = document.getElementById('moreActivityDisplayButton')
 const activityChartButton2 = document.getElementById('moreActivityDisplayButton2')
-const avgWeekMin = document.getElementById('avgWeekMin');
 const compareActButton = document.getElementById('compareStatsButton');
 const compareActButton2 = document.getElementById('compareStatsButton2')
 const userActButton = document.getElementById('userStatsButton');
@@ -119,6 +118,7 @@ hideFormButtons.forEach(button => {
 	button.addEventListener('click', (event) => {
 		var formToHide = event.target.closest('.user-data-entry-form')
 		formToHide.classList.remove('show')
+    formToHide.getAttribute("aria-expanded") === "false" ? formToHide.setAttribute("aria-expanded", "true") : formToHide.setAttribute("aria-expanded", "false");
 	})
 })
 
@@ -263,7 +263,7 @@ function showUserInfoDisplay() {
 		if (userRepo.findUser(friend)) {
 			friendsDisplay.innerHTML += `
             <div class="single-friend">
-            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
+            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
             ${(userRepo.findUser(friend)).name}
             </div>
         `;
@@ -280,9 +280,13 @@ function toggleProfileInfo() {
 	if (!friendsDisplay.classList.contains('hidden')) {
 		friendsDisplay.classList.add('hidden');
 		userProfile.classList.remove('hidden');
+    friendsDisplay.setAttribute("aria-expanded", "false");
+    userProfile.setAttribute("aria-expanded", "true");
 	} else {
 		friendsDisplay.classList.remove('hidden');
 		userProfile.classList.add('hidden');
+    friendsDisplay.setAttribute("aria-expanded", "true");
+    userProfile.setAttribute("aria-expanded", "false");
 	};
 };
 
@@ -311,6 +315,7 @@ function displayDayStepData() {
 
 function showDropDownOptions() {
 	dropDownOptions.classList.toggle("show")
+  dropDownOptions.getAttribute("aria-expanded") === "false" ? dropDownOptions.setAttribute("aria-expanded", "true") : dropDownOptions.setAttribute("aria-expanded", "false");
 }
 
 function showInputForms(idOfForm) {
@@ -318,6 +323,10 @@ function showInputForms(idOfForm) {
 	hydrationDataEntryForm.classList.remove('show')
 	sleepDataEntryForm.classList.remove('show')
 	idOfForm.classList.toggle("show");
+  activityDataEntryForm.setAttribute('aria-expanded', 'false')
+	hydrationDataEntryForm.setAttribute('aria-expanded', 'false')
+	sleepDataEntryForm.setAttribute('aria-expanded', 'false')
+  idOfForm.getAttribute("aria-expanded") === "false" ? idOfForm.setAttribute("aria-expanded", "true") : idOfForm.setAttribute("aria-expanded", "false");
 }
 
 function displayCompStepData() {
@@ -398,12 +407,13 @@ function displaySleepData() { //this can be refactored with some dynamic helper 
 function displaySelectedUserInformation() {
 	userProfile.innerText = `Mailing Address:
   ${currentUser.address}
+
   Email Address:
   ${currentUser.email}
-  Daily Step Goal:
-  ${currentUser.dailyStepGoal} steps
-  Stride Length:
-  ${currentUser.strideLength} feet`;
+
+  Daily Step Goal: ${currentUser.dailyStepGoal} steps
+
+  Stride Length: ${currentUser.strideLength} feet`;
 }
 
 function setTodaysDateToMaxDate() {

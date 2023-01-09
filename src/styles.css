@@ -287,6 +287,12 @@ html {
   flex-direction: column;
 }
 
+.no-data {
+  font-size: 18px;
+  text-align: center;
+  background-color: #fba03f4a;
+}
+
 
 @media (max-width: 740px) {
 
