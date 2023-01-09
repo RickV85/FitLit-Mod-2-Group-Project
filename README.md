@@ -6,7 +6,7 @@
 - Use object and array prototype methods to perform data manipulation.
 - Create a dashboard that is easy to use and displays information in a clear way.
 - Implement a robust testing suite using TDD.
-- Make network requests to retrieve data.
+- Work with a local server and make network requests to API endpoints to retrieve and manipulate data.
 
 
 ### Abstract:
@@ -22,11 +22,11 @@ Tracking progress while going through your health and wellness journey can be di
 
 ### Preview of App:
 
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/113728354/207120223-ecd2ad19-c3ab-4fad-bef4-c74db5182182.gif)
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/113728354/211416747-be803b67-56af-4163-9578-84e45594eb17.gif)
 
 
 ### Context:
-Faye, Kirsten, Ryan, and Rick all worked on this project for 9 days. We are all in our third week in our second module in Turing.
+Faye, Kirsten, Ryan, and Rick all worked on this project for 17 days. We are all in our fifth week in our second module in Turing.
 
 ### Technologies Used
 - Javascript
@@ -45,13 +45,13 @@ Faye, Kirsten, Ryan, and Rick all worked on this project for 9 days. We are all 
 
 ### Wins + Challenges:
 Some challenges included: 
-- Webpack, learning how to work with webpack while downloading a third-party extension and getting it to run with Webpack. 
+- Handling inconsitent data, during the first iteration we could expect there to always be a weeks worth of data. In the second iteration the data we were given was much less consitent and lead to the need to refactor a lot of our code related to finding week-long data.
 - Fetching data while utilizing promises. Having to understand JavaScript execution context and the call stack in order to have functions call after the data has already been fetched. 
 - Chart.js, learning how to utilize a third-party extension
 
 Some wins included:
 - Chart.js, we successfully implemented the extension which allowed us to display user data in a meaningful way.
 - Testing in Mocha and Chai, we feel that our tests and test data allowed us to accurately gauge how the code would perform when the website was active
-- We were proud of our division of labor, we all felt that each person carried their weight and contributed in meaningful ways. 
+- Post request! We were able to send information to our API and update the DOM to match that updated data accordingly.  
 - Project board utilization, we successfully utilized the project board tool, the issues tab, and had very positive and meaningful task delegation and communication by using these tools.
 
