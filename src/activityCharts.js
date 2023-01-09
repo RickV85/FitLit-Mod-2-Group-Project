@@ -74,7 +74,6 @@ const updateStepChart = () => {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    //display: false
                     position: 'bottom'  
                 },
             },
@@ -115,7 +114,6 @@ const updateMinChart = () => {
     })
 };
 
-//if the weeksHydration and weeksSleep methods can be made into 1 dynamic method, this could be a helper method for both sleep and hydration chart
 const assignSleepChartData = (date, sleepKey) => {
     return currentUser.findWeekData(date, 'sleepData').map(element => {
         if(element) {
@@ -124,7 +122,7 @@ const assignSleepChartData = (date, sleepKey) => {
         return null;
     })
 };
-//^^helper function for the datasets for the below function
+
 const updateSleepChart = () => {
     const todaysDate = currentUser.latestDate;
     const hoursSleptWeek = assignSleepChartData(todaysDate, 'hoursSlept');
@@ -144,7 +142,7 @@ const updateSleepChart = () => {
                 backgroundColor: ['#BF1263'],
                 order: 1
             }],
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today'] //change this to be more clear about what date is which and make sure the selected date is the last date
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'today']
         },
         options: {
             responsive: true, 
@@ -218,7 +216,6 @@ function destroyCharts() {
     weeksStepChart.destroy();
     weeksMinutesActivityChart.destroy();
     weeksflightsOfStairsChart.destroy();
-    //add weekly charts to destroy
 }
 
 const assignActivityChartData = (date, activityKey) => {
