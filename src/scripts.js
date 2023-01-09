@@ -65,6 +65,8 @@ const noDataSleepAvg = document.getElementById('noDataSleepAvg')
 const noDataHydro = document.getElementById('noDataHydro')
 const submitMessageText = document.getElementById('submit-text')
 const submitFormMessage = document.getElementById('submit-form-message')
+const allInputs = document.querySelectorAll('.user-input-fields')
+
 // Global variables
 let userRepo;
 let currentUser;
@@ -100,14 +102,17 @@ sleepInputButton.addEventListener('click', () => {
 activityDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(activityDataEntryForm);
 	postInputs(event, 'activity');
+  clearAllInputValues();
 });
 hydrationDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(hydrationDataEntryForm);
 	postInputs(event, 'hydration');
+  clearAllInputValues();
 });
 sleepDataEntryForm.addEventListener('submit', (event) => {
 	showInputForms(sleepDataEntryForm);
 	postInputs(event, 'sleep');
+  clearAllInputValues();
 });
 
 hideFormButtons.forEach(button => {
@@ -176,7 +181,12 @@ function postInputs(event, type) {
 			displaySubmitMessage('successful');
 		})
 		.catch(displaySubmitMessage('fail'))
+}
 
+function clearAllInputValues() {
+  allInputs.forEach(input => {
+    input.value = '';
+  });
 }
 
 function translateInputs(type) {
