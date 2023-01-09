@@ -30,31 +30,31 @@ class User {
     const sortActivity = this.sortUserArrays('activityData')
     const latestArray = [sortHydration[sortHydration.length -1], sortSleep[sortSleep.length-1], sortActivity[sortActivity.length-1]]
     const latestArraySorted = latestArray.sort((a, b) => {
-      return (a.date).localeCompare(b.date)
+      return (a.date).localeCompare(b.date);
     })
-    this.latestDate = latestArraySorted[latestArraySorted.length-1].date
+    this.latestDate = latestArraySorted[latestArraySorted.length-1].date;
   };
 
   findDaysHydration(selectedDate) {
     const result = this.hydrationData.find(day => day.date === selectedDate);
     if (result === undefined){
-      return false
+      return false;
     }
     return result;
   };
   
   findDaySleepData(sleepKey, date) {
     const result = this.sleepData.find(day => day.date === date)?.[sleepKey];
-    if (result === undefined){
-      return false
+    if (result === undefined) {
+      return false;
     }
-    return result
+    return result;
   };
   
   findDayActivity(selectedDate, activityKey) {
     let result = this.activityData.find(day => day.date === selectedDate)?.[activityKey];
-    if (result === undefined){
-      return false
+    if (result === undefined) {
+      return false;
     }
     return result;
   };
