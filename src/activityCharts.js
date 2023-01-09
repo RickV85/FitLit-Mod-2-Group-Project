@@ -177,7 +177,6 @@ const updateHydroDateChart = () => {
 };
 
 const assignHydrationChartData = (date) => {
-    console.log('hydroChart current date', date)
     return currentUser.findWeekData(date, 'hydrationData').map(element => {
         if(element) {
             return element.numOunces
@@ -189,7 +188,6 @@ const assignHydrationChartData = (date) => {
 const updateHydroWeeklyChart = () => {
     const todaysDate = currentUser.latestDate;
     const chartData = assignHydrationChartData(todaysDate);
-    console.log('hydroChart week data', chartData)
     weeksHydroChart = new Chart(hydroWeekChart, {
         type: 'bar',
         data: {

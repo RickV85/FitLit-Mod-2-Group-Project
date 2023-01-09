@@ -240,13 +240,11 @@ function updateDOM() {
 	//charts need to be updated on page load even if they are hidden
 	//charts will need to be "destroyed" (chartElement.destroy()) before they can be updated after a POST request
 	//might have to import the chart elements themselves for that? or create new queries here...
-	console.log('updateDOM current date:', currentUser.latestDate)
 	activityCharts.updateDaysActivityChart();
 	activityCharts.updateStepChart();
 	activityCharts.updateMinChart();
 	activityCharts.updateSleepChart();
 	activityCharts.updateHydroDateChart();
-	console.log('hydration data of current user', currentUser.hydrationData)
 	activityCharts.updateHydroWeeklyChart();
 	activityCharts.updateStepsWeeklyChart();
 	activityCharts.updateMinutesActiveWeeklyChart();

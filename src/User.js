@@ -73,7 +73,6 @@ class User {
       const singleDate = this.findSevenDays(selectedDate, i);
       weekLongArray.push(singleDate.toString());
     }
-    console.log(weekLongArray)
     return weekLongArray;
   }
   
@@ -98,15 +97,8 @@ class User {
     let weekLongArray = this.createWeekLongArray(selectedDate);
 
     return weekLongArray.map(day => {
-      console.log(key)
       let date = this[key].find(data => {
-        if (key === 'hydrationData') {
-          console.log('is', data.date)
-          console.log('the same as', day);
-          console.log(data.date === day);
-        }
         return data.date === day}) 
-        if (key === 'hydrationData') {console.log('did we find a match for the date?', date)}
       if (date){
         return date;
       } 
