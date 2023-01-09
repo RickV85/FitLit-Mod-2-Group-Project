@@ -140,9 +140,26 @@ html {
   text-align: center;
 }
 
+
 .highlight {
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
+}
+
+.steps-text {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+
+}
+
+.button-container {
+	height: 10vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 
 .activity-display-button,
@@ -150,6 +167,7 @@ html {
   background-color: #FBA03F;
   border-radius: 5px;
   cursor: pointer;
+	height: 30px;
   width: 200px;
   border: none;
 }
@@ -162,12 +180,15 @@ html {
   cursor: pointer;
 }
 
-.week-step-chart,
 .week-sleep-chart,
 .week-hydration-chart {
   height: 25vh;
   width: 20vw;
   margin-bottom: 1vh;
+}
+
+.week-step-chart {
+  height: 20vh;
 }
 
 .fit-data-header {
@@ -252,9 +273,6 @@ html {
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
 
 .dropbutton {
   background-color: #78C1E7;
@@ -297,13 +315,16 @@ html {
 }
 
 .small-error-message {
-	font-size: 15px;
+  font-size: 15px;
 	padding: 5px;
 }
 
+.hidden {
+  display: none;
+}
 
 @media (max-width: 740px) {
-
+  
   .data-display {
     height: 270vh;
     display: flex;
