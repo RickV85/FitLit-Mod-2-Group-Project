@@ -16,7 +16,7 @@
 <body>
   <nav class="welcome-banner" id="welcomeBanner">
     <section>
-      <p class="app-name">FitLit</p>
+      <h1 class="app-name">FitLit</h1>
     </section>
     <section>
       <p class="welcome-message" id="welcomeMessage">
@@ -24,7 +24,7 @@
       </p>
     </section>
     <section>
-      <p class="welcome-banner-right"></p>
+      <div class="welcome-banner-right"></div>
     </section>
   </nav>
   <section class="error-message hidden">
@@ -93,7 +93,7 @@
         <h2 class="fit-data-header">Steps</h2>
         <article  class="user-data fit-data-section" id="userData">
           <div class="daily-stats daily-stats-steps">
-            <h4 class="fit-data chart-header" id="daySteps">Today's Steps</h4>
+            <h3 class="fit-data chart-header" id="daySteps">Today's Steps</h3>
             <div class="fit-data doughnut day-steps-chart">
               <canvas id="dayStepsChart" aria-label="todays activity data chart"></canvas>
             </div>
@@ -105,7 +105,7 @@
             <p>You have not yet entered any data for this day</p>
           </div>
           <div>
-            <h4 class="fit-data chart-header">Your Activity for the Last 7 Days</h4>
+            <h3 class="fit-data chart-header">Your Activity for the Last 7 Days</h3>
             <div class="fit-data week-steps-chart">
               <canvas id="weeksStepsChart" aria-label="7-day activity data chart"></canvas>
             </div>
@@ -118,7 +118,7 @@
       </article>
       <article class="comp-data fit-data-section hidden" id="compData">
         <div class="daily-stats daily-stats-steps">
-          <h4 class="fit-data chart-header">Your Steps vs. Average Steps</h4>
+          <h3 class="fit-data chart-header">Your Steps vs. Average Steps</h3>
           <div class="fit-data week-step-chart">
             <canvas id="stepCompChart" aria-label="User step goal versus all user's average step goal chart"></canvas>
           </div>
@@ -128,7 +128,7 @@
           <p>You have not yet entered any data for this day</p>
         </div>
         <div class="daily-stats daily-stats-steps">
-          <h4 class="fit-data chart-header">Your Activity vs. Average Activity</h4>
+          <h3 class="fit-data chart-header">Your Activity vs. Average Activity</h3>
           <div class="fit-data week-step-chart">
             <canvas id="minCompChart" aria-label="User activity versus all user's average activity chart"></canvas>
           </div>
@@ -143,14 +143,14 @@
       </article>
       <article class="week-activity-data-chart fit-data-section hidden" id="weekData">
         <div>
-          <h4 class="fit-data chart-header">Your Active Minutes for the Last 7 Days</h4>
+          <h3 class="fit-data chart-header">Your Active Minutes for the Last 7 Days</h3>
           <div class="fit-data week-activity-data-chart">
             <canvas id="weeksMinutesActiveChart" aria-label="7-day activity data chart"></canvas>
           </div>
           <p class="fit-data highlight" id="minutesActive"></p>
         </div>
         <div>
-          <h4 class="fit-data chart-header">Your Flights of Stairs for the Last 7 Days</h4>
+          <h3 class="fit-data chart-header">Your Flights of Stairs for the Last 7 Days</h3>
           <div class="fit-data week-activity-data-chart">
             <canvas id="weeksFlightsOfStairsChart" aria-label="7-day activity data chart"></canvas>
           </div>
@@ -159,12 +159,11 @@
         <button class="activity-display-button" id="userStatsButton2">See Today</button>
         <button class="activity-display-button" id="compareStatsButton2">Compare Your Stats</button>
       </article>
-
     </section>
     <section class="fit-data-section" id="sleep">
       <h2 class="fit-data-header">Sleep</h2>
       <div class="daily-stats" id="dailyStatsSleep">
-        <h4 class="fit-data">Your Sleep For Today</h4>
+        <h3 class="fit-data">Your Sleep For Today</h3>
         <p class="fit-data highlight" id="sleepToday">
           <!--insert today's sleep data here-->
         </p>
@@ -173,13 +172,13 @@
         <p>You have not yet entered any data for this day</p>
       </div>
       <div>
-        <h4 class="fit-data sleep-user-avg">Your average sleep for the last week</h4>
+        <h3 class="fit-data sleep-user-avg">Your average sleep for the last week</h3>
         <p class="fit-data highlight" id="sleepUserAvg">
           <!--insert averaged user sleep data here-->
         </p>
       </div>
       <div class="daily-stats" id="dailyStatsSleepAvg">
-        <h4 class="fit-data sleep-global-avg">Compared to all users' average</h4>
+        <h3 class="fit-data sleep-global-avg">Compared to all users' average</h3>
         <p class="fit-data highlight" id="sleepGlobalAvg">
           <!--insert averaged global sleep data here-->
         </p>
@@ -188,7 +187,7 @@
         <p>You have not yet entered any data for this day</p>
       </div>
       <div>
-        <h4 class="fit-data chart-header">Your Sleep for the Last 7 Days</h4>
+        <h3 class="fit-data chart-header">Your Sleep for the Last 7 Days</h3>
         <div class="fit-data week-sleep-chart">
           <canvas id="weeksSleepChart" aria-label="7-day sleep data chart"></canvas>
         </div>
@@ -197,7 +196,7 @@
     <section class="fit-data-section" id="hydration">
       <h2 class="fit-data-header">Hydration</h2>
       <div class="daily-stats" id="dailyStatsHydro">
-        <h4 class="fit-data chart-header" id="dayHydroHeader">Today's Hydration</h4>
+        <h3 class="fit-data chart-header" id="dayHydroHeader">Today's Hydration</h3>
         <div class="fit-data doughnut day-hydro">
           <canvas id="todaysHydrationChart" aria-label="Today's hydration versus recommended intake"></canvas>
         </div>
@@ -208,7 +207,7 @@
       <div class="no-data hidden" id="noDataHydro">
         <p>You have not yet entered any data for this day</p>
       </div>
-      <h4 class="fit-data chart-header">Water Consumption for the Last 7 Days</h4>
+      <h3 class="fit-data chart-header">Water Consumption for the Last 7 Days</h3>
       <div class="fit-data week-hydration-chart">
         <canvas id="weeksHydrationChart" aria-label="7-day hydration data chart"></canvas>
       </div>
