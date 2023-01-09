@@ -262,7 +262,7 @@ function showUserInfoDisplay() {
 		if (userRepo.findUser(friend)) {
 			friendsDisplay.innerHTML += `
             <div class="single-friend">
-            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}">${selectRandom(profileEmojis)}</div> 
+            <div class="friend-avatar friend-${friend}" style="background-color: ${selectRandom(profileBackgrounds)}" alt="user's friend profile icon">${selectRandom(profileEmojis)}</div> 
             ${(userRepo.findUser(friend)).name}
             </div>
         `;
