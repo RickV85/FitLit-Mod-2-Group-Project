@@ -77,7 +77,6 @@ class User {
   }
   
   findMilesWalked(selectedDate) {
-    //this function could be combined with findMinutesActive
     let stepsWalked = this.activityData.find(day => day.date === selectedDate);
     if (stepsWalked === undefined) {
       return false;
@@ -87,9 +86,6 @@ class User {
   
   findMinutesActive(selectedDate) {
     let actData = this.activityData.find(day => day.date === selectedDate)
-    // if (actData === undefined) {
-    //   return false;
-    // }
     return actData.minutesActive
   }
   
