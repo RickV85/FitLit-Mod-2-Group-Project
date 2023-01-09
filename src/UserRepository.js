@@ -84,8 +84,6 @@ class UserRepository {
         })
         return total;
       }, 0);
-      console.log('allUsersSleep', allUsersSleep)
-      console.log('number of user datapoints', dataEntries)
       return +(allUsersSleep / dataEntries).toFixed(1);
     }
 
