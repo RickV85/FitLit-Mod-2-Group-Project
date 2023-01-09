@@ -32,12 +32,6 @@ html {
   width: 6vw;
 }
 
-/* .side-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-} */
-
 .error-message {
   height: 50vh;
   display: flex;
@@ -66,6 +60,16 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+.submit-message {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-message-test {
+  color: #78C1E7;
 }
 
 .user-data-entry-form {
