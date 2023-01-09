@@ -298,7 +298,6 @@ function displayGoalMet(selectedDate) {
 };
 
 function displayDayStepData() {
-
 	const today = currentUser.latestDate;
 	displayGoalMet(today);
 	userMiles.innerText = `You have walked ${userRepo.selectedUser.findMilesWalked(today)} miles today`;
@@ -385,7 +384,6 @@ function displayHydrationData() {
 	}
 };
 
-
 function displaySleepData() {
 	const today = currentUser.latestDate;
 	let sleepHours = currentUser.findDaySleepData('hoursSlept', today);
@@ -413,13 +411,10 @@ function displaySelectedUserInformation() {
 
 function setTodaysDateToMaxDate() {
 	let today = new Date();
-
 	let dd = String(today.getDate()).padStart(2, '0');
 	let mm = String(today.getMonth() + 1).padStart(2, '0');
 	let yyyy = today.getFullYear();
-
 	today = `${yyyy}-${mm}-${dd}`;
-
 	activityCalendar.setAttribute("max", today);
 	hydrationCalendar.setAttribute("max", today);
 	sleepCalendar.setAttribute("max", today);
