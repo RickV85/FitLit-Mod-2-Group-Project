@@ -17,8 +17,10 @@ Tracking progress while going through your health and wellness journey can be di
 - Clone down your new, forked repo. While cloning, name it what you want your local repo to be named, and run `git clone`. 
 - cd into the repository
 - Install NPM packages by running `npm install` in your terminal
-- Start the server by running `npm start` in your server  
-- After starting the server, the project will run at http://localhost:8080/
+- Fork and clone the FitLit-API found [here](https://github.com/RickV85/FitLit-API).
+- Follow the set up instructions in the FitLit-API. This will serve as a local server that this program will GET and POST to.
+- Start the server by running `npm start` in your server.
+- After starting the server, navigate to http://localhost:8080/ in your browser to interact with the app.
 
 ### Preview of App:
 
