@@ -19,7 +19,7 @@ Tracking progress while going through your health and wellness journey can be di
 - Install NPM packages by running `npm install` in your terminal
 - Fork and clone the FitLit-API found [here](https://github.com/RickV85/FitLit-API).
 - Follow the set up instructions in the FitLit-API. This will serve as a local server that this program will GET and POST to.
-- Start the server by running `npm start` in your server.
+- Start the server by running `npm start` in your terminal.
 - After starting the server, navigate to http://localhost:8080/ in your browser to interact with the app.
 
 ### Preview of App:
